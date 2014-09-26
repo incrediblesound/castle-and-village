@@ -54,20 +54,24 @@
 	<script type="text/javascript" src="./src/controller.js"></script>
 	<link rel="stylesheet" type="text/css" href="./bower_components/bootstrap/dist/css/bootstrap.css">
 <script type="text/javascript">
-gameData = {};
-gameData.actions = [];
-gameData.stage = 1;
-castle = new Castle();
-domain = new Domain();
-barracks = new Barracks();
-village = new Village();
-gameController = new Controller();
-milestones = new MilestoneController();
-actionController = new ActionController();
-disasterController = new DisasterController()
+window.gameState = {};
+window.gameState.actions = [];
+window.gameState.stage = 1;
 
-gameController.init()
-gameController.trigger('step');
+window.gameState.units = {};
+window.gameState.units.castle = new Castle();
+window.gameState.units.domain = new Domain();
+window.gameState.units.barracks = new Barracks();
+window.gameState.units.village = new Village();
+
+window.gameState.controllers = {};
+window.gameState.controllers.gameController = new Controller();
+window.gameState.controllers.milestones = new MilestoneController();
+window.gameState.controllers.actionController = new ActionController();
+window.gameState.controllers.disasterController = new DisasterController()
+
+window.gameState.gameController.init()
+window.gameState.gameController.trigger('step');
 
 </script>
 
