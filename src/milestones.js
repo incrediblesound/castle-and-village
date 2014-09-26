@@ -1,12 +1,25 @@
-var milestones = {
-  'knights': false
+var MilestoneController = function(){
+  System.call(this);
+  this.completed = [];
 }
 
-var milestoneConditions = function(){
-  if(castle.masters.indexOf('Blacksmith') !== -1 && domain.vineyards > 0){
-    if(!milestones['knights']){
+MilestoneController.prototype = Object.create(System.prototype);
+
+MilestoneController.prototype.complete = function(value){
+  return (this.completed.indexOf(value) !== -1)
+}
+
+MilestoneController.prototype.step = function(){
+
+  if(castle.hasMaster('Blacksmith') && domain.vineyards > 0){
+    if(!this.complete('knights')){
       barracks.knights += 2;
-      milestones.knights = true;
+      this.completed.push('knights');
     }
   }
+
+  if(village.hasMaster('Baker')){
+
+  }
+
 }

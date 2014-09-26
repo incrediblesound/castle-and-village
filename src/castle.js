@@ -11,8 +11,16 @@ var Castle = function(){
 Castle.prototype = Object.create(System.prototype);
 Castle.prototype.contructor = Castle;
 
+Castle.prototype.hasMaster = function(value){
+  return (this.masters.indexOf(value) !== -1)
+}
+
+Castle.prototype.hasBuilding = function(value){
+  return (this.buildings.indexOf(value) !== -1)
+}
+
 Castle.prototype.step = function(){
-  
+  this.food -= barracks.knights;
 }
 
 Castle.prototype.render = function(){
