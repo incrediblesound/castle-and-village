@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<h1 class="text-center">Castle and Village</h1>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="row">
+					<h2 class="text-center">Actions</h2>
+					<div class="actions"></div>
+				</div>
+				<div class="row">
+					<h2 class="text-center">Purchases</h2>
+					<div class="purchase"></div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<ul class="todo">
+				</ul>
+				<button class='btn btn-default step'>Go</button>
+				<div class="alerta">
+					<p id="alert"><strong>Alerta</strong></p>
+					<p id="alert-content"></p>
+					<button id="alert-button">Close</button>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<h2 class="text-center">Kingdom</h2>
+				<div class="units"></div>
+			</div>
+		</div>
+		<div class="row">
+			<hr>
+			
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="./bower_components/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="./src/data.js"></script>
+	<script type="text/javascript" src="./src/system.js"></script>
+	<script type="text/javascript" src="./src/unit.js"></script>
+	<script type="text/javascript" src="./src/village.js"></script>
+	<script type="text/javascript" src="./src/domain.js"></script>
+	<script type="text/javascript" src="./src/barracks.js"></script>
+	<script type="text/javascript" src="./src/onstep.js"></script>
+	<script type="text/javascript" src="./src/milestones.js"></script>
+	<script type="text/javascript" src="./src/disasters.js"></script>
+	<script type="text/javascript" src="./src/controller.js"></script>
+	<link rel="stylesheet" type="text/css" href="./bower_components/bootstrap/dist/css/bootstrap.css">
+<script type="text/javascript">
+gameData = {};
+gameData.actions = [];
+gameData.stage = 1;
+castle = new Castle();
+domain = new Domain();
+barracks = new Barracks();
+village = new Village();
+gameController = new Controller();
+
+gameController.on('step', function(){
+	castle.step();
+	$('.units').append(castle.render());
+})
+gameController.on('step', function(){
+	domain.step();
+	$('.units').append(domain.render());
+})
+gameController.on('step', function(){
+	barracks.step();
+	$('.units').append(barracks.render());
+})
+gameController.on('step', function(){
+	village.step();
+	$('.units').append(village.render());
+})
+
+</script>
+
+<div class="template">
+	<h3 class="text-center name"></h3>
+</div>
+
+</html>

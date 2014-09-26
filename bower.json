@@ -1,0 +1,17 @@
+{
+  "name": "moving-system",
+  "version": "0.0.0",
+  "authors": [
+    "James H. Edwards <james.howe.edwards@gmail.com>"
+  ],
+  "description": "framework for an active system",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
