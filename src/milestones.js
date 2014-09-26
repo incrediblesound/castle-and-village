@@ -11,14 +11,14 @@ MilestoneController.prototype.complete = function(value){
 
 MilestoneController.prototype.step = function(){
 
-  if(castle.hasMaster('Blacksmith') && domain.vineyards > 0){
+  if(window.gameState.units.castle.hasMaster('Blacksmith') && domain.vineyards > 0){
     if(!this.complete('knights')){
-      barracks.knights += 2;
+      window.gameState.units.barracks.knights += 2;
       this.completed.push('knights');
     }
   }
 
-  if(village.hasMaster('Baker')){
+  if(window.gameState.units.village.hasMaster('Baker')){
 
   }
 

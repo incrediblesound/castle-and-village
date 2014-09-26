@@ -7,21 +7,22 @@ Controller.prototype.constructor = Controller;
 
 Controller.prototype.init = function(){
   this.on('step', function(){
-    castle.step();
-    domain.step();
-    barracks.step();
-    village.step();
-    milestones.step();
-    actionController.step();
-    $('.units').append(castle.render());
-    $('.units').append(domain.render());
-    $('.units').append(barracks.render());
-    $('.units').append(village.render());
+    window.gameState.units.castle.step();
+    window.gameState.units.domain.step();
+    window.gameState.units.barracks.step();
+    window.gameState.units.village.step();
+    window.gameState.controllers.milestones.step();
+    window.gameState.controllers.actionController.step();
+    window.gameState.controllers.disasterController.step();
+    $('.units').append(window.gameState.units.castle.render());
+    $('.units').append(window.gameState.units.domain.render());
+    $('.units').append(window.gameState.units.barracks.render());
+    $('.units').append(window.gameState.units.village.render());
   })
   this.on('render', function(){
-    $('.units').append(castle.render());
-    $('.units').append(domain.render());
-    $('.units').append(barracks.render());
-    $('.units').append(village.render());
+    $('.units').append(window.gameState.units.castle.render());
+    $('.units').append(window.gameState.units.domain.render());
+    $('.units').append(window.gameState.units.barracks.render());
+    $('.units').append(window.gameState.units.village.render());
   })
 }

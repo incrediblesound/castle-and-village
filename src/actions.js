@@ -14,27 +14,27 @@ var ActionController = function(){
   
   this.actionMap = {
     'Hold a Festival': function(){
-      village.festival();
-      castle.money -= 25;
+      window.gameState.units.village.festival();
+      window.gameState.units.castle.money -= 25;
     },
     'Clear a Field': function(){
-      domain.makeField();
-      castle.money -= 15;
+      window.gameState.units.domain.makeField();
+      window.gameState.units.castle.money -= 15;
     },
     'Buy a War Horse': function(){
-      barracks.horses += 1;
-      castle.money -= 20;
+      window.gameState.units.barracks.horses += 1;
+      window.gameState.units.castle.money -= 20;
     },
     'Hire a Blacksmith': function(){
-      castle.masters.push('Blacksmith');
-      castle.money -= 10;
+      window.gameState.units.castle.masters.push('Blacksmith');
+      window.gameState.units.castle.money -= 10;
     },
     'Collect Taxes': function(){
-      village.deliverTaxes();
+      window.gameState.units.village.deliverTaxes();
     },
     'Plant a Vineyard': function(){
-      domain.makeVineyard();
-      castle.money -= 30
+      window.gameState.units.domain.makeVineyard();
+      window.gameState.units.castle.money -= 30
     }
   }
 }
@@ -49,7 +49,7 @@ ActionController.prototype.step = function(){
   $('.actions').empty();
   $('.purchase').empty();
   this.actions.forEach(function(action){
-    if(castle.money > action.cost){
+    if(window.gameState.units.castle.money > action.cost){
     $('.'+action.type).append('<button class="action">'+action.action+'</button><span> '+action.cost+' Gold</span><br>')
     } else {
     $('.'+action.type).append('<button disabled="true">'+action.action+' Not enough Gold</button><br>')

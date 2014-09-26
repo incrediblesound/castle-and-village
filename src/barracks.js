@@ -8,7 +8,7 @@ var Barracks = function(){
 Barracks.prototype = Object.create(System.prototype);
 
 Barracks.prototype.step = function(){
-  if(window.gameData.stage % 12 === 0){
+  if(window.gameState.stage % 12 === 0){
     this.knights += 1;
   }
 }

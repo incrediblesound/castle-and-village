@@ -20,7 +20,7 @@ Castle.prototype.hasBuilding = function(value){
 }
 
 Castle.prototype.step = function(){
-  this.food -= barracks.knights;
+  this.food -= window.gameState.units.barracks.knights;
 }
 
 Castle.prototype.render = function(){

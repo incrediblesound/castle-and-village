@@ -21,7 +21,7 @@ Village.prototype.hasBuilding = function(value){
 }
 
 Village.prototype.step = function(){
-  if(window.gameData.stage % 3 === 0){
+  if(window.gameState.stage % 3 === 0){
     this.population += Math.round(this.population * this.growth);
   }
 
@@ -30,14 +30,14 @@ Village.prototype.step = function(){
     this.happiness -= 1;
   }
   //harvest time
-  if(window.gameData.stage % 12 === 0){
+  if(window.gameState.stage % 12 === 0){
     var harvest = (this.energy * window.game.domain.fields);
 
     var claimed = parseInt(prompt('The harvest was '+harvest+' units. How much will you claim?'));
     if(claimed > Math.floor(harvest/2)){
       this.happiness -= 1;
     }
-    window.game.castle.food += claimed;
+    window.gameState.units.castle.food += claimed;
   }
 
 }

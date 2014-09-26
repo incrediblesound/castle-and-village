@@ -1,12 +1,10 @@
 $(function(){
 
-  $('#alert-button').on('click', function(){
-    $('.alerta').css("display", "none");
-  })
   //load action on click and append to list
   $('.action').on('click', function(){
+    console.log('hello');
     var text = $(this).text();
-    gameData.actions.push(text);
+    window.gameState.actions.push(text);
     $('.todo').append('<li>'+text+'</li>')
   })
 
@@ -14,24 +12,30 @@ $(function(){
     $('.units').empty();
     
     //do all the actions
-    for(var i = 0; i < gameData.actions.length; i ++){
-      var action = gameData.actions[i];
-      actionController.doAction(action);
+    for(var i = 0; i < window.gameState.actions.length; i ++){
+      var action = window.gameState.actions[i];
+      window.gameState.controllers.actionController.doAction(action);
     }
 
-    gameData.actions = [];
+    window.gameState.actions = [];
     
     //render all the units
     //trigger all step functions
-    gameController.trigger('step');
+    window.gameState.controllers.gameController.trigger('step');
     
     //check and advance game stage
-    if(gameData.stage < 24){
-      gameData.stage += 1;
+    if(window.gameState.stage < 24){
+      window.gameState.stage += 1;
     } else {
-      gameData.stage = 0;
+      window.gameState.stage = 0;
     }
     $('.todo').empty();
     //end step function
+    $('.action').on('click', function(){
+    console.log('hello');
+    var text = $(this).text();
+    window.gameState.actions.push(text);
+    $('.todo').append('<li>'+text+'</li>')
+    })
   })
 })

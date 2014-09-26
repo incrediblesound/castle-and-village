@@ -70,8 +70,48 @@ window.gameState.controllers.milestones = new MilestoneController();
 window.gameState.controllers.actionController = new ActionController();
 window.gameState.controllers.disasterController = new DisasterController()
 
-window.gameState.gameController.init()
-window.gameState.gameController.trigger('step');
+$(function(){
+	window.gameState.controllers.gameController.init()
+	window.gameState.controllers.gameController.trigger('step');
+  //load action on click and append to list
+  $('.action').on('click', function(){
+    console.log('hello');
+    var text = $(this).text();
+    window.gameState.actions.push(text);
+    $('.todo').append('<li>'+text+'</li>')
+  })
+
+  $('.step').on('click', function(){
+    $('.units').empty();
+    
+    //do all the actions
+    for(var i = 0; i < window.gameState.actions.length; i ++){
+      var action = window.gameState.actions[i];
+      window.gameState.controllers.actionController.doAction(action);
+    }
+
+    window.gameState.actions = [];
+    
+    //render all the units
+    //trigger all step functions
+    window.gameState.controllers.gameController.trigger('step');
+    
+    //check and advance game stage
+    if(window.gameState.stage < 24){
+      window.gameState.stage += 1;
+    } else {
+      window.gameState.stage = 0;
+    }
+    $('.todo').empty();
+    //end step function
+    $('.action').on('click', function(){
+    console.log('hello');
+    var text = $(this).text();
+    window.gameState.actions.push(text);
+    $('.todo').append('<li>'+text+'</li>')
+    })
+  })
+})
 
 </script>
 
