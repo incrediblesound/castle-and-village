@@ -7,9 +7,6 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<h1 class="text-center">Castle and Village</h1>
-		</div>
-		<div class="row">
 			<div class="col-md-4">
 				<div class="row">
 					<h2 class="text-center">Actions</h2>
@@ -21,9 +18,12 @@
 				</div>
 			</div>
 			<div class="col-md-4">
+				<h1 class="text-center">Castle</h1>
+				<h2 class="text-center">and</h2>
+				<h1 class="text-center">Village</h1>
+				<button class='btn btn-default step'>Go</button>
 				<ul class="todo">
 				</ul>
-				<button class='btn btn-default step'>Go</button>
 				<div class="alerta">
 					<p id="alert"><strong>Alerta</strong></p>
 					<p id="alert-content"></p>
@@ -43,12 +43,12 @@
 </body>
 <script type="text/javascript" src="./bower_components/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="./src/system.js"></script>
-	<script type="text/javascript" src="./src/actions.js"></script>
+	<script type="text/javascript" src="./src/actionController.js"></script>
 	<script type="text/javascript" src="./src/castle.js"></script>
 	<script type="text/javascript" src="./src/village.js"></script>
 	<script type="text/javascript" src="./src/domain.js"></script>
 	<script type="text/javascript" src="./src/barracks.js"></script>
-	<script type="text/javascript" src="./src/onstep.js"></script>
+	<!--<script type="text/javascript" src="./src/onstep.js"></script>-->
 	<script type="text/javascript" src="./src/milestones.js"></script>
 	<script type="text/javascript" src="./src/disasters.js"></script>
 	<script type="text/javascript" src="./src/controller.js"></script>
@@ -75,10 +75,11 @@ $(function(){
 	window.gameState.controllers.gameController.trigger('step');
   //load action on click and append to list
   $('.action').on('click', function(){
-    console.log('hello');
     var text = $(this).text();
-    window.gameState.actions.push(text);
-    $('.todo').append('<li>'+text+'</li>')
+    if(window.gameState.actions.length < 2){
+	    window.gameState.actions.push(text);
+	    $('.todo').append('<li>'+text+'</li>')
+    }
   })
 
   $('.step').on('click', function(){
@@ -96,12 +97,6 @@ $(function(){
     //trigger all step functions
     window.gameState.controllers.gameController.trigger('step');
     
-    //check and advance game stage
-    if(window.gameState.stage < 24){
-      window.gameState.stage += 1;
-    } else {
-      window.gameState.stage = 0;
-    }
     $('.todo').empty();
     //end step function
     $('.action').on('click', function(){

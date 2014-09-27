@@ -23,12 +23,6 @@ $(function(){
     //trigger all step functions
     window.gameState.controllers.gameController.trigger('step');
     
-    //check and advance game stage
-    if(window.gameState.stage < 24){
-      window.gameState.stage += 1;
-    } else {
-      window.gameState.stage = 0;
-    }
     $('.todo').empty();
     //end step function
     $('.action').on('click', function(){

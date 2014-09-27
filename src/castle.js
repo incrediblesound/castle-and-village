@@ -3,8 +3,8 @@ var Castle = function(){
   this.money = 100;
   this.wizards = 0;
   this.level = 1;
-  this.masters = ['swordsman'];
-  this.buildings = ['granary'];
+  this.masters = [];
+  this.buildings = [];
   this.food = 40;
 }
 
@@ -17,6 +17,14 @@ Castle.prototype.hasMaster = function(value){
 
 Castle.prototype.hasBuilding = function(value){
   return (this.buildings.indexOf(value) !== -1)
+}
+
+Castle.prototype.addMaster = function(value){
+  this.masters.push(value);
+}
+
+Castle.prototype.addBuilding = function(value){
+  this.buildings.push(value);
 }
 
 Castle.prototype.step = function(){

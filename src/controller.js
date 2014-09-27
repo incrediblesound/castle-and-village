@@ -18,6 +18,12 @@ Controller.prototype.init = function(){
     $('.units').append(window.gameState.units.domain.render());
     $('.units').append(window.gameState.units.barracks.render());
     $('.units').append(window.gameState.units.village.render());
+    //check and advance game stage
+    if(window.gameState.stage < 24){
+      window.gameState.stage += 1;
+    } else {
+      window.gameState.stage = 0;
+    }
   })
   this.on('render', function(){
     $('.units').append(window.gameState.units.castle.render());

@@ -13,7 +13,7 @@ var DisasterController = function(){
         }
       },
       function(){
-        if(window.gameState.units.domain.fields > 1 && window.game.village.energy < 5){
+        if(window.gameState.units.domain.fields > 1 && window.gameState.units.village.energy < 5){
           // showAlert('Field Lost','One of your fields was taken back by the wilderness!');
           alert('One of your fields was taken back by the wilderness!');
           window.gameState.units.domain.fields -= 1;

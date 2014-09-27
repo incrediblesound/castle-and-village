@@ -20,24 +20,36 @@ Village.prototype.hasBuilding = function(value){
   return (this.buildings.indexOf(value) !== -1)
 }
 
+Village.prototype.addMaster = function(value){
+  this.masters.push(value);
+}
+
+Village.prototype.addBuilding = function(value){
+  this.buildings.push(value);
+}
+
 Village.prototype.step = function(){
   if(window.gameState.stage % 3 === 0){
     this.population += Math.round(this.population * this.growth);
   }
 
+  //if food is below a threshold relative to population bad things happen
   if(this.food < (Math.round(this.population/5))){
     this.population -= 10;
     this.happiness -= 1;
   }
+
   //harvest time
   if(window.gameState.stage % 12 === 0){
-    var harvest = (this.energy * window.game.domain.fields);
+    var harvest = (this.energy * window.gameState.units.domain.fields);
 
-    var claimed = parseInt(prompt('The harvest was '+harvest+' units. How much will you claim?'));
+    var claimed = parseInt(prompt('The harvest was ' + harvest + ' units. How much will you claim?'));
     if(claimed > Math.floor(harvest/2)){
       this.happiness -= 1;
     }
+    harvest = harvest - claimed;
     window.gameState.units.castle.food += claimed;
+    window.gameState.units.village.food += harvest;
   }
 
 }
@@ -51,7 +63,7 @@ Village.prototype.festival = function(){
 }
 
 Village.prototype.deliverTaxes = function(){
-  window.game.castle.money += this.population;
+  window.gameState.castle.money += this.population;
   this.happiness -= 2;
 }
 
