@@ -49,7 +49,6 @@ var ActionController = function(){
   this.actions = [
     {action:'Hold a Festival', type: 'actions', cost: 25},
     {action:'Clear a Field', type: 'actions', cost: 15},
-    {action:'Buy a War Horse', type: 'purchase', cost: 20},
     {action:'Hire a Blacksmith', type: 'purchase', cost: 20},
     {action:'Build a Granary', type: 'purchase', cost: 20},
     {action:'Hire a Master Baker', type: 'purchase', cost: 10},

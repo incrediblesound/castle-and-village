@@ -52,6 +52,7 @@ MilestoneController.prototype.step = function(){
   }
 
   if(this.isComplete('Provide') && this.isComplete('Knights')){
+    debugger;
     if(window.gameState.units.castle.level < 2){
       this.executeMilestone('Level2');
     }

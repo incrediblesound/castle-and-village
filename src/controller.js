@@ -6,15 +6,17 @@ Controller.prototype = Object.create(System.prototype);
 Controller.prototype.constructor = Controller;
 
 Controller.prototype.init = function(){
+  var self = this;
   this.on('step', function(){
-    window.gameState.controllers.actionController.step();
     window.gameState.controllers.milestones.step();
     window.gameState.controllers.disasterController.step();
     window.gameState.units.castle.step();
     window.gameState.units.domain.step();
     window.gameState.units.barracks.step();
     window.gameState.units.village.step();
-    this.entropy();
+    self.entropy();
+    //this is last in case any of the above methods change available actions
+    window.gameState.controllers.actionController.step();
     $('.units').append(window.gameState.units.castle.render());
     $('.units').append(window.gameState.units.domain.render());
     $('.units').append(window.gameState.units.barracks.render());
@@ -40,7 +42,7 @@ Controller.prototype.entropy = function(){
     window.gameState.units.castle.food = 0;
     window.gameState.units.castle.knights -= 1;
   } else {
-    window.gameState.units.castle.food -= window.gameState.units.castle.knights;
+    window.gameState.units.castle.food -= window.gameState.units.barracks.knights;
   }
   //if village food is below a threshold relative to village population bad things happen
   if(window.gameState.units.village.food < (Math.round(window.gameState.units.village.population/5))){

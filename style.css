@@ -2,6 +2,22 @@ body, html {
 	height: 100%;
 }
 
+p, div, span, h1, h2 {
+	font-family: 'Libre Baskerville', serif;
+}
+
+button.step {
+	margin-bottom: 8px;
+}
+
+button.action {
+	margin-bottom: 5px;
+}
+
+.container {
+	width: 97%;
+}
+
 .system {
 	position: absolute;
 }
@@ -10,6 +26,7 @@ body, html {
 	border-style: solid;
 	border-width: 1px;
 	padding: 4px;
+	margin-bottom: 4px;
 }
 
 .name {
