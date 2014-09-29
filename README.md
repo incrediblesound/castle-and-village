@@ -25,9 +25,30 @@ Units
 ```javascript
 Castle.properties = {
 	money: "Money is required to makes purchases and to do actions. Running out of money means the player has to collect taxes, which is bad for the peasants.",
-	wizards: "At a high level the player can attract wizards to their castle. Wizards could open up new actions or bolster the strength of the player against attack. The role of the wizard has yet to be defined.",
-	level: "Certain milestones will allow the player to level up, opening up new actions, purchases and disasters.",
-	masters: "Masters are individuals that are required to pass milestones. They also could provide other benefits.",
+	wizards: "At a high level the player can attract wizards to bolster their army.",
+	level: "Certain milestones allow the player to level up, opening up new actions, purchases and disasters.",
+	masters: "Masters are required to pass milestones and provide other benefits.",
 	buildings: "Buildings have the same role as masters but they are buildings."
-	food
+	food: "Food is consumed by knights, "
 }
+Castle.methods = {
+	/*
+	Both the castle and the village have a set of methods including hasMaster, addMaster, hasBuilding and addBuilding which are self explanatory helper-functions. They will not be discussed here.
+	*/
+}
+
+```
+<strong>Village</strong>
+```javascript
+village.properties = {
+
+}
+village.methods = {
+	Village.prototype.hasMaster() // check if the village has a certain master
+	Village.prototype.hasBuilding() // check if the village has a certain building
+	Village.prototype.addMaster() // adds a master to the village
+	Village.prototype.addBuilding() // adds a building to the village
+	Village.prototype.step() //
+
+}
+```

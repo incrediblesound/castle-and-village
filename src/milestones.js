@@ -9,6 +9,15 @@ var MilestoneController = function(){
     'Provide': function(){
       window.gameState.units.village.happiness += 1;
       window.gameState.units.village.energy += 1;
+    },
+    'Level2': function(){
+      window.gameState.units.castle.level += 1;
+      window.gameState.controllers.actionController.addAction({action:'Build Stables', type: 'purchase', cost: 30});
+      window.gameState.controllers.actionController.addAction({action:'Hire a Cleric', type: 'purchase', cost: 30});
+    },
+    'Stables': function(){
+      window.gameState.controllers.actionController.removeAction('Build Stables');
+      window.gameState.controllers.actionController.addAction({action:'Train a War Horse', type: 'purchase', cost: 30});
     }
   }
 }
@@ -24,6 +33,7 @@ MilestoneController.prototype.addToComplete = function(value){
 }
 
 MilestoneController.prototype.executeMilestone = function(value){
+  this.completed.push(value);
   this.milestones[value]();
 }
 
@@ -31,7 +41,6 @@ MilestoneController.prototype.step = function(){
 
   if(window.gameState.units.castle.hasMaster('Blacksmith') && window.gameState.units.domain.vineyards > 0){
     if(!this.isComplete('Knights')){
-      this.addToComplete('Knights');
       this.executeMilestone('Knights');
     }
   }
@@ -42,4 +51,13 @@ MilestoneController.prototype.step = function(){
     }
   }
 
+  if(this.isComplete('Provide') && this.isComplete('Knights')){
+    if(window.gameState.units.castle.level < 2){
+      this.executeMilestone('Level2');
+    }
+  }
+
+  if(window.gameState.units.castle.hasBuilding('Stables') && !this.isComplete('Stables')){
+    this.executeMilestone('Stables');
+  }
 }

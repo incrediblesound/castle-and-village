@@ -6,7 +6,7 @@ var ActionController = function(){
   this.actionMap = {
     'Hire a Master Baker': function(){
       window.gameState.units.village.addMaster('Baker');
-      this.removeAction('Hire a Master Baker');
+      self.removeAction('Hire a Master Baker');
     },
     'Hire a Swordsman': function(){
       window.gameState.units.castle.addMaster('Swordsman');

@@ -28,7 +28,7 @@ Castle.prototype.addBuilding = function(value){
 }
 
 Castle.prototype.step = function(){
-  this.food -= window.gameState.units.barracks.knights;
+  $('.kingdom-heading').text('Level ' + this.level + ' Kingdom');
 }
 
 Castle.prototype.render = function(){

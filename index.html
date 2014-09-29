@@ -31,7 +31,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<h2 class="text-center">Kingdom</h2>
+				<h2 class="text-center kingdom-heading"></h2>
 				<div class="units"></div>
 			</div>
 		</div>
@@ -103,9 +103,11 @@ $(function(){
     console.log('hello');
     var text = $(this).text();
     window.gameState.actions.push(text);
-    $('.todo').append('<li>'+text+'</li>')
+    $('.todo').append('<li>'+text+'</li>');
+    $('.kingdom-heading').text('Level ' + window.gameState.units.castle.level + ' Kingdom');
     })
   })
+    $('.kingdom-heading').text('Level ' + window.gameState.units.castle.level + ' Kingdom');
 })
 
 </script>
