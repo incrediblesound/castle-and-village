@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title></title>
-	<link rel="stylesheet" type="text/css" href="./style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<link href='http://fonts.googleapis.com/css?family=Libre+Baskerville' rel='stylesheet' type='text/css'>
 </head>
@@ -27,10 +27,9 @@
 				<button class='btn btn-default btn-block step'>Go</button>
 				<ul class="todo">
 				</ul>
-				<div class="alerta">
-					<p id="alert"><strong>Alerta</strong></p>
-					<p id="alert-content"></p>
-					<button id="alert-button">Close</button>
+				<div class="center-block row">
+					<h3 class="text-center">Domain</h3>
+					<canvas width="300" height="180" id="map"></canvas>
 				</div>
 			</div>
 			<div class="col-md-4">
@@ -55,6 +54,7 @@
 	<script type="text/javascript" src="./src/milestones.js"></script>
 	<script type="text/javascript" src="./src/disasters.js"></script>
 	<script type="text/javascript" src="./src/controller.js"></script>
+	<script type="text/javascript" src="./src/map.js"></script>
 <script type="text/javascript">
 window.gameState = {};
 window.gameState.actions = [];
@@ -70,7 +70,8 @@ window.gameState.controllers = {};
 window.gameState.controllers.gameController = new Controller();
 window.gameState.controllers.milestones = new MilestoneController();
 window.gameState.controllers.actionController = new ActionController();
-window.gameState.controllers.disasterController = new DisasterController()
+window.gameState.controllers.disasterController = new DisasterController();
+window.gameState.controllers.mapController = new MapController();
 
 $(function(){
 	window.gameState.controllers.gameController.init()
@@ -82,6 +83,22 @@ $(function(){
 	    window.gameState.actions.push(text);
 	    $('.todo').append('<li>'+text+'</li>')
     }
+  })
+
+  $(document).on('keypress', function(event){
+  	console.log(event.which);
+  	if(event.which === 119){
+  		window.gameState.controllers.mapController.playerMoveUp();
+  	}
+  	if(event.which === 97){
+  		window.gameState.controllers.mapController.playerMoveLeft();
+  	}
+  	if(event.which === 115){
+  		window.gameState.controllers.mapController.playerMoveDown();
+  	}
+  	if(event.which === 100){
+  		window.gameState.controllers.mapController.playerMoveRight();
+  	}
   })
 
   $('.step').on('click', function(){

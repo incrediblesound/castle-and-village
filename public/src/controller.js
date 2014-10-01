@@ -10,10 +10,12 @@ Controller.prototype.init = function(){
   this.on('step', function(){
     window.gameState.controllers.milestones.step();
     window.gameState.controllers.disasterController.step();
+    window.gameState.controllers.mapController.drawUnits();
     window.gameState.units.castle.step();
     window.gameState.units.domain.step();
     window.gameState.units.barracks.step();
     window.gameState.units.village.step();
+
     self.entropy();
     //this is last in case any of the above methods change available actions
     window.gameState.controllers.actionController.step();

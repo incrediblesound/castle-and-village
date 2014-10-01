@@ -54,3 +54,8 @@ button.action {
 	top: 90%;
 	left: 50%;
 }
+
+#map {
+	display: table;
+	margin: 0 auto;
+}
