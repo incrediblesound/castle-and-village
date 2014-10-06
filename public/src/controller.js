@@ -1,5 +1,6 @@
 var Controller = function(){
   System.call(this);
+  this.state = 'inside';
 }
 
 Controller.prototype = Object.create(System.prototype);
@@ -8,26 +9,47 @@ Controller.prototype.constructor = Controller;
 Controller.prototype.init = function(){
   var self = this;
   this.on('step', function(){
-    window.gameState.controllers.milestones.step();
-    window.gameState.controllers.disasterController.step();
-    window.gameState.controllers.mapController.drawUnits();
-    window.gameState.units.castle.step();
-    window.gameState.units.domain.step();
-    window.gameState.units.barracks.step();
-    window.gameState.units.village.step();
+    if(self.state === 'inside'){
+      $('.step').prop('disabled', false);
+      $('.actions button').prop('disabled', false);
+      $('.purchase button').prop('disabled', false);
+      window.gameState.controllers.milestones.step();
+      window.gameState.controllers.disasterController.step();
+      window.gameState.units.castle.step();
+      window.gameState.units.domain.step();
+      window.gameState.units.barracks.step();
+      window.gameState.units.village.step();
 
-    self.entropy();
-    //this is last in case any of the above methods change available actions
-    window.gameState.controllers.actionController.step();
-    $('.units').append(window.gameState.units.castle.render());
-    $('.units').append(window.gameState.units.domain.render());
-    $('.units').append(window.gameState.units.barracks.render());
-    $('.units').append(window.gameState.units.village.render());
-    //check and advance game stage
-    if(window.gameState.stage < 24){
-      window.gameState.stage += 1;
-    } else {
-      window.gameState.stage = 0;
+      self.entropy();
+      //this is last in case any of the above methods change available actions
+      window.gameState.controllers.actionController.step();
+      if(self.state !== 'outside'){
+        $('.units').empty();
+        $('.units').append(window.gameState.units.castle.render());
+        $('.units').append(window.gameState.units.village.render());
+        $('.units').append(window.gameState.units.barracks.render());
+        $('.units').append(window.gameState.units.domain.render());
+        //check and advance game stage
+        if(window.gameState.stage < 24){
+          window.gameState.stage += 1;
+        } else {
+          window.gameState.stage = 0;
+        }
+        window.gameState.actions = [];
+        $('.todo').empty();
+        //end step function
+        $('.action').on('click', function(){
+        var text = $(this).text();
+        if(window.gameState.actions.length < 2){
+          window.gameState.actions.push(text);
+          $('.todo').append('<li>'+text+'</li>');
+        }
+        $('.kingdom-heading').text('Level ' + window.gameState.units.castle.level + ' Kingdom');
+        })
+      }
+    }
+    if(self.state === 'outside'){
+      window.gameState.units.exploreView.render();
     }
   })
   this.on('render', function(){
@@ -36,6 +58,15 @@ Controller.prototype.init = function(){
     $('.units').append(window.gameState.units.barracks.render());
     $('.units').append(window.gameState.units.village.render());
   })
+
+  this.on('combat', function(){
+    window.gameState.controllers.combatController.init();
+    window.gameState.controllers.combatController.fight();
+    $('.attack-select').on('click', function(){
+      console.log(this);
+    })
+  })
+
 }
 
 Controller.prototype.entropy = function(){

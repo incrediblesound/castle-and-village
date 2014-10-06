@@ -15,10 +15,6 @@ var MilestoneController = function(){
       window.gameState.controllers.actionController.addAction({action:'Build Stables', type: 'purchase', cost: 30});
       window.gameState.controllers.actionController.addAction({action:'Hire a Cleric', type: 'purchase', cost: 30});
     },
-    'Stables': function(){
-      window.gameState.controllers.actionController.removeAction('Build Stables');
-      window.gameState.controllers.actionController.addAction({action:'Train a War Horse', type: 'purchase', cost: 30});
-    }
   }
 }
 
@@ -56,9 +52,5 @@ MilestoneController.prototype.step = function(){
     if(window.gameState.units.castle.level < 2){
       this.executeMilestone('Level2');
     }
-  }
-
-  if(window.gameState.units.castle.hasBuilding('Stables') && !this.isComplete('Stables')){
-    this.executeMilestone('Stables');
   }
 }

@@ -27,9 +27,8 @@
 				<button class='btn btn-default btn-block step'>Go</button>
 				<ul class="todo">
 				</ul>
-				<div class="center-block row">
-					<h3 class="text-center">Domain</h3>
-					<canvas width="300" height="180" id="map"></canvas>
+				<div class="center-block row middle">
+					<canvas width="340" height="180" id="map"></canvas>
 				</div>
 			</div>
 			<div class="col-md-4">
@@ -55,6 +54,9 @@
 	<script type="text/javascript" src="./src/disasters.js"></script>
 	<script type="text/javascript" src="./src/controller.js"></script>
 	<script type="text/javascript" src="./src/map.js"></script>
+	<script type="text/javascript" src="./src/combat.js"></script>
+	<script type="text/javascript" src="./src/combatView.js"></script>
+	<script type="text/javascript" src="./src/exploreView.js"></script>
 <script type="text/javascript">
 window.gameState = {};
 window.gameState.actions = [];
@@ -65,41 +67,21 @@ window.gameState.units.castle = new Castle();
 window.gameState.units.domain = new Domain();
 window.gameState.units.barracks = new Barracks();
 window.gameState.units.village = new Village();
+window.gameState.units.combatView = new CombatView();
+window.gameState.units.exploreView = new ExploreView();
 
 window.gameState.controllers = {};
 window.gameState.controllers.gameController = new Controller();
 window.gameState.controllers.milestones = new MilestoneController();
 window.gameState.controllers.actionController = new ActionController();
 window.gameState.controllers.disasterController = new DisasterController();
+window.gameState.controllers.combatController = new CombatController();
 window.gameState.controllers.mapController = new MapController();
 
 $(function(){
 	window.gameState.controllers.gameController.init()
 	window.gameState.controllers.gameController.trigger('step');
   //load action on click and append to list
-  $('.action').on('click', function(){
-    var text = $(this).text();
-    if(window.gameState.actions.length < 2){
-	    window.gameState.actions.push(text);
-	    $('.todo').append('<li>'+text+'</li>')
-    }
-  })
-
-  $(document).on('keypress', function(event){
-  	console.log(event.which);
-  	if(event.which === 119){
-  		window.gameState.controllers.mapController.playerMoveUp();
-  	}
-  	if(event.which === 97){
-  		window.gameState.controllers.mapController.playerMoveLeft();
-  	}
-  	if(event.which === 115){
-  		window.gameState.controllers.mapController.playerMoveDown();
-  	}
-  	if(event.which === 100){
-  		window.gameState.controllers.mapController.playerMoveRight();
-  	}
-  })
 
   $('.step').on('click', function(){
     $('.units').empty();
@@ -110,21 +92,8 @@ $(function(){
       window.gameState.controllers.actionController.doAction(action);
     }
 
-    window.gameState.actions = [];
-    
-    //render all the units
-    //trigger all step functions
     window.gameState.controllers.gameController.trigger('step');
     
-    $('.todo').empty();
-    //end step function
-    $('.action').on('click', function(){
-    console.log('hello');
-    var text = $(this).text();
-    window.gameState.actions.push(text);
-    $('.todo').append('<li>'+text+'</li>');
-    $('.kingdom-heading').text('Level ' + window.gameState.units.castle.level + ' Kingdom');
-    })
   })
     $('.kingdom-heading').text('Level ' + window.gameState.units.castle.level + ' Kingdom');
 })

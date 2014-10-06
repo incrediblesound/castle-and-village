@@ -4,12 +4,21 @@ var ActionController = function(){
   var self = this;
 
   this.actionMap = {
+    'Go Questing': function(){
+      window.gameState.controllers.mapController.init();
+      window.gameState.controllers.gameController.state = 'outside';
+    },
+    'Build Stables': function(){
+      self.removeAction('Build Stables');
+      self.addAction({action:'Train a War Horse', type: 'purchase', cost: 20});
+    },
     'Hire a Master Baker': function(){
       window.gameState.units.village.addMaster('Baker');
       self.removeAction('Hire a Master Baker');
     },
     'Hire a Swordsman': function(){
       window.gameState.units.castle.addMaster('Swordsman');
+      self.removeAction('Hire a Swordsman');
     },
     'Build a Granary': function(){
       window.gameState.units.castle.addBuilding('Granary');
@@ -28,7 +37,7 @@ var ActionController = function(){
       window.gameState.units.domain.makeField();
       window.gameState.units.castle.money -= 15;
     },
-    'Buy a War Horse': function(){
+    'Train a War Horse': function(){
       window.gameState.units.barracks.horses += 1;
       window.gameState.units.castle.money -= 20;
     },
@@ -47,6 +56,7 @@ var ActionController = function(){
 }
 
   this.actions = [
+    {action:'Go Questing', type: 'actions', cost: 0},
     {action:'Hold a Festival', type: 'actions', cost: 25},
     {action:'Clear a Field', type: 'actions', cost: 15},
     {action:'Hire a Blacksmith', type: 'purchase', cost: 20},
