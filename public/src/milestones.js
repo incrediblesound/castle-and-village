@@ -2,6 +2,9 @@ var MilestoneController = function(){
   System.call(this);
   this.completed = [];
   this.milestones = {
+    'GrandMaster': function(){
+      window.gameState.controllers.actionController.addAction({action:'Train a Grand Master', type: 'actions', cost: 30});
+    },
     'Knights': function(){
       window.gameState.units.barracks.knights += 2;
       window.gameState.controllers.actionController.addAction({action:'Hire a Swordsman', type: 'purchase', cost: 30});
@@ -12,8 +15,8 @@ var MilestoneController = function(){
     },
     'Level2': function(){
       window.gameState.units.castle.level += 1;
-      window.gameState.controllers.actionController.addAction({action:'Build Stables', type: 'purchase', cost: 30});
-      window.gameState.controllers.actionController.addAction({action:'Hire a Cleric', type: 'purchase', cost: 30});
+      window.gameState.controllers.actionController.addAction({action:'Build Stables', type: 'purchase', cost: 15});
+      window.gameState.controllers.actionController.addAction({action:'Hire a Cleric', type: 'purchase', cost: 20});
     },
   }
 }
@@ -52,5 +55,8 @@ MilestoneController.prototype.step = function(){
     if(window.gameState.units.castle.level < 2){
       this.executeMilestone('Level2');
     }
+  }
+  if(window.gameState.units.castle.hasMaster('Swordsman') && window.gameState.units.castle.hasMaster('Cleric')){
+    this.executeMilestone('GrandMaster');
   }
 }

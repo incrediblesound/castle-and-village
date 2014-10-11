@@ -23,6 +23,11 @@ Controller.prototype.init = function(){
       self.entropy();
       //this is last in case any of the above methods change available actions
       window.gameState.controllers.actionController.step();
+      if(self.checkLoseConditions()){
+        $('.game').empty();
+        $('.game').append('<h1 class="text-center">Your Kingdom Has Crumbled</h1><p class="text-center">Refresh to Play Again</p>');
+        return;
+      }
       if(self.state !== 'outside'){
         $('.units').empty();
         $('.units').append(window.gameState.units.castle.render());
@@ -84,5 +89,14 @@ Controller.prototype.entropy = function(){
   }
   if(window.gameState.units.village.population < (window.gameState.units.domain.fields * 3)){
     window.gameState.controllers.disasterController.doDisaster('wilderness');
+  }
+}
+
+Controller.prototype.checkLoseConditions = function(){
+  if(window.gameState.units.village.happiness <= 0){
+    return true;
+  }
+  if(window.gameState.units.village.population < 10){
+    return true;
   }
 }

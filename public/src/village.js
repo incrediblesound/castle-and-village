@@ -38,8 +38,8 @@ Village.prototype.festival = function(){
 }
 
 Village.prototype.deliverTaxes = function(){
-  window.gameState.castle.money += this.population;
-  this.happiness -= 2;
+  window.gameState.units.castle.money += this.population;
+  this.happiness -= 1;
 }
 
 Village.prototype.render = function(){

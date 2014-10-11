@@ -4,7 +4,16 @@ var ActionController = function(){
   var self = this;
 
   this.actionMap = {
+    'Train a Grand Master': function(){
+      window.gameState.units.barracks.knights -= 1;
+      window.gameState.units.barracks.gMasters += 1;
+    },
+    'Hire a Cleric': function(){
+      window.gameState.units.castle.addMaster('Cleric');
+      self.removeAction('Hire a Cleric');
+    },
     'Go Questing': function(){
+      window.gameState.controllers.combatController = new CombatController();
       window.gameState.controllers.mapController.init();
       window.gameState.controllers.gameController.state = 'outside';
     },
@@ -31,19 +40,15 @@ var ActionController = function(){
     },
     'Hold a Festival': function(){
       window.gameState.units.village.festival();
-      window.gameState.units.castle.money -= 25;
     },
     'Clear a Field': function(){
       window.gameState.units.domain.makeField();
-      window.gameState.units.castle.money -= 15;
     },
     'Train a War Horse': function(){
       window.gameState.units.barracks.horses += 1;
-      window.gameState.units.castle.money -= 20;
     },
     'Hire a Blacksmith': function(){
       window.gameState.units.castle.masters.push('Blacksmith');
-      window.gameState.units.castle.money -= 10;
       self.removeAction('Hire a Blacksmith');
     },
     'Collect Taxes': function(){
@@ -51,7 +56,6 @@ var ActionController = function(){
     },
     'Plant a Vineyard': function(){
       window.gameState.units.domain.makeVineyard();
-      window.gameState.units.castle.money -= 30
     }
 }
 
@@ -71,11 +75,22 @@ var ActionController = function(){
 ActionController.prototype = Object.create(System.prototype);
 
 ActionController.prototype.doAction = function(value){
+  var action = this.getAction(value);
+  window.gameState.units.castle.money -= action.cost;
   return this.actionMap[value]();
 }
 
 ActionController.prototype.addAction = function(value){
   this.actions.push(value);
+}
+
+ActionController.prototype.getAction = function(value){
+  this.actions.push(value);
+  for(var i = 0; i < this.actions.length; i++){
+    if(this.actions[i].action === value){
+      return this.actions[i];
+    };
+  };
 }
 
 ActionController.prototype.removeAction = function(value){

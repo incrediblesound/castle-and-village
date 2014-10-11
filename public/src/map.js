@@ -2,7 +2,8 @@ var MapController = function(){
   System.call(this);
   this.map = document.getElementById('map');
   this.context = this.map.getContext('2d');
-  this.state="exploring"
+  this.state = "exploring"
+  this.priorState;
   this.size = {
     x: 340,
     y: 180
@@ -65,6 +66,9 @@ MapController.prototype.drawUnits = function(){
 }
 
 MapController.prototype.checkCollision = function(unit){
+  if(this.state === 'fighting'){
+    return 'battle';
+  }
   var result = false, obstruct, thing, distance;
   for(obj in this.objects){
     var obstruct = this.objects[obj];
@@ -76,9 +80,14 @@ MapController.prototype.checkCollision = function(unit){
       }
     }
   }
+
   var encounter = Math.round(Math.random()*6);
   if(encounter > 3 && this.state !== "fighting"){
-    this.state="fighting"
+    if(this.priorState === 'fighting'){
+      this.changeState('exploring');
+      return;
+    }
+    this.changeState("fighting")
     window.gameState.controllers.gameController.trigger('combat');
     return 'battle';
   }
@@ -187,7 +196,7 @@ MapController.prototype.init = function(){
   $('.step').prop('disabled', true);
   $('.actions button').prop('disabled', true);
   $('.purchase button').prop('disabled', true);
-  $('.middle').append('<h3 class="text-center">Domain</h3>');
+  $('.middle').prepend('<h3 class="text-center">Domain</h3>');
   $(document).on('keypress', function(event){
     event.stopImmediatePropagation();
     if(event.which === 119){
@@ -203,7 +212,7 @@ MapController.prototype.init = function(){
       self.playerMoveRight();
     }
   })
-  this.drawUnits();
+  return this.drawUnits();
 }
 
 MapController.prototype.goHome = function(){
@@ -214,19 +223,24 @@ MapController.prototype.goHome = function(){
   var army = window.gameState.controllers.combatController.playerArray;
   if(army){
     for(var i = 0; i < army.length; i++){
-      if(army[i].name === 'knights'){
-        window.gameState.units.barracks.knight += 1;
+      if(army[i].name === 'knight'){
+        window.gameState.units.barracks.knights += 1;
       }
       if(army[i].name === 'cavalry'){
         window.gameState.units.barracks.horses += 1;
       }
-      if(army[i].name === 'wizards'){
+      if(army[i].name === 'wizard'){
         window.gameState.units.castle.wizards += 1;
       }
     }
   }
   this.map.width = this.map.width;
-  $('.middle').empty();
+  $('.middle').find(':first-child').remove();
   window.gameState.controllers.gameController.state = 'inside';
   window.gameState.controllers.gameController.trigger('step');
+}
+
+MapController.prototype.changeState = function(state){
+  this.priorState = this.state;
+  this.state = state;
 }
