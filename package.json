@@ -1,0 +1,23 @@
+{
+  "name": "castle-village",
+  "version": "0.0.0",
+  "description": "Castle and Village ==================",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/incrediblesound/castle-and-village.git"
+  },
+  "author": "James H Edwards",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/incrediblesound/castle-and-village/issues"
+  },
+  "homepage": "https://github.com/incrediblesound/castle-and-village",
+  "dependencies": {
+    "express": "~4.9.7"
+  }
+}
