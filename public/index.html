@@ -43,6 +43,7 @@
 	</div>
 </body>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="./src/maps/domainMap.js"></script>
 	<script type="text/javascript" src="./src/system.js"></script>
 	<script type="text/javascript" src="./src/actionController.js"></script>
 	<script type="text/javascript" src="./src/castle.js"></script>
@@ -53,10 +54,11 @@
 	<script type="text/javascript" src="./src/milestones.js"></script>
 	<script type="text/javascript" src="./src/disasters.js"></script>
 	<script type="text/javascript" src="./src/controller.js"></script>
-	<script type="text/javascript" src="./src/map.js"></script>
-	<script type="text/javascript" src="./src/combat.js"></script>
+	<script type="text/javascript" src="./src/mapController.js"></script>
+	<script type="text/javascript" src="./src/combatController.js"></script>
 	<script type="text/javascript" src="./src/combatView.js"></script>
 	<script type="text/javascript" src="./src/exploreView.js"></script>
+	<script type="text/javascript" src="./src/mapView.js"></script>
 <script type="text/javascript">
 window.gameState = {};
 window.gameState.actions = [];
@@ -69,6 +71,7 @@ window.gameState.units.barracks = new Barracks();
 window.gameState.units.village = new Village();
 window.gameState.units.combatView = new CombatView();
 window.gameState.units.exploreView = new ExploreView();
+window.gameState.units.mapView = new MapView();
 
 window.gameState.controllers = {};
 window.gameState.controllers.gameController = new Controller();

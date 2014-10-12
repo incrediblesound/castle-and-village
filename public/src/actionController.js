@@ -19,7 +19,7 @@ var ActionController = function(){
     },
     'Build Stables': function(){
       self.removeAction('Build Stables');
-      self.addAction({action:'Train a War Horse', type: 'purchase', cost: 20});
+      self.addAction('warhorse');
     },
     'Hire a Master Baker': function(){
       window.gameState.units.village.addMaster('Baker');
@@ -81,7 +81,14 @@ ActionController.prototype.doAction = function(value){
 }
 
 ActionController.prototype.addAction = function(value){
-  this.actions.push(value);
+  var actionStore = {
+    'warhorse': {action:'Train a War Horse', type: 'purchase', cost: 20},
+    'grandmaster': {action:'Train a Grand Master', type: 'actions', cost: 30},
+    'swordsman': {action:'Hire a Swordsman', type: 'actions', cost: 30},
+    'stables': {action:'Build Stables', type: 'purchase', cost: 15},
+    'cleric': {action:'Hire a Cleric', type: 'purchase', cost: 20}
+  }
+  this.actions.push(actionStore[value]);
 }
 
 ActionController.prototype.getAction = function(value){
