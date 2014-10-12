@@ -118,3 +118,7 @@ Controller.prototype.checkLoseConditions = function(){
     return false;
   }
 }
+
+Controller.prototype.getStat = function(unit, property){
+  return this.units[unit].stats[property];
+}

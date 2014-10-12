@@ -1,7 +1,7 @@
 var Village = function() {
   System.call(this);
   this.stats = {
-    'Population': 0,
+    'Population': 1,
     'Food': 0,
     'Happiness':0,
     'Vitality':0

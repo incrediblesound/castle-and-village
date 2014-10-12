@@ -2,6 +2,10 @@ var MilestoneController = function(){
   System.call(this);
   this.completed = [];
   this.milestones = {
+    'FirstField': function(){
+      window.gameState.gameController.units['village'] = new Village();
+      // this and the other milestones should create a message
+    },
     'GrandMaster': function(){
       window.gameState.gameController.controllers['actions'].addAction('grandmaster');
     },
@@ -41,7 +45,14 @@ MilestoneController.prototype.executeMilestone = function(value){
 }
 
 MilestoneController.prototype.step = function(){
-  //begin level 1 milestones
+  // level 0 milestones
+  if(window.gameState.gameController.level === 0){
+    if(window.gameState.gameController.getStat('domain','Fields') > 0){
+      this.executeMilestone('FirstField');
+    }
+  }
+  // end level 0 milestones
+  // level 1 milestones
   if(window.gameState.gameController.level === 1){
     if(window.gameState.gameController.units['castle'].hasMaster('Blacksmith') && window.gameState.gameController.units['domain'].vineyards > 0){
       this.executeMilestone('Knights');
@@ -60,5 +71,5 @@ MilestoneController.prototype.step = function(){
       this.executeMilestone('GrandMaster');
     }
   }
-  //end level 1 milestones
+  // end level 1 milestones
 }
