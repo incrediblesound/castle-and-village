@@ -1,8 +1,4 @@
 var CombatController = function(){
-  this.enemies = {
-    bandits: ['bandits', 3]
-  }
-
   this.unitTypes = {
     bandits: function(){ return {name: 'bandit', health: 4, attack: 1, gold: 5} },
     knights: function(){ return {name: 'knight', health: 4, attack: 2} },
@@ -10,6 +6,7 @@ var CombatController = function(){
     wizards: function(){ return {name: 'wizard', health: 2, attack: 4} },
     gMasters: function(){ return {name: 'Grand Master', health: 5, attack: 4}}
   }
+  this.hitAbove = 11;
   this.combatHistory = [];
   this.playerArray = [];
   this.opponentArray = [];
@@ -22,23 +19,23 @@ var CombatController = function(){
 CombatController.prototype.init = function(){
   if(!this.playerArmy){
     this.playerArmy = {
-      knights: window.gameState.units.barracks.knights - 2,
-      cavalry: window.gameState.units.barracks.horses,
-      wizards: window.gameState.units.castle.wizards
+      knights: window.gameState.gameController.units['barracks'].knights - 2,
+      cavalry: window.gameState.gameController.units['barracks'].horses,
+      wizards: window.gameState.gameController.units['castle'].wizards
     };
-    window.gameState.units.barracks.knights = 2;
-    window.gameState.units.barracks.horses = 0;
-    window.gameState.units.castle.wizards = 0;
+    window.gameState.gameController.units['barracks'].knights = 2;
+    window.gameState.gameController.units['barracks'].horses = 0;
+    window.gameState.gameController.units['castle'].wizards = 0;
   }
   //this.playerTotal = this.playerArmy.knights + this.playerArmy.cavalry + this.playerArmy.wizards;
 
-  this.opponentArmy = this.enemies.bandits;
+  this.opponentArmy = window.gameState.gameController.views['map'].getEnemies();
   this.makeCombatArray()
 
-  window.gameState.units.exploreView.state = 'You encounter hostile ' + this.opponentArmy[0];
+  window.gameState.gameController.views['explore'].state = 'You encounter hostile ' + this.opponentArmy[0];
   $('.units').empty();
-  $('.units').append(window.gameState.units.exploreView.render());
-  $('.units').append(window.gameState.units.combatView.render());
+  $('.units').append(window.gameState.gameController.views['explore'].render());
+  $('.units').append(window.gameState.gameController.views['combat'].render());
 }
 
 CombatController.prototype.fight = function(){
@@ -53,6 +50,7 @@ CombatController.prototype.fight = function(){
     return Math.round(Math.random()*(self.opponentArray.length-1));
   }
   $('.attack-select').on('click', function(){
+    debugger;
     var roll
     if(self.checkHistory()){
       roll = 20;
@@ -63,29 +61,29 @@ CombatController.prototype.fight = function(){
     playerUnit = self.playerArray[playerIndex];
     var enemyIndex = randomEnemy(); // choose which opponent
     enemyUnit = self.opponentArray[enemyIndex];
-    if(roll > 11 - (window.gameState.units.castle.level-1)) {
+    if(roll > this.hitAbove) {
       enemyUnit.health -= playerUnit.attack;
+      self.combatHistory.push('player');
       if(enemyUnit.health <= 0){
         self.opponentArray.splice(enemyIndex, 1);
         self.bounty.gold += enemyUnit.gold;
-        self.combatHistory.push('player');
         alert('Your '+playerUnit.name+' killed a '+enemyUnit.name+'.');
       } else {
         alert('Your '+playerUnit.name+' did '+playerUnit.attack+' damage to a '+enemyUnit.name+'.')
       }
     } else {
       playerUnit.health -= enemyUnit.attack;
+      self.combatHistory.push('enemy');
       if(playerUnit.health <= 0){
         self.playerArray.splice(playerIndex, 1);
-        self.combatHistory.push('enemy');
         alert('Your '+playerUnit.name+' was killed by a '+enemyUnit.name+'.')
       } else {
         alert('Your '+playerUnit.name+' recieved '+enemyUnit.attack+' damage from a '+enemyUnit.name+'.')
       }
     }
-    $('.units').empty()
-    $('.units').append(window.gameState.units.exploreView.render());
-    $('.units').append(window.gameState.units.combatView.render());
+    $('.units').empty();
+    $('.units').append(window.gameState.gameController.views['explore'].render());
+    $('.units').append(window.gameState.gameController.views['combat'].render());
     self.fight();
     if(self.playerArray.length === 0){
     alert('you loose');
@@ -109,22 +107,24 @@ CombatController.prototype.fight = function(){
       } else {
         alert('Your '+playerUnit.name+' recieved '+enemyUnit.attack+' damage from a '+enemyUnit.name+'.')
       }
-      window.gameState.controllers.mapController.state = "exploring";
-      window.gameState.units.exploreView.state = "Just barely escaped!";
+      window.gameState.gameController.controllers['map'].state = "exploring";
+      window.gameState.gameController.views['explore'] = "Just barely escaped!";
       self.opponentArray = [];
       self.bounty.gold = 0;
       $('.units').empty()
-      $('.units').append(window.gameState.units.exploreView.render());
+      $('.units').append(window.gameState.gameController.views['explore'].render());
   })
 
 }
 
 CombatController.prototype.makeCombatArray = function(){
   var unit;
-  for(var i = 0; i < this.opponentArmy[1]; i++){
-    unit = this.unitTypes[this.opponentArmy[0]]();
-    this.opponentArray.push(unit);
-  }
+  $.each(this.opponentArmy, function(unitData){
+    for(var i = 0; i < unitData[1]; i++){
+      unit = this.unitTypes[unit[0]]();
+      this.opponentArray.push(unit);
+    }
+  })
   if(!this.playerArray.length){
     for(var type in this.playerArmy){
       number = this.playerArmy[type];

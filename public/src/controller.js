@@ -1,6 +1,10 @@
 var Controller = function(){
   System.call(this);
   this.state = 'inside';
+  this.level = 1;
+  this.units = {};
+  this.controllers = {};
+  this.views = {};
 }
 
 Controller.prototype = Object.create(System.prototype);
@@ -8,6 +12,7 @@ Controller.prototype.constructor = Controller;
 
 Controller.prototype.init = function(){
   var self = this;
+  this.units['domain'] = new Domain();
   this.on('step', function(){
     if(self.state === 'inside'){
       $('.step').prop('disabled', false);
@@ -15,10 +20,12 @@ Controller.prototype.init = function(){
       $('.purchase button').prop('disabled', false);
       window.gameState.controllers.milestones.step();
       window.gameState.controllers.disasterController.step();
-      window.gameState.units.castle.step();
-      window.gameState.units.domain.step();
-      window.gameState.units.barracks.step();
-      window.gameState.units.village.step();
+      // every game unit must step
+      for(var unit in self.units){
+        if(self.units.hasOwnProperty(unit)){
+          self.units[unit].step();
+        }
+      }
 
       self.entropy();
       //this is last in case any of the above methods change available actions
@@ -30,10 +37,12 @@ Controller.prototype.init = function(){
       }
       if(self.state !== 'outside'){
         $('.units').empty();
-        $('.units').append(window.gameState.units.castle.render());
-        $('.units').append(window.gameState.units.village.render());
-        $('.units').append(window.gameState.units.barracks.render());
-        $('.units').append(window.gameState.units.domain.render());
+        // append each unit to the html
+        for(var unit in self.units){
+          if(self.units.hasOwnProperty(unit)){
+            $('.units').append(self.units[unit].render());
+          }
+        }
         //check and advance game stage
         if(window.gameState.stage < 24){
           window.gameState.stage += 1;
@@ -58,10 +67,12 @@ Controller.prototype.init = function(){
     }
   })
   this.on('render', function(){
-    $('.units').append(window.gameState.units.castle.render());
-    $('.units').append(window.gameState.units.domain.render());
-    $('.units').append(window.gameState.units.barracks.render());
-    $('.units').append(window.gameState.units.village.render());
+    // append each unit to the html
+    for(var unit in self.units){
+      if(self.units.hasOwnProperty(unit)){
+        $('.units').append(self.units[unit].render());
+      }
+    }
   })
 
   this.on('combat', function(){

@@ -67,25 +67,26 @@ window.gameState.actions = [];
 window.gameState.stage = 1;
 
 window.gameState.units = {};
-window.gameState.units.castle = new Castle();
-window.gameState.units.domain = new Domain();
-window.gameState.units.barracks = new Barracks();
-window.gameState.units.village = new Village();
-window.gameState.units.combatView = new CombatView();
-window.gameState.units.exploreView = new ExploreView();
-window.gameState.units.mapView = new MapView();
-
 window.gameState.controllers = {};
-window.gameState.controllers.gameController = new Controller();
-window.gameState.controllers.milestones = new MilestoneController();
-window.gameState.controllers.actionController = new ActionController();
-window.gameState.controllers.disasterController = new DisasterController();
-window.gameState.controllers.combatController = new CombatController();
-window.gameState.controllers.mapController = new MapController();
+
+window.gameState.gameController = new Controller();
+// window.gameState.units.castle = new Castle();
+// window.gameState.units.domain = new Domain();
+// window.gameState.units.barracks = new Barracks();
+// window.gameState.units.village = new Village();
+window.gameState.gameController.views['combat'] = new CombatView();
+window.gameState.gameController.views['explore'] = new ExploreView();
+window.gameState.gameController.views['map'] = new MapView();
+
+window.gameState.gameController.controllers['milestones'] = new MilestoneController();
+window.gameState.gameController.controllers['actions'] = new ActionController();
+window.gameState.gameController.controllers['disasters'] = new DisasterController();
+window.gameState.gameController.controllers['combat'] = new CombatController();
+window.gameState.gameController.controllers['map'] = new MapController();
 
 $(function(){
-	window.gameState.controllers.gameController.init()
-	window.gameState.controllers.gameController.trigger('step');
+	window.gameState.gameController.init()
+	window.gameState.gameController.trigger('step');
   //load action on click and append to list
 
   $('.step').on('click', function(){
@@ -94,13 +95,13 @@ $(function(){
     //do all the actions
     for(var i = 0; i < window.gameState.actions.length; i ++){
       var action = window.gameState.actions[i];
-      window.gameState.controllers.actionController.doAction(action);
+      window.gameState.gameController.controllers['actions'].doAction(action);
     }
 
-    window.gameState.controllers.gameController.trigger('step');
+    window.gameState.gameController.trigger('step');
     
   })
-    $('.kingdom-heading').text('Level ' + window.gameState.units.castle.level + ' Kingdom');
+    $('.kingdom-heading').text('Level ' + window.gameState.gameController.level + ' Kingdom');
 })
 
 </script>
