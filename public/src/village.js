@@ -1,10 +1,12 @@
 var Village = function() {
   System.call(this);
-  this.population = 25;
+  this.stats = {
+    'Population': 0,
+    'Food': 0,
+    'Happiness':0,
+    'Vitality':0
+  }
   this.growth = 0.1;
-  this.food = 25;
-  this.happiness = 2;
-  this.energy = 5;
   this.masters = [];
   this.buildings = [];
 }
@@ -31,15 +33,15 @@ Village.prototype.addBuilding = function(value){
 
 Village.prototype.festival = function(){
   this.growth += 0.1;
-  this.energy -= 1;
-  if(this.happiness < 9){
-    this.happiness += 2;
+  this.stats['Vitality'] -= 1;
+  if(this.stats['Happiness'] < 9){
+    this.stats['Happiness'] += 2;
   }
 }
 
 Village.prototype.deliverTaxes = function(){
-  window.gameState.units.castle.money += this.population;
-  this.happiness -= 1;
+  window.gameState.gameController.units['castle'].money += this.population;
+  this.stats['Happiness'] -= 1;
 }
 
 Village.prototype.render = function(){
@@ -47,9 +49,11 @@ Village.prototype.render = function(){
   template.removeClass('template');
   template.addClass('box village');
   $(template.children()[0]).text('VILLAGE');
-  template.append('<p> Population:     '+this.population+'</p>');
-  template.append('<p> Food:    '+this.food+'</p>');
-  template.append('<p> Happiness:  '+this.happiness+'</p>');
+  for(var stat in this.stats){
+    if(this.stats.hasOwnProperty(stat) && this.stats[stat]){
+      template.append('<p> '+stat+': '+this.stats[stat]+'</p>');
+    }
+  }
   return template;
 }
 
@@ -62,14 +66,14 @@ Village.prototype.step = function(){
 
   //harvest time
   if(window.gameState.stage % 12 === 0){
-    var harvest = (this.energy * window.gameState.units.domain.fields);
+    var harvest = (this.energy * window.gameState.gameController.units['domain'].fields);
 
     var claimed = parseInt(prompt('The harvest was ' + harvest + ' units. How much will you claim?'));
     if(claimed > Math.floor(harvest/2)){
-      this.happiness -= 1;
+      this.stats['Happiness'] -= 1;
     }
     harvest = harvest - claimed;
-    window.gameState.units.castle.food += claimed;
-    window.gameState.units.village.food += harvest;
+    window.gameState.gameController.units['castle'].food += claimed;
+    window.gameState.gameController.units['village'].food += harvest;
   }
 }
