@@ -18,6 +18,7 @@ var MilestoneController = function(){
       window.gameState.units.castle.money += 60;
       window.gameState.controllers.actionController.addAction('stables');
       window.gameState.controllers.actionController.addAction('cleric');
+      window.gameState.controllers.actionController.addAction('catacombs');
     },
   }
 }

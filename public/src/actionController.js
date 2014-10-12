@@ -14,7 +14,12 @@ var ActionController = function(){
     },
     'Go Questing': function(){
       window.gameState.controllers.combatController = new CombatController();
-      window.gameState.controllers.mapController.init();
+      window.gameState.controllers.mapController.init('domain');
+      window.gameState.controllers.gameController.state = 'outside';
+    },
+    'Explore the Catacombs': function(){
+      window.gameState.controllers.combatController = new CombatController();
+      window.gameState.controllers.mapController.init('catacombs');
       window.gameState.controllers.gameController.state = 'outside';
     },
     'Build Stables': function(){
@@ -68,7 +73,8 @@ var ActionController = function(){
     {action:'Hire a Master Baker', type: 'purchase', cost: 10},
     {action:'Collect Taxes', type: 'actions', cost: 0},
     {action:'Plant a Vineyard', type: 'actions', cost: 30},
-    {action:'Build a Church', type: 'purchase', cost: 30}
+    {action:'Build a Church', type: 'purchase', cost: 30},
+    {action:'Explore the Catacombs', type: 'actions', cost: 0}
   ];
 }
 
@@ -86,7 +92,8 @@ ActionController.prototype.addAction = function(value){
     'grandmaster': {action:'Train a Grand Master', type: 'actions', cost: 30},
     'swordsman': {action:'Hire a Swordsman', type: 'actions', cost: 30},
     'stables': {action:'Build Stables', type: 'purchase', cost: 15},
-    'cleric': {action:'Hire a Cleric', type: 'purchase', cost: 20}
+    'cleric': {action:'Hire a Cleric', type: 'purchase', cost: 20},
+    'catacombs': {action:'Explore the Catacombs', type: 'actions', cost: 0}
   }
   this.actions.push(actionStore[value]);
 }

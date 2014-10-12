@@ -4,10 +4,13 @@ var DomainMap = function(){
     mount: [[165, 75],[145,55],[125,55]]
   }
 
+  this.enemies = [[['bandits', 3]],[['bandits', 2],['knights',1]]]
+
   this.playerLocation = {
     x: 305,
     y: 175
   }
+  this.state = 'Exploring your domain...'
 }
 
 DomainMap.prototype.render = function(){

@@ -1,5 +1,5 @@
 var ExploreView = function(){
-	this.state = 'Exploring your domain...';
+	this.state;
 }
 
 ExploreView.prototype = Object.create(System.prototype);

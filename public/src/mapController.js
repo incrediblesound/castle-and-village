@@ -54,6 +54,12 @@ MapController.prototype.drawUnits = function(){
         this.context.fillText("M", co[0], co[1]);
       }  
     }
+    else if(obj === 'fill'){
+      for(var i = 0; i < window.gameState.units.mapView.objects[obj].length; i++){
+        var co = window.gameState.units.mapView.objects[obj][i];
+        this.context.fillRect(co[0], co[1], 20, 20);
+      }  
+    }
   }
 }
 
@@ -179,9 +185,9 @@ MapController.prototype.drawGrid = function(){
   this.context.stroke();
 }
 
-MapController.prototype.init = function(){
+MapController.prototype.init = function(map){
   var self = this;
-  window.gameState.units.mapView.init('domain');
+  window.gameState.units.mapView.init(map);
   this.playerLocation = window.gameState.units.mapView.playerLocation;
 
   $('.step').prop('disabled', true);
