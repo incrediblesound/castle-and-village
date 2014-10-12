@@ -12,5 +12,4 @@ var CatacombsMap = function(){
 };
 
 CatacombsMap.prototype.render = function(){
-  window.gameState.units.exploreView
 }

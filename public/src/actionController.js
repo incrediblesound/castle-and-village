@@ -82,7 +82,9 @@ ActionController.prototype = Object.create(System.prototype);
 
 ActionController.prototype.doAction = function(value){
   var action = this.getAction(value);
-  window.gameState.gameController.units['castle'].gold -= action.cost;
+  if(action.cost){
+    window.gameState.gameController.units['castle'].gold -= action.cost;
+  }
   return this.actionMap[value]();
 }
 
@@ -120,13 +122,13 @@ ActionController.prototype.step = function(){
   $('.purchase').empty();
   this.actions.forEach(function(action){
     if(!action.cost){
-      $('.'+action.type).append('<button class="action">'+action.action+'</button><br>')
+      $('.'+action.type).append('<button class="btn btn-default btn-block action">'+action.action+'</button><br>')
     } else {
       if(window.gameState.gameController.units['castle'].money > action.cost){
-        $('.'+action.type).append('<button class="action">'+action.action+'</button><span> '+action.cost+' Gold</span><br>')
+        $('.'+action.type).append('<button class="btn btn-default btn-block action">'+action.action+'</button><span> '+action.cost+' Gold</span><br>')
       } 
       else {
-        $('.'+action.type).append('<button disabled="true">'+action.action+'</button><span>Not enough Gold</span><br>')
+        $('.'+action.type).append('<button class="btn btn-default btn-block" disabled="true">'+action.action+'</button><span>Not enough Gold</span><br>')
       }
     }
   })

@@ -13,6 +13,7 @@ Controller.prototype.constructor = Controller;
 Controller.prototype.init = function(){
   var self = this;
   this.units['domain'] = new Domain();
+
   this.on('step', function(){
     if(self.state === 'inside'){
       $('.step').prop('disabled', false);
@@ -30,11 +31,14 @@ Controller.prototype.init = function(){
       self.entropy();
       //this is last in case any of the above methods change available actions
       window.gameState.gameController.controllers['actions'].step();
+
+      // if you lose...
       if(self.checkLoseConditions()){
         $('.game').empty();
         $('.game').append('<h1 class="text-center">Your Kingdom Has Crumbled</h1><p class="text-center">Refresh to Play Again</p>');
         return;
       }
+
       if(self.state !== 'outside'){
         $('.units').empty();
         // append each unit to the html
@@ -50,22 +54,17 @@ Controller.prototype.init = function(){
           window.gameState.stage = 0;
         }
         window.gameState.actions = [];
-        $('.todo').empty();
+        // $('.todo').empty();
         //end step function
-        $('.action').on('click', function(){
-        var text = $(this).text();
-        if(window.gameState.actions.length < 2){
-          window.gameState.actions.push(text);
-          $('.todo').append('<li>'+text+'</li>');
-        }
+        listeners();
         $('.kingdom-heading').text('Level ' + window.gameState.gameController.level + ' Kingdom');
-        })
       }
     }
     if(self.state === 'outside'){
       window.gameState.gameController.views['explore'].render();
     }
   })
+
   this.on('render', function(){
     // append each unit to the html
     for(var unit in self.units){

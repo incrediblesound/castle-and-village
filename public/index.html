@@ -9,25 +9,30 @@
 </head>
 <body>
 	<div class="container">
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<h2>Castle and Village</h2>    
+			</div>
+		</div>
 		<div class="row game">
 			<div class="col-md-4">
 				<div class="row">
 					<h2 class="text-center">Actions</h2>
 					<div class="actions"></div>
 				</div>
-				<div class="row">
+				<!-- <div class="row">
 					<h2 class="text-center">Purchases</h2>
 					<div class="purchase"></div>
-				</div>
+				</div> -->
 			</div>
 			<div class="col-md-4">
-				<h1 class="text-center">Castle</h1>
+				<!-- <h1 class="text-center">Castle</h1>
 				<h2 class="text-center">and</h2>
 				<h1 class="text-center">Village</h1>
 				<p class='text-center'> - - </p>
 				<button class='btn btn-default btn-block step'>Go</button>
 				<ul class="todo">
-				</ul>
+				</ul> -->
 				<div class="center-block row middle">
 					<canvas width="340" height="180" id="map"></canvas>
 				</div>
@@ -61,6 +66,7 @@
 	<script type="text/javascript" src="./src/combatView.js"></script>
 	<script type="text/javascript" src="./src/exploreView.js"></script>
 	<script type="text/javascript" src="./src/mapView.js"></script>
+	<script type="text/javascript" src="./src/listeners.js"></script>
 <script type="text/javascript">
 window.gameState = {};
 window.gameState.actions = [];
@@ -85,22 +91,9 @@ window.gameState.gameController.controllers['combat'] = new CombatController();
 window.gameState.gameController.controllers['map'] = new MapController();
 
 $(function(){
+	listeners();
 	window.gameState.gameController.init()
 	window.gameState.gameController.trigger('step');
-  //load action on click and append to list
-
-  $('.step').on('click', function(){
-    $('.units').empty();
-    
-    //do all the actions
-    for(var i = 0; i < window.gameState.actions.length; i ++){
-      var action = window.gameState.actions[i];
-      window.gameState.gameController.controllers['actions'].doAction(action);
-    }
-
-    window.gameState.gameController.trigger('step');
-    
-  })
     $('.kingdom-heading').text('Level ' + window.gameState.gameController.level + ' Kingdom');
 })
 

@@ -2,7 +2,6 @@ var Castle = function(){
   System.call(this);
   this.money = 100;
   this.wizards = 0;
-  this.level = 1;
   this.masters = [];
   this.buildings = [];
   this.food = 40;

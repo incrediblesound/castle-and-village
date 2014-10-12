@@ -33,9 +33,7 @@ CombatController.prototype.init = function(){
   this.makeCombatArray()
 
   window.gameState.gameController.views['explore'].state = 'You encounter hostile ' + this.opponentArmy[0];
-  $('.units').empty();
-  $('.units').append(window.gameState.gameController.views['explore'].render());
-  $('.units').append(window.gameState.gameController.views['combat'].render());
+  this.render();
 }
 
 CombatController.prototype.fight = function(){
@@ -81,9 +79,7 @@ CombatController.prototype.fight = function(){
         alert('Your '+playerUnit.name+' recieved '+enemyUnit.attack+' damage from a '+enemyUnit.name+'.')
       }
     }
-    $('.units').empty();
-    $('.units').append(window.gameState.gameController.views['explore'].render());
-    $('.units').append(window.gameState.gameController.views['combat'].render());
+    self.render();
     self.fight();
     if(self.playerArray.length === 0){
     alert('you loose');
@@ -107,11 +103,12 @@ CombatController.prototype.fight = function(){
       } else {
         alert('Your '+playerUnit.name+' recieved '+enemyUnit.attack+' damage from a '+enemyUnit.name+'.')
       }
-      window.gameState.gameController.controllers['map'].state = "exploring";
-      window.gameState.gameController.views['explore'] = "Just barely escaped!";
       self.opponentArray = [];
       self.bounty.gold = 0;
+      // some message about escaping
+      // window.gameState.gameController.views['explore'] = "Just barely escaped!";
       $('.units').empty()
+      window.gameState.gameController.controllers['map'].state = "exploring";
       $('.units').append(window.gameState.gameController.views['explore'].render());
   })
 
@@ -146,4 +143,10 @@ CombatController.prototype.checkHistory = function(value){
   } else {
     return false;
   }
+}
+
+CombatController.prototype.render = function(){
+  $('.units').empty();
+  $('.units').append(window.gameState.gameController.views['explore'].render());
+  $('.units').append(window.gameState.gameController.views['combat'].render());
 }
