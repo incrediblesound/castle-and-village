@@ -65,16 +65,16 @@ var ActionController = function(){
 }
 
   this.actions = [
-    {action:'Go Questing', type: 'actions', cost: 0},
-    {action:'Hold a Festival', type: 'actions', cost: 25},
-    {action:'Clear a Field', type: 'actions', cost: 15},
-    {action:'Hire a Blacksmith', type: 'purchase', cost: 20},
-    {action:'Build a Granary', type: 'purchase', cost: 20},
-    {action:'Hire a Master Baker', type: 'purchase', cost: 10},
-    {action:'Collect Taxes', type: 'actions', cost: 0},
-    {action:'Plant a Vineyard', type: 'actions', cost: 30},
-    {action:'Build a Church', type: 'purchase', cost: 30},
-    {action:'Explore the Catacombs', type: 'actions', cost: 0}
+    // {action:'Go Questing', type: 'actions', cost: 0},
+    // {action:'Hold a Festival', type: 'actions', cost: 25},
+    {action:'Clear a Field', type: 'actions', cost: 0}
+    // {action:'Hire a Blacksmith', type: 'purchase', cost: 20},
+    // {action:'Build a Granary', type: 'purchase', cost: 20},
+    // {action:'Hire a Master Baker', type: 'purchase', cost: 10},
+    // {action:'Collect Taxes', type: 'actions', cost: 0},
+    // {action:'Plant a Vineyard', type: 'actions', cost: 30},
+    // {action:'Build a Church', type: 'purchase', cost: 30},
+    // {action:'Explore the Catacombs', type: 'actions', cost: 0}
   ];
 }
 

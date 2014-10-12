@@ -41,21 +41,24 @@ MilestoneController.prototype.executeMilestone = function(value){
 }
 
 MilestoneController.prototype.step = function(){
+  //begin level 1 milestones
+  if(window.gameState.gameController.level === 1){
+    if(window.gameState.gameController.units['castle'].hasMaster('Blacksmith') && window.gameState.gameController.units['domain'].vineyards > 0){
+      this.executeMilestone('Knights');
+    }
 
-  if(window.gameState.gameController.units['castle'].hasMaster('Blacksmith') && window.gameState.gameController.units['domain'].vineyards > 0){
-    this.executeMilestone('Knights');
-  }
+    if(window.gameState.gameController.units['village'].hasMaster('Baker') && window.gameState.gameController.units['village'].hasBuilding('Church')){
+      this.addToComplete('Provide');
+    }
 
-  if(window.gameState.gameController.units['village'].hasMaster('Baker') && window.gameState.gameController.units['village'].hasBuilding('Church')){
-    this.addToComplete('Provide');
-  }
-
-  if(this.isComplete('Provide') && this.isComplete('Knights')){
-    if(window.gameState.gameController.level < 2){
-      this.executeMilestone('Level2');
+    if(this.isComplete('Provide') && this.isComplete('Knights')){
+      if(window.gameState.gameController.level < 2){
+        this.executeMilestone('Level2');
+      }
+    }
+    if(window.gameState.gameController.units['castle'].hasMaster('Swordsman') && window.gameState.gameController.units['castle'].hasMaster('Cleric')){
+      this.executeMilestone('GrandMaster');
     }
   }
-  if(window.gameState.gameController.units['castle'].hasMaster('Swordsman') && window.gameState.gameController.units['castle'].hasMaster('Cleric')){
-    this.executeMilestone('GrandMaster');
-  }
+  //end level 1 milestones
 }

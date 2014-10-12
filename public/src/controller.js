@@ -1,7 +1,7 @@
 var Controller = function(){
   System.call(this);
   this.state = 'inside';
-  this.level = 1;
+  this.level = 0;
   this.units = {};
   this.controllers = {};
   this.views = {};
@@ -18,8 +18,8 @@ Controller.prototype.init = function(){
       $('.step').prop('disabled', false);
       $('.actions button').prop('disabled', false);
       $('.purchase button').prop('disabled', false);
-      window.gameState.controllers.milestones.step();
-      window.gameState.controllers.disasterController.step();
+      window.gameState.gameController.controllers['milestones'].step();
+      window.gameState.gameController.controllers['disasters'].step();
       // every game unit must step
       for(var unit in self.units){
         if(self.units.hasOwnProperty(unit)){
@@ -29,7 +29,7 @@ Controller.prototype.init = function(){
 
       self.entropy();
       //this is last in case any of the above methods change available actions
-      window.gameState.controllers.actionController.step();
+      window.gameState.gameController.controllers['actions'].step();
       if(self.checkLoseConditions()){
         $('.game').empty();
         $('.game').append('<h1 class="text-center">Your Kingdom Has Crumbled</h1><p class="text-center">Refresh to Play Again</p>');
@@ -58,12 +58,12 @@ Controller.prototype.init = function(){
           window.gameState.actions.push(text);
           $('.todo').append('<li>'+text+'</li>');
         }
-        $('.kingdom-heading').text('Level ' + window.gameState.units.castle.level + ' Kingdom');
+        $('.kingdom-heading').text('Level ' + window.gameState.gameController.level + ' Kingdom');
         })
       }
     }
     if(self.state === 'outside'){
-      window.gameState.units.exploreView.render();
+      window.gameState.gameController.views['explore'].render();
     }
   })
   this.on('render', function(){
@@ -76,8 +76,8 @@ Controller.prototype.init = function(){
   })
 
   this.on('combat', function(){
-    window.gameState.controllers.combatController.init();
-    window.gameState.controllers.combatController.fight();
+    window.gameState.gameController.controllers['combat'].init();
+    window.gameState.gameController.controllers['combat'].fight();
     $('.attack-select').on('click', function(){
       console.log(this);
     })
@@ -87,27 +87,35 @@ Controller.prototype.init = function(){
 
 Controller.prototype.entropy = function(){
   //feed the knights
-  if(window.gameState.units.castle.food < window.gameState.units.castle.knights){
-    window.gameState.units.castle.food = 0;
-    window.gameState.units.castle.knights -= 1;
-  } else {
-    window.gameState.units.castle.food -= window.gameState.units.barracks.knights;
+  if(window.gameState.gameController.units['castle'] !== undefined){
+    if(window.gameState.gameController.units['castle'].food < window.gameState.gameController.units['castle'].knights){
+      window.gameState.gameController.units['castle'].food = 0;
+      window.gameState.gameController.units['castle'].knights -= 1;
+    } else {
+      window.gameState.gameController.units['castle'].food -= window.gameState.gameController.units['barracks'].knights;
+    }
   }
   //if village food is below a threshold relative to village population bad things happen
-  if(window.gameState.units.village.food < (Math.round(window.gameState.units.village.population/5))){
-    window.gameState.units.village.population -= 10;
-    window.gameState.units.village.happiness -= 1;
-  }
-  if(window.gameState.units.village.population < (window.gameState.units.domain.fields * 3)){
-    window.gameState.controllers.disasterController.doDisaster('wilderness');
+  if(window.gameState.gameController.units['village'] !== undefined){
+    if(window.gameState.gameController.units['village'].food < (Math.round(window.gameState.gameController.units['village'].population/5))){
+      window.gameState.gameController.units['village'].population -= 10;
+      window.gameState.gameController.units['village'].happiness -= 1;
+    }
+    if(window.gameState.gameController.units['village'].population < (window.gameState.gameController.units['domain'].fields * 3)){
+      window.gameState.gameController.controllers['disaster'].doDisaster('wilderness');
+    }
   }
 }
 
 Controller.prototype.checkLoseConditions = function(){
-  if(window.gameState.units.village.happiness <= 0){
-    return true;
-  }
-  if(window.gameState.units.village.population < 10){
-    return true;
+  if(window.gameState.level > 0){
+    if(window.gameState.gameController.units['village'].happiness <= 0){
+      return true;
+    }
+    if(window.gameState.gameController.units['village'].population < 10){
+      return true;
+    }
+  } else {
+    return false;
   }
 }
