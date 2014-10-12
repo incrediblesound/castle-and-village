@@ -11,7 +11,7 @@ MapView.prototype = Object.create(System.prototype);
 MapView.prototype.init = function(map){
   this.Map = this.maps[map];
   this.Map.call(this);
-  window.gameState.units.exploreView.state = this.state;
+  window.gameState.gameController.views['explore'].state = this.state;
   this.render = this.Map.prototype.render;
 }
 

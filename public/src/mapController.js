@@ -187,8 +187,8 @@ MapController.prototype.drawGrid = function(){
 
 MapController.prototype.init = function(map){
   var self = this;
-  window.gameState.units.mapView.init(map);
-  this.playerLocation = window.gameState.units.mapView.playerLocation;
+  window.gameState.gameController.views['map'].init(map);
+  this.playerLocation = window.gameState.gameController.views['map'].playerLocation;
 
   $('.step').prop('disabled', true);
   $('.actions button').prop('disabled', true);
@@ -213,28 +213,28 @@ MapController.prototype.init = function(map){
 }
 
 MapController.prototype.goHome = function(){
-  var gold = window.gameState.controllers.combatController.bounty.gold
+  var gold = window.gameState.gameController.controllers['combat'].bounty.gold
   if(gold){
     window.gameState.units.castle.money += gold;
   }
-  var army = window.gameState.controllers.combatController.playerArray;
+  var army = window.gameState.gameController.controllers['combat'].playerArray;
   if(army){
     for(var i = 0; i < army.length; i++){
       if(army[i].name === 'knight'){
-        window.gameState.units.barracks.knights += 1;
+        window.gameState.gameController.units['barracks'].knights += 1;
       }
       if(army[i].name === 'cavalry'){
-        window.gameState.units.barracks.horses += 1;
+        window.gameState.gameController.units['barracks'].horses += 1;
       }
       if(army[i].name === 'wizard'){
-        window.gameState.units.castle.wizards += 1;
+        window.gameState.gameController.units['castle'].wizards += 1;
       }
     }
   }
   this.map.width = this.map.width;
   $('.middle').find(':first-child').remove();
-  window.gameState.controllers.gameController.state = 'inside';
-  window.gameState.controllers.gameController.trigger('step');
+  window.gameState.gameController.state = 'inside';
+  window.gameState.gameController.trigger('step');
 }
 
 MapController.prototype.changeState = function(state){
