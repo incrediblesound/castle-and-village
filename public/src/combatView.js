@@ -9,8 +9,8 @@ CombatView.prototype.render = function(){
   template.removeClass('template');
   template.addClass('box');
   //enemy is an array ['name', number]
-  var enemy = window.gameState.controllers.combatController.opponentArray;
-  var player = window.gameState.controllers.combatController.playerArray;
+  var enemy = window.gameState.gameController.controllers.combat.opponentArray;
+  var player = window.gameState.gameController.controllers.combat.playerArray;
   $(template.children()[0]).text('Encounter');
   for(var e = 0; e < enemy.length; e++){
     template.append('<p> Enemy: '+enemy[e].name+', Health: '+enemy[e].health+'</p>');

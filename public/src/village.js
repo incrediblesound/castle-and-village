@@ -1,10 +1,11 @@
 var Village = function() {
   System.call(this);
   this.stats = {
-    'Population': 1,
+    'Villagers': 1,
+    'Huts': 1,
     'Food': 0,
-    'Happiness':0,
-    'Vitality':0
+    // 'Happiness':0,
+    // 'Vitality':0
   }
   this.growth = 0.1;
   this.masters = [];

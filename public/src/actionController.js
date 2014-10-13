@@ -4,6 +4,22 @@ var ActionController = function(){
   var self = this;
 
   this.actionMap = {
+    'Build a Hut': function(){
+      if(window.gameState.gameController.units['village'] === undefined){
+        window.gameState.gameController.executeMilestone('FirstHut');
+      } else {
+        window.gameState.gameController.units['village'].stats['Huts'] += 1;
+        window.gameState.gameController.villagers(2);
+      }
+    },
+    'Explore the Forest': function(){
+      window.gameState.gameController.initMap('forest');
+    },
+    'Build a Wall': function(){
+      //message
+      window.gameState.gameController.executeMilestone('WalledIn');
+      self.removeAction('Build a Wall');
+    },
     'Train a Grand Master': function(){
       window.gameState.gameController.units['barracks'].stats['knights']-= 1;
       window.gameState.gameController.units['barracks'].stats['gMasters'] += 1;
@@ -14,13 +30,11 @@ var ActionController = function(){
     },
     'Go Questing': function(){
       window.gameState.gameController.controllers['combat'] = new CombatController();
-      window.gameState.gameController.controllers['mapController'].init('domain');
-      window.gameState.gameController.state = 'outside';
+      window.gameState.gameController.initMap('domain');
     },
     'Explore the Catacombs': function(){
       window.gameState.gameController.controllers['combat'] = new CombatController();
-      window.gameState.gameController.controllers['map'].init('catacombs');
-      window.gameState.gameController.state = 'outside';
+      window.gameState.gameController.initMap('catacombs');
     },
     'Build Stables': function(){
       self.removeAction('Build Stables');
@@ -49,7 +63,7 @@ var ActionController = function(){
     'Clear a Field': function(){
       var success = window.gameState.gameController.units['domain'].makeField();
       if(success){
-        window.gameState.gameController.changePopulation(2);
+        window.gameState.gameController.peasants(3);
       }
     },
     'Train a War Horse': function(){
@@ -70,12 +84,10 @@ var ActionController = function(){
   this.actions = [
     // {action:'Go Questing', type: 'actions', cost: 0},
     // {action:'Hold a Festival', type: 'actions', cost: 25},
-    {action:'Clear a Field', type: 'actions', cost: 0}
-    // {action:'Hire a Blacksmith', type: 'purchase', cost: 20},
-    // {action:'Build a Granary', type: 'purchase', cost: 20},
+    {action:'Clear a Field', type: 'actions', cost: 0},
+    {action:'Explore the Forest', type: 'actions', cost: 0}
     // {action:'Hire a Master Baker', type: 'purchase', cost: 10},
     // {action:'Collect Taxes', type: 'actions', cost: 0},
-    // {action:'Plant a Vineyard', type: 'actions', cost: 30},
     // {action:'Build a Church', type: 'purchase', cost: 30},
     // {action:'Explore the Catacombs', type: 'actions', cost: 0}
   ];
@@ -93,6 +105,12 @@ ActionController.prototype.doAction = function(value){
 
 ActionController.prototype.addAction = function(value){
   var actionStore = {
+    'forest': {action:'Explore the Forest', type: 'actions', cost: 0},
+    'granary': {action:'Build a Granary', type: 'purchase', cost: 20},
+    'blacksmith': {action:'Hire a Blacksmith', type: 'purchase', cost: 20},
+    'vineyard': {action:'Plant a Vineyard', type: 'actions', cost: 30},
+    'wall': {action: 'Build a Wall', type: 'actions', cost: 0},
+    'hut': {action: 'Build a Hut', type: 'actions', cost: 0},
     'warhorse': {action:'Train a War Horse', type: 'purchase', cost: 20},
     'grandmaster': {action:'Train a Grand Master', type: 'actions', cost: 30},
     'swordsman': {action:'Hire a Swordsman', type: 'actions', cost: 30},

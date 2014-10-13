@@ -3,6 +3,7 @@ var Domain = function(){
   this.stats = {
     'Fields': 0,
     'Forests': 10,
+    'Peasants': 0,
     // 'mountains': 3,
     // 'lakes': 2,
     'Mineyards': 0,

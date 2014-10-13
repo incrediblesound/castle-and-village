@@ -120,11 +120,35 @@ Controller.prototype.checkLoseConditions = function(){
 }
 
 Controller.prototype.getStat = function(unit, property){
-  return this.units[unit].stats[property];
+  if(this.units[unit]){
+    return this.units[unit].stats[property];
+  } else {
+    return false;
+  }
 }
 
-Controller.prototype.changePopulation = function(val){
+Controller.prototype.villagers = function(val){
   if(this.units.village){
-    this.units.village.stats.Population += val;
+    this.units.village.stats.Villagers += val;
   }
+}
+
+Controller.prototype.addAction = function(value){
+  this.controllers.actions.addAction(value);
+}
+
+Controller.prototype.executeMilestone = function(value){
+  this.controllers.milestones.executeMilestone(value);
+}
+
+Controller.prototype.message = function(text){
+  $('#message').text(text);
+}
+
+Controller.prototype.peasants = function(val){
+  this.units.domain.stats.Peasants += val;
+}
+
+Controller.prototype.initMap = function(map){
+  this.controllers.map.init(map);
 }

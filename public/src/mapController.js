@@ -32,31 +32,37 @@ MapController.prototype = Object.create(System.prototype);
 
 MapController.prototype.drawUnits = function(){
   $('.units').empty();
-  $('.units').append(window.gameState.units.exploreView.render());
+  $('.units').append(window.gameState.gameController.views['explore'].render());
   var self = this;
   this.drawGrid();
   this.context.font = "bold 12px sans-serif";
 
   var x = this.context.fillText("X", this.playerLocation.x, this.playerLocation.y);
 
-  window.gameState.units.mapView.render();
+  window.gameState.gameController.views.map.render();
 
-  for(var obj in window.gameState.units.mapView.objects){
+  for(var obj in window.gameState.gameController.views.map.objects){
+    var self = this;
     if(obj === 'tree'){
-      for(var i = 0; i < window.gameState.units.mapView.objects[obj].length; i++){
-        var co = window.gameState.units.mapView.objects[obj][i];
-        this.context.fillText("*", co[0], co[1]);
+      var tree = new Image();
+      tree.src = "img/tree.png";
+      tree.onload = function(){
+        for(var i = 0; i < window.gameState.gameController.views.map.objects[obj].length; i++){
+          var co = window.gameState.gameController.views.map.objects[obj][i];
+          self.context.drawImage(tree, co[0], co[1], 17, 19);
+          console.log('tree');
+        }
       }
     }
     else if(obj === 'mount'){
-      for(var i = 0; i < window.gameState.units.mapView.objects[obj].length; i++){
-        var co = window.gameState.units.mapView.objects[obj][i];
+      for(var i = 0; i < window.gameState.gameController.views.map.objects[obj].length; i++){
+        var co = window.gameState.gameController.views.map.objects[obj][i];
         this.context.fillText("M", co[0], co[1]);
       }  
     }
     else if(obj === 'fill'){
-      for(var i = 0; i < window.gameState.units.mapView.objects[obj].length; i++){
-        var co = window.gameState.units.mapView.objects[obj][i];
+      for(var i = 0; i < window.gameState.gameController.views.map.objects[obj].length; i++){
+        var co = window.gameState.gameController.views.map.objects[obj][i];
         this.context.fillRect(co[0], co[1], 20, 20);
       }  
     }
@@ -68,8 +74,8 @@ MapController.prototype.checkCollision = function(unit){
     return 'battle';
   }
   var result = false, obstruct, thing, distance;
-  for(obj in window.gameState.units.mapView.objects){
-    var obstruct = window.gameState.units.mapView.objects[obj];
+  for(obj in window.gameState.gameController.views.map.objects){
+    var obstruct = window.gameState.gameController.views.map.objects[obj];
     for(var i = 0; i < obstruct.length; i++){
       thing = obstruct[i];
       distance = [this.playerLocation.x - thing[0], this.playerLocation.y - thing[1]];
@@ -86,7 +92,7 @@ MapController.prototype.checkCollision = function(unit){
       return;
     }
     this.changeState("fighting")
-    window.gameState.controllers.gameController.trigger('combat');
+    window.gameState.gameController.trigger('combat');
     return 'battle';
   }
   return result;
@@ -187,13 +193,12 @@ MapController.prototype.drawGrid = function(){
 
 MapController.prototype.init = function(map){
   var self = this;
+  window.gameState.gameController.state = 'outside';
   window.gameState.gameController.views['map'].init(map);
   this.playerLocation = window.gameState.gameController.views['map'].playerLocation;
 
-  $('.step').prop('disabled', true);
   $('.actions button').prop('disabled', true);
   $('.purchase button').prop('disabled', true);
-  $('.middle').prepend('<h3 class="text-center">Domain</h3>');
   $(document).on('keypress', function(event){
     event.stopImmediatePropagation();
     if(event.which === 119){
@@ -215,11 +220,14 @@ MapController.prototype.init = function(map){
 MapController.prototype.goHome = function(){
   var gold = window.gameState.gameController.controllers['combat'].bounty.gold
   if(gold){
-    window.gameState.units.castle.money += gold;
+    window.gameState.gameController.units.castle.money += gold;
   }
   var army = window.gameState.gameController.controllers['combat'].playerArray;
   if(army){
     for(var i = 0; i < army.length; i++){
+      if(army[i].name === 'peasant'){
+        window.gameState.gameController.peasants(1);
+      }
       if(army[i].name === 'knight'){
         window.gameState.gameController.units['barracks'].knights += 1;
       }

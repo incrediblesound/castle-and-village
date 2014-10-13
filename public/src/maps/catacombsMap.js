@@ -1,5 +1,7 @@
 var CatacombsMap = function(){
 
+  this.name = 'Catacombs'
+
   this.playerLocation = {
     x: 325,
     y: 95

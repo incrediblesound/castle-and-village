@@ -4,7 +4,9 @@ var CombatController = function(){
     knights: function(){ return {name: 'knight', health: 4, attack: 2} },
     cavalry: function(){ return {name: 'cavalry', health: 5, attack: 3} },
     wizards: function(){ return {name: 'wizard', health: 2, attack: 4} },
-    gMasters: function(){ return {name: 'Grand Master', health: 5, attack: 4}}
+    peasants: function(){ return {name: 'peasant', health: 2, attack: 1}},
+    gMasters: function(){ return {name: 'Grand Master', health: 5, attack: 4}},
+    wolves: function(){ return {name: 'Wolf', health: 1, attack: 1}}
   }
   this.hitAbove = 11;
   this.combatHistory = [];
@@ -18,7 +20,12 @@ var CombatController = function(){
 
 CombatController.prototype.init = function(){
   // hard-coded player army - this should be improved in later iterations
-  if(!this.playerArmy){
+  if(!this.playerArmy && window.gameState.gameController.level === 0){
+    this.playerArmy = {
+      peasants: window.gameState.gameController.getStat('domain', 'Peasants') - 2
+    }
+  }
+  else if(!this.playerArmy && window.gameState.gameController.level > 1){
     this.playerArmy = {
       knights: window.gameState.gameController.units['barracks'].knights - 2,
       cavalry: window.gameState.gameController.units['barracks'].horses,
@@ -33,7 +40,7 @@ CombatController.prototype.init = function(){
   this.opponentArmy = window.gameState.gameController.views['map'].getEnemies();
   this.makeCombatArray()
 
-  window.gameState.gameController.views['explore'].state = 'You encounter hostile ' + this.opponentArmy[0];
+  window.gameState.gameController.views['explore'].state = 'An encounter!';
   this.render();
 }
 
@@ -60,7 +67,7 @@ CombatController.prototype.fight = function(){
     playerUnit = self.playerArray[playerIndex];
     var enemyIndex = randomEnemy(); // choose which opponent
     enemyUnit = self.opponentArray[enemyIndex];
-    if(roll > this.hitAbove) {
+    if(roll > self.hitAbove) {
       enemyUnit.health -= playerUnit.attack;
       self.combatHistory.push('player');
       if(enemyUnit.health <= 0){
@@ -116,11 +123,14 @@ CombatController.prototype.fight = function(){
 }
 
 CombatController.prototype.makeCombatArray = function(){
+  debugger;
   var unit;
-  $.each(this.opponentArmy, function(unitData){
+  var types = this.unitTypes;
+  var opponents = this.opponentArray
+  forEach(this.opponentArmy, function(unitData){
+    unit = types[unitData[0]]();
     for(var i = 0; i < unitData[1]; i++){
-      unit = this.unitTypes[unit[0]]();
-      this.opponentArray.push(unit);
+      opponents.push(unit);
     }
   })
   if(!this.playerArray.length){
@@ -150,4 +160,10 @@ CombatController.prototype.render = function(){
   $('.units').empty();
   $('.units').append(window.gameState.gameController.views['explore'].render());
   $('.units').append(window.gameState.gameController.views['combat'].render());
+}
+
+function forEach(array, fn){
+  for(var i = 0, l = array.length; i < l; i++){
+    fn(array[i]);
+  }
 }
