@@ -75,5 +75,4 @@ Village.prototype.step = function(){
   //   harvest = harvest - claimed;
   //   window.gameState.gameController.units['castle'].food += claimed;
   //   window.gameState.gameController.units['village'].food += harvest;
-  }
 }
