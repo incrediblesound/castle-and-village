@@ -14,6 +14,11 @@ var MilestoneController = function(){
     'TwoHuts': function(){
       window.gameState.gameController.addAction('forest');
     },
+    'GatherWood': function(){
+      window.gameState.gameController.addAction('wall');
+      window.gameState.gameController.removeAction('Explore the Forest');
+      window.gameState.gameController.message('The wolves no longer bother the peasants when they go out to gather wood.')
+    },
     'WalledIn': function(){
       window.gameState.gameController.addAction('granary');
       window.gameState.gameController.addAction('blacksmith');
@@ -30,7 +35,7 @@ var MilestoneController = function(){
       window.gameState.gameController.units['village'].energy += 1;
     },
     'Level2': function(){
-      window.gameState.gameController.level += 1;
+      window.gameState.gameController.level = 2;
       window.gameState.gameController.units['castle'].money += 60;
       window.gameState.gameController.addAction('stables');
       window.gameState.gameController.addAction('cleric');
@@ -58,17 +63,20 @@ MilestoneController.prototype.executeMilestone = function(value){
 
 MilestoneController.prototype.step = function(){
   // level 0 milestones
-  if(window.gameState.gameController.level === 0){
+  if(window.gameState.gameController.stats.level === 0){
     if(window.gameState.gameController.getStat('domain','Peasants') > 6){
       this.executeMilestone('SixPeasants');
     }
     if(window.gameState.gameController.getStat('village','Huts') > 1){
       this.executeMilestone('TwoHuts');
     }
+    if(window.gameState.gameController.stats.wolves > 5){
+      this.executeMilestone('GatherWood');
+    }
   }
   // end level 0 milestones
   // level 1 milestones
-  if(window.gameState.gameController.level === 1){
+  if(window.gameState.gameController.stats.level === 1){
     if(window.gameState.gameController.units['castle'].hasMaster('Blacksmith') && window.gameState.gameController.units['domain'].vineyards > 0){
       this.executeMilestone('Knights');
     }
@@ -78,7 +86,7 @@ MilestoneController.prototype.step = function(){
     }
 
     if(this.isComplete('Provide') && this.isComplete('Knights')){
-      if(window.gameState.gameController.level < 2){
+      if(window.gameState.gameController.stats.level < 2){
         this.executeMilestone('Level2');
       }
     }

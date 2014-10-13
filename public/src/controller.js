@@ -1,7 +1,10 @@
 var Controller = function(){
   System.call(this);
   this.state = 'inside';
-  this.level = 0;
+  this.stats = {
+    level: 0,
+    wolves: 0
+  }
   this.units = {};
   this.controllers = {};
   this.views = {};
@@ -57,7 +60,7 @@ Controller.prototype.init = function(){
         // $('.todo').empty();
         //end step function
         listeners();
-        $('.kingdom-heading').text('Level ' + window.gameState.gameController.level + ' Kingdom');
+        $('.kingdom-heading').text('Level ' + window.gameState.gameController.stats.level + ' Kingdom');
       }
     }
     if(self.state === 'outside'){
@@ -107,7 +110,7 @@ Controller.prototype.entropy = function(){
 }
 
 Controller.prototype.checkLoseConditions = function(){
-  return (window.gameState.level > 0) &&
+  return (window.gameState.gameController.stats.level > 0) &&
   ((window.gameState.gameController.getStat('village','Happiness') <= 0) ||
    (window.gameState.gameController.getStat('village', 'Population') < 10))
 }
@@ -124,6 +127,10 @@ Controller.prototype.villagers = function(val){
 
 Controller.prototype.addAction = function(value){
   this.controllers.actions.addAction(value);
+}
+
+Controller.prototype.removeAction = function(value){
+  this.controllers.actions.removeAction(value);
 }
 
 Controller.prototype.executeMilestone = function(value){

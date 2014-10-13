@@ -14,6 +14,7 @@ var ActionController = function(){
       }
     },
     'Explore the Forest': function(){
+      window.gameState.gameController.controllers['combat'] = new CombatController();
       window.gameState.gameController.initMap('forest');
     },
     'Build a Wall': function(){

@@ -44,7 +44,7 @@ DisasterController.prototype.doDisaster = function(name){
 DisasterController.prototype.step = function(){
   var num = Math.floor(Math.random()*10);
     if(num < 2){
-      var disasters = this.disasters[window.gameState.gameController.level];
+      var disasters = this.disasters[window.gameState.gameController.stats.level];
       if(disasters.length > 0){
         var select = Math.floor(Math.random()*disasters.length);
         disasters[select]();

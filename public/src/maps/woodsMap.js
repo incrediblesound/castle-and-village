@@ -16,7 +16,7 @@ var ForestMap = function(){
     x: 325,
     y: 175
   }
-  this.state = 'Exploring your domain...'
+  this.state = 'The woods are dark and deep...'
   this.winMessage = "The wolves scatter, awed by your might!"
 }
 

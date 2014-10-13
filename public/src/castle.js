@@ -27,7 +27,7 @@ Castle.prototype.addBuilding = function(value){
 }
 
 Castle.prototype.step = function(){
-  $('.kingdom-heading').text('Level ' + this.level + ' Kingdom');
+
 }
 
 Castle.prototype.render = function(){

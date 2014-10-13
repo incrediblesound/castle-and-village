@@ -219,9 +219,14 @@ MapController.prototype.init = function(map){
 }
 
 MapController.prototype.goHome = function(){
-  var gold = window.gameState.gameController.controllers['combat'].bounty.gold
-  if(gold){
-    window.gameState.gameController.units.castle.money += gold;
+  var bounty = window.gameState.gameController.controllers.combat.bounty;
+  for(prize in bounty){
+    if(bounty.hasOwnProperty(prize)){
+      if(prize === 'wolves'){
+        window.gameState.gameController.stats.wolves += bounty['wolves'];
+      }
+      //if prize === gold add gold to castle
+    }
   }
   var army = window.gameState.gameController.controllers['combat'].playerArray;
   if(army){

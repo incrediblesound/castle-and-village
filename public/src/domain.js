@@ -15,7 +15,9 @@ Domain.prototype = Object.create(System.prototype);
 Domain.prototype.constructor = Domain;
 
 Domain.prototype.step = function(){
-  if(window.gameState.gameController.level === 0 && window.gameState.gameController.milestoneIsComplete('FirstHut')){
+  if(window.gameState.gameController.stats.level === 0 
+    && window.gameState.gameController.milestoneIsComplete('FirstHut')
+    && !window.gameState.gameController.milestoneIsComplete('GatherWood')){
     setTimeout(function(){
       window.gameState.gameController.message('The peasants can\'t gather wood because there are wolves in the forest.')
     }, 2000)

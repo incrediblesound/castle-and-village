@@ -1,7 +1,6 @@
 var Barracks = function(){
   System.call(this);
   this.knights = 4;
-  this.level = 0;
   this.horses = 2;
   this.gMasters = 0;
 }

@@ -1,39 +1,41 @@
 var CombatController = function(){
   this.unitTypes = {
-    bandits: function(){ return {name: 'bandit', health: 4, attack: 1, gold: 5} },
+    bandits: function(){ return {name: 'bandit', health: 4, attack: 1, bounty:['gold',5]} },
     knights: function(){ return {name: 'knight', health: 4, attack: 2} },
     cavalry: function(){ return {name: 'cavalry', health: 5, attack: 3} },
     wizards: function(){ return {name: 'wizard', health: 2, attack: 4} },
     peasants: function(){ return {name: 'peasant', health: 2, attack: 1}},
     gMasters: function(){ return {name: 'Grand Master', health: 5, attack: 4}},
-    wolves: function(){ return {name: 'Wolf', health: 1, attack: 1}}
+    wolves: function(){ return {name: 'Wolf', health: 1, attack: 1, bounty: ['wolves',1]}}
   }
   this.hitAbove = 11;
   this.combatHistory = [];
   this.playerArray = [];
   this.opponentArray = [];
-  this.bounty = {
-    gold: 0,
-    treasures: []
-  }
+  this.bounty = {}
 }
 
 CombatController.prototype.init = function(){
   // hard-coded player army - this should be improved in later iterations
-  if(!this.playerArmy && window.gameState.gameController.level === 0){
+  if(!this.playerArmy && window.gameState.gameController.stats.level === 0){
+    //at level 0, make a peasant army and set bounty to wolves
     this.playerArmy = {
       peasants: window.gameState.gameController.getStat('domain', 'Peasants') - 2
     }
+    this.bounty.wolves = 0;
+    window.gameState.gameController.units['domain'].stats.Peasants = 2;
   }
-  else if(!this.playerArmy && window.gameState.gameController.level > 1){
+  else if(!this.playerArmy && window.gameState.gameController.stats.level > 1){
+    // at level 1, make army of knights and cavalry and set bounty to gold
     this.playerArmy = {
       knights: window.gameState.gameController.units['barracks'].knights - 2,
       cavalry: window.gameState.gameController.units['barracks'].horses,
-      wizards: window.gameState.gameController.units['castle'].wizards
+      // wizards: window.gameState.gameController.units['castle'].wizards
     };
+    this.bounty.gold = 0;
     window.gameState.gameController.units['barracks'].knights = 2;
     window.gameState.gameController.units['barracks'].horses = 0;
-    window.gameState.gameController.units['castle'].wizards = 0;
+    // window.gameState.gameController.units['castle'].wizards = 0;
   }
   //this.playerTotal = this.playerArmy.knights + this.playerArmy.cavalry + this.playerArmy.wizards;
 
@@ -72,7 +74,8 @@ CombatController.prototype.fight = function(){
       self.combatHistory.push('player');
       if(enemyUnit.health <= 0){
         self.opponentArray.splice(enemyIndex, 1);
-        self.bounty.gold += enemyUnit.gold;
+        var prize = enemyUnit.bounty;
+        self.bounty[prize[0]] += prize[1];
         alert('Your '+playerUnit.name+' killed a '+enemyUnit.name+'.');
       } else {
         alert('Your '+playerUnit.name+' did '+playerUnit.attack+' damage to a '+enemyUnit.name+'.')
@@ -92,6 +95,8 @@ CombatController.prototype.fight = function(){
       window.gameState.gameController.controllers.map.goHome();
     } 
     else if(self.opponentArray.length === 0) {
+      $('.units').empty();
+      $('.units').append(window.gameState.gameController.views['explore'].render());
       window.gameState.gameController.controllers.map.changeState("exploring");
       alert(window.gameState.gameController.views.map.winMessage);
     } else {
@@ -112,9 +117,9 @@ CombatController.prototype.fight = function(){
         alert('Your '+playerUnit.name+' recieved '+enemyUnit.attack+' damage from a '+enemyUnit.name+'.')
       }
       self.opponentArray = [];
-      self.bounty.gold = 0;
-      // some message about escaping
-      // window.gameState.gameController.views['explore'] = "Just barely escaped!";
+      //custom loss for each map?
+      //self.bounty.gold = 0;
+      window.gameState.gameController.message("Just barely escaped!")
       $('.units').empty()
       window.gameState.gameController.controllers['map'].state = "exploring";
       $('.units').append(window.gameState.gameController.views['explore'].render());

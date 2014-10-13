@@ -10,7 +10,9 @@ ExploreView.prototype.render = function(){
   template.addClass('box castle');
   $(template.children()[0]).text('Exploring');
   template.append('<p>'+this.state+'</p>');
-  // template.append('<p> Gold: '+window.gameState.controllers.combatController.bounty.gold+' pcs</p>');
-  // template.append('<p> Treasures: '+window.gameState.controllers.combatController.bounty.treasures.join(' ')+'</p>');
+  var bounty = window.gameState.gameController.controllers.combat.bounty;
+  for(unit in bounty){
+  	template.append('<p>'+unit+': '+bounty[unit]+'</p>');
+  }
   return template;
 }
