@@ -5,8 +5,8 @@ var ActionController = function(){
 
   this.actionMap = {
     'Train a Grand Master': function(){
-      window.gameState.gameController.units['barracks'].knights -= 1;
-      window.gameState.gameController.units['barracks'].gMasters += 1;
+      window.gameState.gameController.units['barracks'].stats['knights']-= 1;
+      window.gameState.gameController.units['barracks'].stats['gMasters'] += 1;
     },
     'Hire a Cleric': function(){
       window.gameState.gameController.units['castle'].addMaster('Cleric');
@@ -56,7 +56,7 @@ var ActionController = function(){
       window.gameState.gameController.units['barracks'].horses += 1;
     },
     'Hire a Blacksmith': function(){
-      window.gameState.gameController.units['castle'].masters.push('Blacksmith');
+      window.gameState.gameController.units['castle'].addMaster('Blacksmith');
       self.removeAction('Hire a Blacksmith');
     },
     'Collect Taxes': function(){

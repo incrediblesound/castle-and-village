@@ -15,6 +15,13 @@ button.step {
 	margin-bottom: 8px;
 }
 
+.timer {
+	background-color: black;
+	height: 20px;
+	width: 0;
+	margin: 10px;
+}
+
 button.action {
 	margin-bottom: 5px;
 }
