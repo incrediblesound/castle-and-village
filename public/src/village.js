@@ -60,20 +60,20 @@ Village.prototype.render = function(){
 Village.prototype.step = function(){
 
   //increment population every cycle of three
-  if(window.gameState.stage % 3 === 0){
-    this.population += Math.round(this.population * this.growth);
-  }
+  // if(window.gameState.stage % 3 === 0){
+  //   this.population += Math.round(this.population * this.growth);
+  // }
 
-  //harvest time
-  if(window.gameState.stage % 12 === 0){
-    var harvest = (this.energy * window.gameState.gameController.units['domain'].fields);
+  // //harvest time
+  // if(window.gameState.stage % 12 === 0){
+  //   var harvest = (this.energy * window.gameState.gameController.units['domain'].fields);
 
-    var claimed = parseInt(prompt('The harvest was ' + harvest + ' units. How much will you claim?'));
-    if(claimed > Math.floor(harvest/2)){
-      this.stats['Happiness'] -= 1;
-    }
-    harvest = harvest - claimed;
-    window.gameState.gameController.units['castle'].food += claimed;
-    window.gameState.gameController.units['village'].food += harvest;
+  //   var claimed = parseInt(prompt('The harvest was ' + harvest + ' units. How much will you claim?'));
+  //   if(claimed > Math.floor(harvest/2)){
+  //     this.stats['Happiness'] -= 1;
+  //   }
+  //   harvest = harvest - claimed;
+  //   window.gameState.gameController.units['castle'].food += claimed;
+  //   window.gameState.gameController.units['village'].food += harvest;
   }
 }

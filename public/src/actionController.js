@@ -48,6 +48,7 @@ var ActionController = function(){
     },
     'Clear a Field': function(){
       window.gameState.gameController.units['domain'].makeField();
+      window.gameState.gameController.changePopulation(2);
     },
     'Train a War Horse': function(){
       window.gameState.gameController.units['barracks'].horses += 1;
