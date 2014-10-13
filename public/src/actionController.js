@@ -47,8 +47,10 @@ var ActionController = function(){
       window.gameState.gameController.units['village'].festival();
     },
     'Clear a Field': function(){
-      window.gameState.gameController.units['domain'].makeField();
-      window.gameState.gameController.changePopulation(2);
+      var success = window.gameState.gameController.units['domain'].makeField();
+      if(success){
+        window.gameState.gameController.changePopulation(2);
+      }
     },
     'Train a War Horse': function(){
       window.gameState.gameController.units['barracks'].horses += 1;

@@ -17,6 +17,7 @@ var CombatController = function(){
 }
 
 CombatController.prototype.init = function(){
+  // hard-coded player army - this should be improved in later iterations
   if(!this.playerArmy){
     this.playerArmy = {
       knights: window.gameState.gameController.units['barracks'].knights - 2,

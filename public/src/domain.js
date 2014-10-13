@@ -21,6 +21,9 @@ Domain.prototype.makeField = function(){
   if(this.stats['Forests'] > 0){
     this.stats['Fields'] += 1;
     this.stats['Forests'] -= 1;
+    return true;
+  } else {
+    return false;
   }
 }
 
