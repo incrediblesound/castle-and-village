@@ -107,24 +107,13 @@ Controller.prototype.entropy = function(){
 }
 
 Controller.prototype.checkLoseConditions = function(){
-  if(window.gameState.level > 0){
-    if(window.gameState.gameController.getStat('village','Happiness') <= 0){
-      return true;
-    }
-    if(window.gameState.gameController.getStat('village', 'Population') < 10){
-      return true;
-    }
-  } else {
-    return false;
-  }
+  return (window.gameState.level > 0) &&
+  ((window.gameState.gameController.getStat('village','Happiness') <= 0) ||
+   (window.gameState.gameController.getStat('village', 'Population') < 10))
 }
 
 Controller.prototype.getStat = function(unit, property){
-  if(this.units[unit]){
-    return this.units[unit].stats[property];
-  } else {
-    return false;
-  }
+  return (this.units[unit]) ? this.units[unit].stats[property] : false;
 }
 
 Controller.prototype.villagers = function(val){

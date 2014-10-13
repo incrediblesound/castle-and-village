@@ -12,13 +12,18 @@ var ForestMap = function(){
     x: 305,
     y: 175
   }
+  this.homeLocation = {
+    x: 325,
+    y: 175
+  }
   this.state = 'Exploring your domain...'
+  this.winMessage = "The wolves scatter, awed by your might!"
 }
 
 ForestMap.prototype.render = function(){
-  // var castle = new Image();
-  // castle.src = 'img/castle.jpeg';
-  // castle.onload = function() {
-  //   window.gameState.controllers.mapController.context.drawImage(castle, 320, 160);
-  // };
+  var hut = new Image();
+  hut.src = 'img/hut.png';
+  hut.onload = function() {
+    window.gameState.gameController.controllers.map.context.drawImage(hut, 320, 160);
+  };
 }

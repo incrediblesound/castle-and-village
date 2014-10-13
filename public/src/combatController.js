@@ -91,12 +91,12 @@ CombatController.prototype.fight = function(){
     self.fight();
     if(self.playerArray.length === 0){
     alert('you loose');
-    window.gameState.controllers.mapController.goHome();
+    window.gameState.gameController.controllers.map.goHome();
 
     } 
     else if(self.opponentArray.length === 0) {
-    window.gameState.controllers.mapController.changeState("exploring");
-    alert('You defeated the bandits and collected '+self.bounty.gold+' gold pieces.');
+    window.gameState.gameController.controllers.map.changeState("exploring");
+    alert(window.gameState.gameController.views.map.winMessage);
     }
   })
   $('#flee').on('click', function(){

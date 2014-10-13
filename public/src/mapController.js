@@ -90,10 +90,11 @@ MapController.prototype.checkCollision = function(unit){
     if(this.priorState === 'fighting'){
       this.changeState('exploring');
       return;
+    } else {
+      this.changeState("fighting")
+      window.gameState.gameController.trigger('combat');
+      return 'battle';
     }
-    this.changeState("fighting")
-    window.gameState.gameController.trigger('combat');
-    return 'battle';
   }
   return result;
 }
@@ -112,7 +113,7 @@ MapController.prototype.playerMoveUp = function(){
   }
   else if(!collision || collision.onSide !== 'below'){
     this.playerLocation.y -= 20;
-    if(this.playerLocation.x === 325 && this.playerLocation.y === 175){
+    if(this.playerLocation === this.homeLocation){
       this.goHome();
     }
     else {
