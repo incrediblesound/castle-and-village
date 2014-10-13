@@ -131,7 +131,21 @@ Controller.prototype.executeMilestone = function(value){
 }
 
 Controller.prototype.message = function(text){
-  $('#message').text(text);
+  var $msg = $('#message');
+  var children = $msg.children();
+  if(!children.length){
+    $msg.prepend('<p>'+text+'</p>');
+  }
+  else if(children[0].textContent !== text){
+    $msg.prepend('<p>'+text+'</p>'); 
+  }
+  if(children.length > 2){
+    children[2].remove();
+  }
+  if(children.length > 0){
+    $(children[0]).fadeTo(0,0.6);
+    $(children[1]).fadeTo(0,0.4);
+  }
 }
 
 Controller.prototype.peasants = function(val){
@@ -140,4 +154,8 @@ Controller.prototype.peasants = function(val){
 
 Controller.prototype.initMap = function(map){
   this.controllers.map.init(map);
+}
+           
+Controller.prototype.milestoneIsComplete = function(milestone){
+  return this.controllers.milestones.isComplete(milestone);
 }

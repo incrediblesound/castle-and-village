@@ -87,16 +87,16 @@ CombatController.prototype.fight = function(){
         alert('Your '+playerUnit.name+' recieved '+enemyUnit.attack+' damage from a '+enemyUnit.name+'.')
       }
     }
-    self.render();
-    self.fight();
     if(self.playerArray.length === 0){
-    alert('you loose');
-    window.gameState.gameController.controllers.map.goHome();
-
+      alert('you loose');
+      window.gameState.gameController.controllers.map.goHome();
     } 
     else if(self.opponentArray.length === 0) {
-    window.gameState.gameController.controllers.map.changeState("exploring");
-    alert(window.gameState.gameController.views.map.winMessage);
+      window.gameState.gameController.controllers.map.changeState("exploring");
+      alert(window.gameState.gameController.views.map.winMessage);
+    } else {
+      self.render();
+      self.fight();
     }
   })
   $('#flee').on('click', function(){

@@ -9,6 +9,7 @@ var ActionController = function(){
         window.gameState.gameController.executeMilestone('FirstHut');
       } else {
         window.gameState.gameController.units['village'].stats['Huts'] += 1;
+        window.gameState.gameController.message('Peasants takes shelter in the new hut.')
         window.gameState.gameController.villagers(2);
       }
     },
@@ -63,6 +64,7 @@ var ActionController = function(){
     'Clear a Field': function(){
       var success = window.gameState.gameController.units['domain'].makeField();
       if(success){
+        window.gameState.gameController.message('People come out of the wilderness to help you plant your new field.')
         window.gameState.gameController.peasants(3);
       }
     },

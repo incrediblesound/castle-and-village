@@ -9,8 +9,9 @@ var MilestoneController = function(){
     },
     'SixPeasants': function(){
       window.gameState.gameController.addAction('hut');
+      window.gameState.gameController.message('The peasants offer to help you build a hut');
     },
-    'ThreeHuts': function(){
+    'TwoHuts': function(){
       window.gameState.gameController.addAction('forest');
     },
     'WalledIn': function(){
@@ -61,8 +62,8 @@ MilestoneController.prototype.step = function(){
     if(window.gameState.gameController.getStat('domain','Peasants') > 6){
       this.executeMilestone('SixPeasants');
     }
-    if(window.gameState.gameController.getStat('village','Huts') > 2){
-      this.executeMilestone('ThreeHuts');
+    if(window.gameState.gameController.getStat('village','Huts') > 1){
+      this.executeMilestone('TwoHuts');
     }
   }
   // end level 0 milestones

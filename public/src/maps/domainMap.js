@@ -16,7 +16,7 @@ var DomainMap = function(){
   }
   this.state = 'Exploring your domain...'
 }
-  this.winMessage = "You defeated the bandits and collected "+window.gameState.gameController.controllers.combat.bounty.gold+" gold pieces."
+  this.winMessage = "You defeated the bandits and collected "+ window.gameState.gameController.controllers.combat.bounty.gold+" gold pieces."
 
 DomainMap.prototype.render = function(){
   var castle = new Image();

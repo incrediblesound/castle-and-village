@@ -51,10 +51,25 @@
 	</div>
 </body>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="./src/system.js"></script>
+	<script type="text/javascript" src="./src/controller.js"></script>
+	<script type="text/javascript">
+		window.gameState = {};
+		window.gameState.actions = [];
+		window.gameState.stage = 1;
+		window.gameState.units = {};
+		window.gameState.controllers = {};
+		window.gameState.gameController = new Controller();
+	</script>
+	<script type="text/javascript" src="./src/mapController.js"></script>
+	<script type="text/javascript" src="./src/combatController.js"></script>
+	<script type="text/javascript" src="./src/combatView.js"></script>
+	<script type="text/javascript" src="./src/exploreView.js"></script>
+	<script type="text/javascript" src="./src/mapView.js"></script>
+	<script type="text/javascript" src="./src/listeners.js"></script>
 	<script type="text/javascript" src="./src/maps/domainMap.js"></script>
 	<script type="text/javascript" src="./src/maps/catacombsMap.js"></script>
 	<script type="text/javascript" src="./src/maps/woodsMap.js"></script>
-	<script type="text/javascript" src="./src/system.js"></script>
 	<script type="text/javascript" src="./src/actionController.js"></script>
 	<script type="text/javascript" src="./src/castle.js"></script>
 	<script type="text/javascript" src="./src/village.js"></script>
@@ -63,22 +78,7 @@
 	<!--<script type="text/javascript" src="./src/onstep.js"></script>-->
 	<script type="text/javascript" src="./src/milestones.js"></script>
 	<script type="text/javascript" src="./src/disasters.js"></script>
-	<script type="text/javascript" src="./src/controller.js"></script>
-	<script type="text/javascript" src="./src/mapController.js"></script>
-	<script type="text/javascript" src="./src/combatController.js"></script>
-	<script type="text/javascript" src="./src/combatView.js"></script>
-	<script type="text/javascript" src="./src/exploreView.js"></script>
-	<script type="text/javascript" src="./src/mapView.js"></script>
-	<script type="text/javascript" src="./src/listeners.js"></script>
 <script type="text/javascript">
-window.gameState = {};
-window.gameState.actions = [];
-window.gameState.stage = 1;
-
-window.gameState.units = {};
-window.gameState.controllers = {};
-
-window.gameState.gameController = new Controller();
 // window.gameState.units.castle = new Castle();
 // window.gameState.units.domain = new Domain();
 // window.gameState.units.barracks = new Barracks();
