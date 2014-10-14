@@ -76,29 +76,29 @@ CombatController.prototype.fight = function(){
         self.opponentArray.splice(enemyIndex, 1);
         var prize = enemyUnit.bounty;
         self.bounty[prize[0]] += prize[1];
-        alert('Your '+playerUnit.name+' killed a '+enemyUnit.name+'.');
+        window.gameState.gameController.message('Your '+playerUnit.name+' killed a '+enemyUnit.name+'.', 'red');
       } else {
-        alert('Your '+playerUnit.name+' did '+playerUnit.attack+' damage to a '+enemyUnit.name+'.')
+        window.gameState.gameController.message('Your '+playerUnit.name+' did '+playerUnit.attack+' damage to a '+enemyUnit.name+'.', 'red')
       }
     } else {
       playerUnit.health -= enemyUnit.attack;
       self.combatHistory.push('enemy');
       if(playerUnit.health <= 0){
         self.playerArray.splice(playerIndex, 1);
-        alert('Your '+playerUnit.name+' was killed by a '+enemyUnit.name+'.')
+        window.gameState.gameController.message('Your '+playerUnit.name+' was killed by a '+enemyUnit.name+'.', 'red')
       } else {
-        alert('Your '+playerUnit.name+' recieved '+enemyUnit.attack+' damage from a '+enemyUnit.name+'.')
+        window.gameState.gameController.message('Your '+playerUnit.name+' recieved '+enemyUnit.attack+' damage from a '+enemyUnit.name+'.', 'red')
       }
     }
     if(self.playerArray.length === 0){
-      alert('you loose');
+      window.gameState.gameController.message('You return home defeated.');
       window.gameState.gameController.controllers.map.goHome();
     } 
     else if(self.opponentArray.length === 0) {
       $('.units').empty();
       $('.units').append(window.gameState.gameController.views['explore'].render());
       window.gameState.gameController.controllers.map.changeState("exploring");
-      alert(window.gameState.gameController.views.map.winMessage);
+      window.gameState.gameController.message(window.gameState.gameController.views.map.winMessage, "blue");
     } else {
       self.render();
       self.fight();

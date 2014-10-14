@@ -137,21 +137,27 @@ Controller.prototype.executeMilestone = function(value){
   this.controllers.milestones.executeMilestone(value);
 }
 
-Controller.prototype.message = function(text){
+Controller.prototype.message = function(text, color){
   var $msg = $('#message');
   var children = $msg.children();
+  var el;
+  if(color){
+    el = '<p style="color: '+color+';">'+text+'</p>';
+  } else {
+    el = '<p>'+text+'</p>';
+  }
   if(!children.length){
-    $msg.prepend('<p>'+text+'</p>');
+    $msg.prepend(el);
   }
-  else if(children[0].textContent !== text){
-    $msg.prepend('<p>'+text+'</p>'); 
-  }
-  if(children.length > 2){
-    children[2].remove();
-  }
-  if(children.length > 0){
-    $(children[0]).fadeTo(0,0.6);
-    $(children[1]).fadeTo(0,0.4);
+  else if(children[0].textContent !== text || !!color){
+    $msg.prepend(el); 
+    if(children.length > 2){
+      children[2].remove();
+    }
+    if(children.length > 0){
+      $(children[0]).fadeTo(0,0.6);
+      $(children[1]).fadeTo(0,0.4);
+    }
   }
 }
 

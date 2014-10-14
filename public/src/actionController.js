@@ -10,6 +10,7 @@ var ActionController = function(){
       } else {
         window.gameState.gameController.units['village'].stats['Huts'] += 1;
         window.gameState.gameController.message('Peasants takes shelter in the new hut.')
+        window.gameState.gameController.peasants(-2);
         window.gameState.gameController.villagers(2);
       }
     },
@@ -108,8 +109,8 @@ ActionController.prototype.doAction = function(value){
 ActionController.prototype.addAction = function(value){
   var actionStore = {
     'forest': {action:'Explore the Forest', type: 'actions', cost: 0},
-    'granary': {action:'Build a Granary', type: 'purchase', cost: 20},
-    'blacksmith': {action:'Hire a Blacksmith', type: 'purchase', cost: 20},
+    'granary': {action:'Build a Granary', type: 'actions', cost: 0},
+    'blacksmith': {action:'Hire a Blacksmith', type: 'actions', cost: 0},
     'vineyard': {action:'Plant a Vineyard', type: 'actions', cost: 30},
     'wall': {action: 'Build a Wall', type: 'actions', cost: 0},
     'hut': {action: 'Build a Hut', type: 'actions', cost: 0},
@@ -141,6 +142,7 @@ ActionController.prototype.removeAction = function(value){
 };
 
 ActionController.prototype.step = function(){
+  debugger;
   $('.actions').empty();
   $('.purchase').empty();
   this.actions.forEach(function(action){
