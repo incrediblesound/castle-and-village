@@ -248,7 +248,11 @@ MapController.prototype.goHome = function(){
     }
   }
   this.map.width = this.map.width;
-  $('.middle').empty();
+  $('.middle').children()[5].remove();
+  $('.middle').children()[4].remove();
+  $('.middle').children()[3].remove();
+  $('.middle').children()[2].remove();
+  $('.middle').children()[0].remove();
   window.gameState.gameController.state = 'inside';
   window.gameState.gameController.trigger('step');
 }
