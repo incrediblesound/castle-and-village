@@ -197,23 +197,25 @@ MapController.prototype.init = function(map){
   window.gameState.gameController.state = 'outside';
   window.gameState.gameController.views['map'].init(map);
   this.playerLocation = window.gameState.gameController.views['map'].playerLocation;
-
+  var $mid = $('.middle');
+  $mid.append('<button type="button" id="left" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></button>');
+  $mid.append('<button type="button" id="right" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-right"></span></button>');
+  $mid.append('<button type="button" id="up" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-up"></span></button>');
+  $mid.append('<button type="button" id="down" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-down"></span></button>');
   $('.actions button').prop('disabled', true);
   $('.purchase button').prop('disabled', true);
-  $(document).on('keypress', function(event){
-    event.stopImmediatePropagation();
-    if(event.which === 119){
-      self.playerMoveUp();
-    }
-    if(event.which === 97){
-      self.playerMoveLeft();
-    }
-    if(event.which === 115){
-      self.playerMoveDown();
-    }
-    if(event.which === 100){
-      self.playerMoveRight();
-    }
+
+  $('#up').on('click', function(){
+    self.playerMoveUp();
+  })
+  $('#left').on('click', function(){
+    self.playerMoveLeft();
+  })
+  $('#down').on('click', function(){
+    self.playerMoveDown();
+  })
+  $('#right').on('click', function(){
+    self.playerMoveRight();
   })
   return this.drawUnits();
 }
@@ -246,7 +248,7 @@ MapController.prototype.goHome = function(){
     }
   }
   this.map.width = this.map.width;
-  $('.middle').find(':first-child').remove();
+  $('.middle').empty();
   window.gameState.gameController.state = 'inside';
   window.gameState.gameController.trigger('step');
 }
