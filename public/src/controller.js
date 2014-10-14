@@ -60,7 +60,7 @@ Controller.prototype.init = function(){
         // $('.todo').empty();
         //end step function
         listeners();
-        $('.kingdom-heading').text('Level ' + window.gameState.gameController.stats.level + ' Kingdom');
+        $('.kingdom-heading').text('Level ' + self.stats.level + ' Kingdom');
       }
     }
     if(self.state === 'outside'){
