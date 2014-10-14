@@ -112,9 +112,9 @@ CombatController.prototype.fight = function(){
     playerUnit.health -= enemyUnit.attack;
       if(playerUnit.health <= 0){
         self.playerArray.splice(playerIndex, 1);
-        alert('Your '+playerUnit.name+' was killed by a '+enemyUnit.name+'.')
+        window.gameState.gameController.message('Your '+playerUnit.name+' was killed by a '+enemyUnit.name+'.', 'red');
       } else {
-        alert('Your '+playerUnit.name+' recieved '+enemyUnit.attack+' damage from a '+enemyUnit.name+'.')
+        window.gameState.gameController.message('Your '+playerUnit.name+' recieved '+enemyUnit.attack+' damage from a '+enemyUnit.name+'.', 'red');
       }
       self.opponentArray = [];
       //custom loss for each map?

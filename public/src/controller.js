@@ -148,15 +148,14 @@ Controller.prototype.message = function(text, color){
   }
   if(!children.length){
     $msg.prepend(el);
-  }
-  else if(children[0].textContent !== text || !!color){
+  } else {
     $msg.prepend(el); 
     if(children.length > 2){
       children[2].remove();
     }
     if(children.length > 0){
-      $(children[0]).fadeTo(0,0.6);
-      $(children[1]).fadeTo(0,0.4);
+      $(children[0]).fadeTo(0,0.7);
+      $(children[1]).fadeTo(0,0.3);
     }
   }
 }
