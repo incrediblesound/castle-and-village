@@ -100,71 +100,25 @@ MapController.prototype.checkCollision = function(unit){
 }
 
 MapController.prototype.withinTwenty = function(xy){
-  if((xy[0] === 20 || xy[0] === -20 || xy[0] === 0) && (xy[1] === -20 || xy[1] === 20 || xy[1] === 0)){
-    return true;
-  }
-  else { return false; }
+  return((xy[0] === 20 || xy[0] === -20 || xy[0] === 0) && (xy[1] === -20 || xy[1] === 20 || xy[1] === 0));
 }
 
-MapController.prototype.playerMoveUp = function(){
+MapController.prototype.playerMove = function(direction){
   var collision = this.checkCollision();
   if(collision === 'battle'){
     return;
   }
-  else if(!collision || collision.onSide !== 'below'){
-    this.playerLocation.y -= 20;
+  var directionMap = {
+    'up': ['y', -20, 'below'],
+    'down': ['y', 20, 'above'],
+    'left': ['x', -20, 'right'],
+    'right': ['x', +20, 'left']
+  }
+  direction = directionMap[direction];
+
+  else if(!collision || collision.onSide !== direction[2]){
+    this.playerLocation[direction[0]] += direction[1];
     if(this.playerLocation === this.homeLocation){
-      this.goHome();
-    }
-    else {
-      this.drawUnits();
-    }
-  }
-}
-MapController.prototype.playerMoveDown = function(){
-  var collision = this.checkCollision();
-  if(collision === 'battle'){
-    return;
-  }
-  else if(collision === 'home'){
-    return this.goHome();
-  }
-  else if(!collision || collision.onSide !== 'above'){
-    this.playerLocation.y += 20;
-    if(this.playerLocation.x === 325 && this.playerLocation.y === 175){
-      this.goHome();
-    } 
-    else {
-      this.drawUnits();
-    }
-  }
-}
-MapController.prototype.playerMoveLeft = function(){
-  var collision = this.checkCollision();
-  if(collision === 'battle'){
-    return;
-  }
-  else if(!collision || collision.onSide !== 'right'){
-    this.playerLocation.x -= 20;
-    if(this.playerLocation.x === 325 && this.playerLocation.y === 175){
-      this.goHome();
-    }
-    else {
-      this.drawUnits();
-    }
-  }
-}
-MapController.prototype.playerMoveRight = function(){
-  var collision = this.checkCollision();
-  if(collision === 'battle'){
-    return;
-  }
-  else if(collision === 'home'){
-    return this.goHome();
-  }
-  if(!collision || collision.onSide !== 'left'){
-    this.playerLocation.x += 20;
-    if(this.playerLocation.x === 325 && this.playerLocation.y === 175){
       this.goHome();
     }
     else {
@@ -206,16 +160,16 @@ MapController.prototype.init = function(map){
   $('.purchase button').prop('disabled', true);
 
   $('#up').on('click', function(){
-    self.playerMoveUp();
+    self.playerMove('up');
   })
   $('#left').on('click', function(){
-    self.playerMoveLeft();
+    self.playerMove('left');
   })
   $('#down').on('click', function(){
-    self.playerMoveDown();
+    self.playerMove('down');
   })
   $('#right').on('click', function(){
-    self.playerMoveRight();
+    self.playerMove('right');
   })
   return this.drawUnits();
 }
@@ -248,11 +202,13 @@ MapController.prototype.goHome = function(){
     }
   }
   this.map.width = this.map.width;
-  $('.middle').children()[5].remove();
-  $('.middle').children()[4].remove();
-  $('.middle').children()[3].remove();
-  $('.middle').children()[2].remove();
-  $('.middle').children()[0].remove();
+  //removes the four buttons and the map heading
+  var $mid = $('.middle')
+  $mid.children()[5].remove();
+  $mid.children()[4].remove();
+  $mid.children()[3].remove();
+  $mid.children()[2].remove();
+  $mid.children()[0].remove();
   window.gameState.gameController.state = 'inside';
   window.gameState.gameController.trigger('step');
 }
