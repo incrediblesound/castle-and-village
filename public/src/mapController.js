@@ -8,23 +8,6 @@ var MapController = function(){
     x: 340,
     y: 180
   }
-
-  this.collisions = {
-    '0': {
-      '20': 'below',
-      '-20': 'above'
-    },
-    '-20': {
-      '0': 'left',
-      '20': 'bottom-left',
-      '-20': 'top-left'
-    },
-    '20': {
-      '0': 'right',
-      '20': 'bottom-right',
-      '-20': 'top-right'
-    }
-  }
 }
 
 MapController.prototype = Object.create(System.prototype);
@@ -50,7 +33,6 @@ MapController.prototype.drawUnits = function(){
         for(var i = 0; i < window.gameState.gameController.views.map.objects[obj].length; i++){
           var co = window.gameState.gameController.views.map.objects[obj][i];
           self.context.drawImage(tree, co[0], co[1], 17, 19);
-          console.log('tree');
         }
       }
     }
@@ -69,33 +51,37 @@ MapController.prototype.drawUnits = function(){
   }
 }
 
-MapController.prototype.checkCollision = function(unit){
+MapController.prototype.checkCollision = function(direction){
   if(this.state === 'fighting'){
     return 'battle';
   }
-  var result = false, obstruct, thing, distance;
+  var newPosition = {};
+  newPosition.x = this.playerLocation.x;
+  newPosition.y = this.playerLocation.y;
+  newPosition[direction[0]] += direction[1];
+  var playerCell = new Cell(newPosition.x, newPosition.y);
+  var result = false, obstruct, thingCell, distance;
   for(obj in window.gameState.gameController.views.map.objects){
     var obstruct = window.gameState.gameController.views.map.objects[obj];
     for(var i = 0; i < obstruct.length; i++){
-      thing = obstruct[i];
-      distance = [this.playerLocation.x - thing[0], this.playerLocation.y - thing[1]];
-      if(this.withinTwenty(distance)){
-        result = {collide: obj, onSide: this.collisions[distance[0]][distance[1]]};
+      thingCell = new Cell(obstruct[i][0], obstruct[i][1]);
+      if(thingCell.row === playerCell.row && thingCell.col === playerCell.col){
+        result = {object: obj, cell: thingCell};
       }
     }
   }
 
-  var encounter = Math.round(Math.random()*6);
-  if(encounter > 3 && this.state !== "fighting"){
-    if(this.priorState === 'fighting'){
-      this.changeState('exploring');
-      return;
-    } else {
-      this.changeState("fighting")
-      window.gameState.gameController.trigger('combat');
-      return 'battle';
-    }
-  }
+  // var encounter = Math.round(Math.random()*6);
+  // if(encounter > 3 && this.state !== "fighting"){
+  //   if(this.priorState === 'fighting'){
+  //     this.changeState('exploring');
+  //     return result;
+  //   } else {
+  //     this.changeState("fighting")
+  //     window.gameState.gameController.trigger('combat');
+  //     return 'battle';
+  //   }
+  // }
   return result;
 }
 
@@ -104,10 +90,6 @@ MapController.prototype.withinTwenty = function(xy){
 }
 
 MapController.prototype.playerMove = function(direction){
-  var collision = this.checkCollision();
-  if(collision === 'battle'){
-    return;
-  }
   var directionMap = {
     'up': ['y', -20, 'below'],
     'down': ['y', 20, 'above'],
@@ -115,14 +97,20 @@ MapController.prototype.playerMove = function(direction){
     'right': ['x', +20, 'left']
   }
   direction = directionMap[direction];
-
-  else if(!collision || collision.onSide !== direction[2]){
+  var collision = this.checkCollision(direction);
+  console.log(collision);
+  if(collision === 'battle'){
+    return;
+  }
+  else if(!collision) {
+    this.context.clearRect(this.playerLocation.x-3, this.playerLocation.y-13, 17, 17);
     this.playerLocation[direction[0]] += direction[1];
     if(this.playerLocation === this.homeLocation){
       this.goHome();
     }
     else {
-      this.drawUnits();
+      this.context.fillText('X', this.playerLocation.x, this.playerLocation.y);
+      //this.drawUnits();
     }
   }
 }
@@ -159,18 +147,22 @@ MapController.prototype.init = function(map){
   $('.actions button').prop('disabled', true);
   $('.purchase button').prop('disabled', true);
 
-  $('#up').on('click', function(){
+  $('#up').on('click', function(e){
+    e.stopPropagation();
     self.playerMove('up');
-  })
-  $('#left').on('click', function(){
+  });
+  $('#left').on('click', function(e){
+    e.stopPropagation();
     self.playerMove('left');
-  })
-  $('#down').on('click', function(){
+  });
+  $('#down').on('click', function(e){
+    e.stopPropagation();
     self.playerMove('down');
-  })
-  $('#right').on('click', function(){
+  });
+  $('#right').on('click', function(e){
+    e.stopPropagation();
     self.playerMove('right');
-  })
+  });
   return this.drawUnits();
 }
 
