@@ -70,17 +70,17 @@ MapController.prototype.checkCollision = function(direction){
     }
   }
 
-  // var encounter = Math.round(Math.random()*6);
-  // if(encounter > 3 && this.state !== "fighting"){
-  //   if(this.priorState === 'fighting'){
-  //     this.changeState('exploring');
-  //     return result;
-  //   } else {
-  //     this.changeState("fighting")
-  //     window.gameState.gameController.trigger('combat');
-  //     return 'battle';
-  //   }
-  // }
+  var encounter = Math.round(Math.random()*6);
+  if(encounter > 4 && this.state !== "fighting"){
+    if(this.priorState === 'fighting'){
+      this.changeState('exploring');
+      return result;
+    } else {
+      this.changeState("fighting")
+      window.gameState.gameController.trigger('combat');
+      return 'battle';
+    }
+  }
   return result;
 }
 

@@ -89,7 +89,7 @@ var ActionController = function(){
     // {action:'Go Questing', type: 'actions', cost: 0},
     // {action:'Hold a Festival', type: 'actions', cost: 25},
     {action:'Clear a Field', type: 'actions', cost: 0},
-    {action:'Explore the Forest', type: 'actions', cost: 0}
+    // {action:'Explore the Forest', type: 'actions', cost: 0}
     // {action:'Hire a Master Baker', type: 'purchase', cost: 10},
     // {action:'Collect Taxes', type: 'actions', cost: 0},
     // {action:'Build a Church', type: 'purchase', cost: 30},
