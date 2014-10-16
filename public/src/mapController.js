@@ -32,7 +32,7 @@ MapController.prototype.drawUnits = function(){
       tree.onload = function(){
         for(var i = 0; i < window.gameState.gameController.views.map.objects[obj].length; i++){
           var co = window.gameState.gameController.views.map.objects[obj][i];
-          self.context.drawImage(tree, co[0], co[1], 17, 19);
+          self.context.drawImage(tree, (co[1]*20)+3, (co[0]*20)+1, 17, 19);
         }
       }
     }
@@ -64,9 +64,8 @@ MapController.prototype.checkCollision = function(direction){
   for(obj in window.gameState.gameController.views.map.objects){
     var obstruct = window.gameState.gameController.views.map.objects[obj];
     for(var i = 0; i < obstruct.length; i++){
-      thingCell = new Cell(obstruct[i][0], obstruct[i][1]);
-      if(thingCell.row === playerCell.row && thingCell.col === playerCell.col){
-        result = {object: obj, cell: thingCell};
+      if(obstruct[i][0] === playerCell.row && obstruct[i][1] === playerCell.col){
+        result = {object: obj, position: obstruct[i]};
       }
     }
   }
@@ -163,6 +162,26 @@ MapController.prototype.init = function(map){
     e.stopPropagation();
     self.playerMove('right');
   });
+
+  // $(document).on('click', function(e){
+  //   var cell = getCursorPosition(e);
+  //   console.log('click', cell);
+  //   var playerCell = new Cell(self.playerLocation.x, self.playerLocation.y);
+  //   console.log('player', playerCell);
+  //   if(cell.row < playerCell.row){
+  //     self.playerMove('up'); 
+  //   }
+  //   else if(cell.row > playerCell.row){
+  //     self.playerMove('down');
+  //   }
+  //   else if(cell.col < playerCell.col){
+  //     self.playerMove('left');
+  //   } 
+  //   else if(cell.col > playerCell.col){
+  //     self.playerMove('right');
+  //   }
+  // });
+
   return this.drawUnits();
 }
 

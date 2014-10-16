@@ -12,6 +12,7 @@ var Cell = function(x, y){
 }
 
 var getCursorPosition = function(e) {
+  var canvas = $('#map')[0];
   var x;
   var y;
   if (e.pageX != undefined && e.pageY != undefined) {
@@ -22,8 +23,8 @@ var getCursorPosition = function(e) {
     x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
     y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
   }
-  x -= gCanvasElement.offsetLeft;
-  y -= gCanvasElement.offsetTop;
-  var cell = new Cell(Math.floor(y/kPieceHeight), Math.floor(x/kPieceWidth));
+  x -= canvas.offsetLeft;
+  y -= canvas.offsetTop;
+  var cell = new Cell(x, y);
   return cell;
 }
