@@ -1,6 +1,7 @@
 var Controller = function(){
   System.call(this);
   this.state = 'inside';
+  this.season = 'fall';
   this.stats = {
     level: 0,
     wolves: 0,
@@ -52,11 +53,10 @@ Controller.prototype.init = function(){
           }
         }
         //check and advance game stage
-        if(window.gameState.stage < 24){
-          window.gameState.stage += 1;
-        } else {
-          window.gameState.stage = 0;
-        }
+        (window.gameState.stage < 16) ? window.gameState.stage += 1 : window.gameState.stage = 0;
+
+        self.checkSeasonalChange(window.gameState.stage);
+
         window.gameState.actions = [];
         // $('.todo').empty();
         //end step function
@@ -172,4 +172,24 @@ Controller.prototype.milestoneIsComplete = function(milestone){
 
 Controller.prototype.combatBounty = function(value){
   return !!value ? this.controllers.combat.bounty[value] : this.controllers.combat.bounty;
+}
+
+Controller.prototype.checkSeasonalChange = function(stage){
+  // 1-4 is spring 5-8 is summer 9-12 is fall 13-16 is winter
+  if(stage === 1){
+    this.message('Spring has arrived', 'green');
+    this.season = 'spring';
+  }
+  else if(stage === 5){
+    this.message('Summer has arrived', '#E6E600');
+    this.season = 'summer';
+  }
+  else if(stage === 9){
+    this.message('Fall has arrived', 'red');
+    this.season = 'fall';
+  }
+  else if(stage === 13){
+    this.message('Winter has arrived', 'blue');
+    this.season = 'winter';
+  }
 }
