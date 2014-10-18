@@ -11,6 +11,25 @@ var Cell = function(x, y){
   this.col = Math.floor(x/width);
 }
 
+var Location = function(x, y){
+  this.x = x || null;
+  this.y = y || null;
+}
+
+Location.prototype.isEqual = function(location){
+  return (this.x === location.x && this.y === location.y);
+}
+
+Location.prototype.merge = function(location){
+  this.x = location.x;
+  this.y = location.y;
+}
+
+Location.prototype.toCell = function(){
+  var cell = new Cell(this.x, this.y);
+  return cell;
+}
+
 var getCursorPosition = function(e) {
   var canvas = $('#map')[0];
   var x;

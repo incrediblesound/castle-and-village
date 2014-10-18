@@ -8,15 +8,21 @@ var ActionController = function(){
       if(window.gameState.gameController.units['village'] === undefined){
         window.gameState.gameController.executeMilestone('FirstHut');
       } else {
-        window.gameState.gameController.units['village'].stats['Huts'] += 1;
+        window.gameState.gameController.changeStat('village','Huts', 1);
         window.gameState.gameController.message('Peasants takes shelter in the new hut.')
-        window.gameState.gameController.peasants(-2);
-        window.gameState.gameController.villagers(2);
+        window.gameState.gameController.changeStat('domain','Peasants', -2);
+        window.gameState.gameController.changeStat('village','Villagers', 2);
       }
     },
     'Explore the Forest': function(){
-      window.gameState.gameController.controllers['combat'] = new CombatController();
       window.gameState.gameController.initMap('forest');
+      window.gameState.gameController.controllers['combat'] = new CombatController();
+      window.gameState.gameController.controllers['combat'].init();
+    },
+    'Go to the Lake': function(){
+      window.gameState.gameController.initMap('lake');
+      window.gameState.gameController.controllers['combat'] = new CombatController();
+      window.gameState.gameController.controllers['combat'].init();
     },
     'Build a Wall': function(){
       //message
@@ -24,16 +30,17 @@ var ActionController = function(){
       self.removeAction('Build a Wall');
     },
     'Train a Grand Master': function(){
-      window.gameState.gameController.units['barracks'].stats['knights']-= 1;
-      window.gameState.gameController.units['barracks'].stats['gMasters'] += 1;
+      window.gameState.gameController.changeStat('barracks','knights',-1);
+      window.gameState.gameController.changeStat('barracks','gMasters', 1);
     },
     'Hire a Cleric': function(){
       window.gameState.gameController.units['castle'].addMaster('Cleric');
       self.removeAction('Hire a Cleric');
     },
     'Go Questing': function(){
-      window.gameState.gameController.controllers['combat'] = new CombatController();
       window.gameState.gameController.initMap('domain');
+      window.gameState.gameController.controllers['combat'] = new CombatController();
+      window.gameState.gameController.controllers['combat'].init();
     },
     'Explore the Catacombs': function(){
       window.gameState.gameController.controllers['combat'] = new CombatController();
@@ -67,7 +74,7 @@ var ActionController = function(){
       var success = window.gameState.gameController.units['domain'].makeField();
       if(success){
         window.gameState.gameController.message('People come out of the wilderness to help you plant your new field.')
-        window.gameState.gameController.peasants(3);
+        window.gameState.gameController.changeStat('domain','Peasants', 3);
       }
     },
     'Train a War Horse': function(){
@@ -89,6 +96,7 @@ var ActionController = function(){
     // {action:'Go Questing', type: 'actions', cost: 0},
     // {action:'Hold a Festival', type: 'actions', cost: 25},
     {action:'Clear a Field', type: 'actions', cost: 0},
+    // {action:'Go to the Lake', type: 'actions', cost: 0}
     // {action:'Explore the Forest', type: 'actions', cost: 0}
     // {action:'Hire a Master Baker', type: 'purchase', cost: 10},
     // {action:'Collect Taxes', type: 'actions', cost: 0},
@@ -110,6 +118,7 @@ ActionController.prototype.doAction = function(value){
 ActionController.prototype.addAction = function(value){
   var actionStore = {
     'forest': {action:'Explore the Forest', type: 'actions', cost: 0},
+    'lake': {action:'Go to the Lake', type: 'actions', cost: 0},
     'granary': {action:'Build a Granary', type: 'actions', cost: 0},
     'blacksmith': {action:'Hire a Blacksmith', type: 'actions', cost: 0},
     'vineyard': {action:'Plant a Vineyard', type: 'actions', cost: 30},

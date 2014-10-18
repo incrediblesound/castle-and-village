@@ -3,7 +3,8 @@ var Controller = function(){
   this.state = 'inside';
   this.stats = {
     level: 0,
-    wolves: 0
+    wolves: 0,
+    bear: 0
   }
   this.units = {};
   this.controllers = {};
@@ -78,7 +79,8 @@ Controller.prototype.init = function(){
   })
 
   this.on('combat', function(){
-    window.gameState.gameController.controllers['combat'].init();
+    window.gameState.gameController.controllers['combat'].getEnemies();
+    window.gameState.gameController.controllers['combat'].render();
     window.gameState.gameController.controllers['combat'].fight();
     $('.attack-select').on('click', function(){
       console.log(this);
@@ -119,9 +121,9 @@ Controller.prototype.getStat = function(unit, property){
   return (this.units[unit]) ? this.units[unit].stats[property] : false;
 }
 
-Controller.prototype.villagers = function(val){
-  if(this.units.village){
-    this.units.village.stats.Villagers += val;
+Controller.prototype.changeStat = function(unit, stat, val){
+  if(this.units[unit]){
+    this.units[unit].stats[stat] += val;
   }
 }
 
@@ -160,14 +162,14 @@ Controller.prototype.message = function(text, color){
   }
 }
 
-Controller.prototype.peasants = function(val){
-  this.units.domain.stats.Peasants += val;
-}
-
 Controller.prototype.initMap = function(map){
   this.controllers.map.init(map);
 }
            
 Controller.prototype.milestoneIsComplete = function(milestone){
   return this.controllers.milestones.isComplete(milestone);
+}
+
+Controller.prototype.combatBounty = function(value){
+  return !!value ? this.controllers.combat.bounty[value] : this.controllers.combat.bounty;
 }

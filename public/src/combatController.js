@@ -4,6 +4,7 @@ var CombatController = function(){
     knights: function(){ return {name: 'knight', health: 4, attack: 2} },
     cavalry: function(){ return {name: 'cavalry', health: 5, attack: 3} },
     wizards: function(){ return {name: 'wizard', health: 2, attack: 4} },
+    bear: function(){ return {name: 'bear', health: 5, attack: 1, bounty: ['bear', 1]}},
     peasants: function(){ return {name: 'peasant', health: 2, attack: 1}},
     gMasters: function(){ return {name: 'Grand Master', health: 5, attack: 4}},
     wolves: function(){ return {name: 'Wolf', health: 1, attack: 1, bounty: ['wolves',1]}}
@@ -23,6 +24,7 @@ CombatController.prototype.init = function(){
       peasants: window.gameState.gameController.getStat('domain', 'Peasants') - 2
     }
     this.bounty.wolves = 0;
+    this.bounty.bear = 0;
     window.gameState.gameController.units['domain'].stats.Peasants = 2;
   }
   else if(!this.playerArmy && window.gameState.gameController.stats.level > 1){
@@ -39,11 +41,7 @@ CombatController.prototype.init = function(){
   }
   //this.playerTotal = this.playerArmy.knights + this.playerArmy.cavalry + this.playerArmy.wizards;
 
-  this.opponentArmy = window.gameState.gameController.views['map'].getEnemies();
-  this.makeCombatArray()
-
   window.gameState.gameController.views['explore'].state = 'An encounter!';
-  this.render();
 }
 
 CombatController.prototype.fight = function(){
@@ -58,7 +56,6 @@ CombatController.prototype.fight = function(){
     return Math.round(Math.random()*(self.opponentArray.length-1));
   }
   $('.attack-select').on('click', function(){
-    debugger;
     var roll
     if(self.checkHistory()){
       roll = 20;
@@ -74,8 +71,10 @@ CombatController.prototype.fight = function(){
       self.combatHistory.push('player');
       if(enemyUnit.health <= 0){
         self.opponentArray.splice(enemyIndex, 1);
-        var prize = enemyUnit.bounty;
-        self.bounty[prize[0]] += prize[1];
+        if(enemyUnit.bounty){
+          var prize = enemyUnit.bounty;
+          self.bounty[prize[0]] += prize[1];
+        }
         window.gameState.gameController.message('Your '+playerUnit.name+' killed a '+enemyUnit.name+'.', 'red');
       } else {
         window.gameState.gameController.message('Your '+playerUnit.name+' did '+playerUnit.attack+' damage to a '+enemyUnit.name+'.', 'red')
@@ -92,6 +91,7 @@ CombatController.prototype.fight = function(){
     }
     if(self.playerArray.length === 0){
       window.gameState.gameController.message('You return home defeated.');
+      window.gameState.gameController.controllers.map.changeState("exploring");
       window.gameState.gameController.controllers.map.goHome();
     } 
     else if(self.opponentArray.length === 0) {
@@ -128,7 +128,6 @@ CombatController.prototype.fight = function(){
 }
 
 CombatController.prototype.makeCombatArray = function(){
-  debugger;
   var unit;
   var types = this.unitTypes;
   var opponents = this.opponentArray
@@ -149,6 +148,11 @@ CombatController.prototype.makeCombatArray = function(){
   }
 }
 
+CombatController.prototype.getEnemies = function(){
+  this.opponentArmy = window.gameState.gameController.views['map'].getEnemies();
+  this.makeCombatArray();
+}
+
 CombatController.prototype.checkHistory = function(value){
   if(this.combatHistory.length > 3){
     var recent3 = this.combatHistory.splice(this.combatHistory.length-4, this.combatHistory.length);
@@ -165,10 +169,4 @@ CombatController.prototype.render = function(){
   $('.units').empty();
   $('.units').append(window.gameState.gameController.views['explore'].render());
   $('.units').append(window.gameState.gameController.views['combat'].render());
-}
-
-function forEach(array, fn){
-  for(var i = 0, l = array.length; i < l; i++){
-    fn(array[i]);
-  }
 }

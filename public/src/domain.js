@@ -4,9 +4,7 @@ var Domain = function(){
     'Fields': 0,
     'Forests': 10,
     'Peasants': 0,
-    // 'mountains': 3,
-    // 'lakes': 2,
-    'Mineyards': 0,
+    'Vineyards': 0,
     'Mines': 0
   }
 }
@@ -15,17 +13,24 @@ Domain.prototype = Object.create(System.prototype);
 Domain.prototype.constructor = Domain;
 
 Domain.prototype.step = function(){
-  if(window.gameState.gameController.stats.level === 0 
-    && window.gameState.gameController.milestoneIsComplete('FirstHut')
-    && !window.gameState.gameController.milestoneIsComplete('GatherWood')){
-    setTimeout(function(){
-      window.gameState.gameController.message('The peasants can\'t gather wood because there are wolves in the forest.')
-    }, 2000)
+  if(window.gameState.gameController.stats.level === 0){
+    if(window.gameState.gameController.milestoneIsComplete('FirstHut')
+      && !window.gameState.gameController.milestoneIsComplete('GatherWood')){
+      setTimeout(function(){
+        window.gameState.gameController.message('The peasants can\'t gather wood because there are wolves in the forest.')
+      }, 2000)
+    }
+    if((window.gameState.gameController.milestoneIsComplete('GatherWood')
+      && !window.gameState.gameController.milestoneIsComplete('Grizzly'))){
+      setTimeout(function(){
+        window.gameState.gameController.message('The villagers can\'t go fishing because there is a giant bear by the lake.')
+      }, 2000)  
+    }
   }
 }
 
 Domain.prototype.makeField = function(){
-  if(this.stats['Forests'] > 0){
+  if(this.stats['Forests'] > 1){
     this.stats['Fields'] += 1;
     this.stats['Forests'] -= 1;
     return true;

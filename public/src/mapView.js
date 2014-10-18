@@ -3,7 +3,8 @@ var MapView = function(){
   this.maps = {
     'domain': DomainMap,
     'catacombs': CatacombsMap,
-    'forest': ForestMap
+    'forest': ForestMap,
+    'lake': LakeMap
   }
 }
 

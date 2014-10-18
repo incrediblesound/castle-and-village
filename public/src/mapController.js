@@ -48,6 +48,13 @@ MapController.prototype.drawUnits = function(){
         this.context.fillRect(co[0], co[1], 20, 20);
       }  
     }
+    else if(obj === 'water'){
+      this.context.fillStyle = 'blue';
+      for(var i = 0; i < window.gameState.gameController.views.map.objects[obj].length; i++){
+        var co = window.gameState.gameController.views.map.objects[obj][i];
+        this.context.fillRect(co[1]*20, co[0]*20, 20, 20);
+      }  
+    }
   }
 }
 
@@ -55,37 +62,35 @@ MapController.prototype.checkCollision = function(direction){
   if(this.state === 'fighting'){
     return 'battle';
   }
-  var newPosition = {};
-  newPosition.x = this.playerLocation.x;
-  newPosition.y = this.playerLocation.y;
+  var newPosition = new Location();
+  newPosition.merge(this.playerLocation);
   newPosition[direction[0]] += direction[1];
   var playerCell = new Cell(newPosition.x, newPosition.y);
-  var result = false, obstruct, thingCell, distance;
+  var collision = false, obstruct, thingCell, distance;
   for(obj in window.gameState.gameController.views.map.objects){
     var obstruct = window.gameState.gameController.views.map.objects[obj];
     for(var i = 0; i < obstruct.length; i++){
       if(obstruct[i][0] === playerCell.row && obstruct[i][1] === playerCell.col){
-        result = {object: obj, position: obstruct[i]};
+        collision = {object: obj, position: obstruct[i]};
       }
     }
   }
 
-  var encounter = Math.round(Math.random()*6);
-  if(encounter > 4 && this.state !== "fighting"){
+  var encounter = window.gameState.gameController.views.map.checkEncounter(collision);
+  if(encounter){
+    // if(encounter === 'complete'){
+    //   return this.goHome();
+    // }
     if(this.priorState === 'fighting'){
       this.changeState('exploring');
-      return result;
+      return collision;
     } else {
       this.changeState("fighting")
       window.gameState.gameController.trigger('combat');
       return 'battle';
     }
   }
-  return result;
-}
-
-MapController.prototype.withinTwenty = function(xy){
-  return((xy[0] === 20 || xy[0] === -20 || xy[0] === 0) && (xy[1] === -20 || xy[1] === 20 || xy[1] === 0));
+  return collision;
 }
 
 MapController.prototype.playerMove = function(direction){
@@ -104,10 +109,11 @@ MapController.prototype.playerMove = function(direction){
   else if(!collision) {
     this.context.clearRect(this.playerLocation.x-3, this.playerLocation.y-13, 17, 17);
     this.playerLocation[direction[0]] += direction[1];
-    if(this.playerLocation === this.homeLocation){
+    if(this.playerLocation.isEqual(this.homeLocation)){
       this.goHome();
     }
     else {
+      this.context.fillStyle = 'black';
       this.context.fillText('X', this.playerLocation.x, this.playerLocation.y);
       //this.drawUnits();
     }
@@ -138,6 +144,7 @@ MapController.prototype.init = function(map){
   window.gameState.gameController.state = 'outside';
   window.gameState.gameController.views['map'].init(map);
   this.playerLocation = window.gameState.gameController.views['map'].playerLocation;
+  this.homeLocation = window.gameState.gameController.views['map'].homeLocation;
   var $mid = $('.middle');
   $mid.append('<button type="button" id="left" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></button>');
   $mid.append('<button type="button" id="right" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-right"></span></button>');
@@ -189,8 +196,8 @@ MapController.prototype.goHome = function(){
   var bounty = window.gameState.gameController.controllers.combat.bounty;
   for(prize in bounty){
     if(bounty.hasOwnProperty(prize)){
-      if(prize === 'wolves'){
-        window.gameState.gameController.stats.wolves += bounty['wolves'];
+      if(prize === 'wolves' || prize === 'bear'){
+        window.gameState.gameController.stats[prize] += bounty[prize];
       }
       //if prize === gold add gold to castle
     }
@@ -199,7 +206,7 @@ MapController.prototype.goHome = function(){
   if(army){
     for(var i = 0; i < army.length; i++){
       if(army[i].name === 'peasant'){
-        window.gameState.gameController.peasants(1);
+        window.gameState.gameController.changeStat('domain','Peasants',1);
       }
       if(army[i].name === 'knight'){
         window.gameState.gameController.units['barracks'].knights += 1;

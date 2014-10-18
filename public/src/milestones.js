@@ -2,39 +2,42 @@ var MilestoneController = function(){
   System.call(this);
   this.completed = [];
   this.milestones = {
-    'FirstHut': function(){
+    FirstHut: function(){
       window.gameState.gameController.units['village'] = new Village();
-      window.gameState.gameController.peasants(-1);
+      window.gameState.gameController.changeStat('domain','peasants', -1);
       window.gameState.gameController.message('A peasant takes up residence in the new hut.')
     },
-    'SixPeasants': function(){
+    SixPeasants: function(){
       window.gameState.gameController.addAction('hut');
       window.gameState.gameController.message('The peasants offer to help you build a hut');
     },
-    'TwoHuts': function(){
+    TwoHuts: function(){
       window.gameState.gameController.addAction('forest');
     },
-    'GatherWood': function(){
+    GatherWood: function(){
       window.gameState.gameController.addAction('wall');
       window.gameState.gameController.removeAction('Explore the Forest');
       window.gameState.gameController.message('The wolves no longer bother the peasants when they go out to gather wood.')
     },
-    'WalledIn': function(){
-      window.gameState.gameController.addAction('granary');
-      window.gameState.gameController.addAction('blacksmith');
+    WalledIn: function(){
+      window.gameState.gameController.addAction('lake');
     },
-    'GrandMaster': function(){
-      window.gameState.gameController.controllers['actions'].addAction('grandmaster');
+    Grizzly: function(){
+      window.gameState.gameController.message('The villagers can go fishing now!');
+      window.gameState.gameController.removeAction('lake');
     },
-    'Knights': function(){
+    GrandMaster: function(){
+      window.gameState.gameController.addAction('grandmaster');
+    },
+    Knights: function(){
       window.gameState.gameController.units['barracks'].knights += 2;
       window.gameState.gameController.addAction('swordsman');
     },
-    'Provide': function(){
+    Provide: function(){
       window.gameState.gameController.units['village'].happiness += 1;
       window.gameState.gameController.units['village'].energy += 1;
     },
-    'Level2': function(){
+    Level2: function(){
       window.gameState.gameController.level = 2;
       window.gameState.gameController.units['castle'].money += 60;
       window.gameState.gameController.addAction('stables');
@@ -72,6 +75,9 @@ MilestoneController.prototype.step = function(){
     }
     if(window.gameState.gameController.stats.wolves > 5){
       this.executeMilestone('GatherWood');
+    }
+    if(window.gameState.gameController.stats.bear > 0){
+      this.executeMilestone('Grizzly');
     }
   }
   // end level 0 milestones
