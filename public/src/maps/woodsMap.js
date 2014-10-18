@@ -11,14 +11,14 @@ var ForestMap = function(){
 
   this.enemies = [['wolves', 3]]
 
-  this.playerLocation = {
-    x: 305,
-    y: 175
+  this.checkEncounter = function(collision){
+    var rnd = Math.round(Math.random() * 6);
+    return rnd > 3;
   }
-  this.homeLocation = {
-    x: 325,
-    y: 175
-  }
+
+  this.playerLocation = new Location(305, 175)
+  this.homeLocation = new Location(325, 175)
+  
   this.state = 'The woods are dark and deep...'
   this.winMessage = "The wolves scatter, awed by your might!"
 }

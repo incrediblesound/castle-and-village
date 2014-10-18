@@ -6,14 +6,9 @@ var DomainMap = function(){
   this.name = 'Domain';
   this.enemies = [[['bandits', 3]],[['bandits', 2],['knights',1]]]
 
-  this.playerLocation = {
-    x: 305,
-    y: 175
-  }
-  this.homeLocation = {
-    x: 325,
-    y: 175
-  }
+  this.playerLocation = new Location(305, 175)
+  this.homeLocation = new Location(325, 175)
+  
   this.state = 'Exploring your domain...'
 }
   this.winMessage = "You defeated the bandits and collected "+ window.gameState.gameController.controllers.combat.bounty.gold+" gold pieces."

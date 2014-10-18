@@ -2,10 +2,7 @@ var CatacombsMap = function(){
 
   this.name = 'Catacombs'
 
-  this.playerLocation = {
-    x: 325,
-    y: 95
-  };
+  this.playerLocation = new Location(352, 95)
   this.objects = {
     fill: [[260,160],[240,160],[220,160]],
   }
