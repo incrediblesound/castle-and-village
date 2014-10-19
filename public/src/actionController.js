@@ -4,6 +4,18 @@ var ActionController = function(){
   var self = this;
 
   this.actionMap = {
+    'Build a Tavern': function(){
+
+    },
+    'Plant the Fields': function(){
+      window.gameState.gameController.changeStat('domain', 'fieldStatus', 'planted');
+      window.gameState.gameController.removeAction('Plant the Fields');
+      window.gameState.gameController.message('The peasants work together to plant the fields')
+    },
+    'Harvest the Crops': function(){
+      window.gameState.gameController.changeStat('domain', 'fieldStatus', 'harvesting');
+      window.gameState.gameController.removeAction('Harvest the Crops');
+    },
     'Build a Hut': function(){
       if(window.gameState.gameController.units['village'] === undefined){
         window.gameState.gameController.executeMilestone('FirstHut');
@@ -117,19 +129,22 @@ ActionController.prototype.doAction = function(value){
 
 ActionController.prototype.addAction = function(value){
   var actionStore = {
-    'forest': {action:'Explore the Forest', type: 'actions', cost: 0},
-    'lake': {action:'Go to the Lake', type: 'actions', cost: 0},
-    'granary': {action:'Build a Granary', type: 'actions', cost: 0},
-    'blacksmith': {action:'Hire a Blacksmith', type: 'actions', cost: 0},
-    'vineyard': {action:'Plant a Vineyard', type: 'actions', cost: 30},
-    'wall': {action: 'Build a Wall', type: 'actions', cost: 0},
-    'hut': {action: 'Build a Hut', type: 'actions', cost: 0},
-    'warhorse': {action:'Train a War Horse', type: 'purchase', cost: 20},
-    'grandmaster': {action:'Train a Grand Master', type: 'actions', cost: 30},
-    'swordsman': {action:'Hire a Swordsman', type: 'actions', cost: 30},
-    'stables': {action:'Build Stables', type: 'purchase', cost: 15},
-    'cleric': {action:'Hire a Cleric', type: 'purchase', cost: 20},
-    'catacombs': {action:'Explore the Catacombs', type: 'actions', cost: 0}
+    taver: {actins: 'Build a Tavern', type: 'actions', cost: 0},
+    harvest: {action: 'Harvest the Crops', type: 'actions', cost: 0},
+    plant: {action: 'Plant the Fields', type: 'actions', cost: 0},
+    forest: {action:'Explore the Forest', type: 'actions', cost: 0},
+    lake: {action:'Go to the Lake', type: 'actions', cost: 0},
+    granary: {action:'Build a Granary', type: 'actions', cost: 0},
+    blacksmith: {action:'Hire a Blacksmith', type: 'actions', cost: 0},
+    vineyard: {action:'Plant a Vineyard', type: 'actions', cost: 30},
+    wall: {action: 'Build a Wall', type: 'actions', cost: 0},
+    hut: {action: 'Build a Hut', type: 'actions', cost: 0},
+    warhorse: {action:'Train a War Horse', type: 'purchase', cost: 20},
+    grandmaster: {action:'Train a Grand Master', type: 'actions', cost: 30},
+    swordsman: {action:'Hire a Swordsman', type: 'actions', cost: 30},
+    stables: {action:'Build Stables', type: 'purchase', cost: 15},
+    cleric: {action:'Hire a Cleric', type: 'purchase', cost: 20},
+    catacombs: {action:'Explore the Catacombs', type: 'actions', cost: 0}
   }
   this.actions.push(actionStore[value]);
 }

@@ -16,15 +16,17 @@ var MilestoneController = function(){
     },
     GatherWood: function(){
       window.gameState.gameController.addAction('wall');
+      window.gameState.gameController.addAction('lake');
       window.gameState.gameController.removeAction('Explore the Forest');
       window.gameState.gameController.message('The wolves no longer bother the peasants when they go out to gather wood.')
     },
     WalledIn: function(){
-      window.gameState.gameController.addAction('lake');
+      window.gameState.gameController.message('Your villagers are much safe now in their walled village.');
+      window.gameState.gameController.addAction('tavern');
     },
     Grizzly: function(){
       window.gameState.gameController.message('The villagers can go fishing now!');
-      window.gameState.gameController.removeAction('lake');
+      window.gameState.gameController.removeAction('Go to the Lake');
     },
     GrandMaster: function(){
       window.gameState.gameController.addAction('grandmaster');

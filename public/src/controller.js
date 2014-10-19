@@ -44,6 +44,11 @@ Controller.prototype.init = function(){
         return;
       }
 
+        //check and advance game stage
+        (window.gameState.stage < 16) ? window.gameState.stage += 1 : window.gameState.stage = 0;
+
+        self.checkSeasonalChange(window.gameState.stage);
+
       if(self.state !== 'outside'){
         $('.units').empty();
         // append each unit to the html
@@ -52,14 +57,10 @@ Controller.prototype.init = function(){
             $('.units').append(self.units[unit].render());
           }
         }
-        //check and advance game stage
-        (window.gameState.stage < 16) ? window.gameState.stage += 1 : window.gameState.stage = 0;
 
-        self.checkSeasonalChange(window.gameState.stage);
-
-        window.gameState.actions = [];
-        // $('.todo').empty();
-        //end step function
+        // window.gameState.actions = [];
+        // // $('.todo').empty();
+        // //end step function
         listeners();
         $('.kingdom-heading').text('Level ' + self.stats.level + ' Kingdom');
       }
@@ -101,12 +102,12 @@ Controller.prototype.entropy = function(){
   }
   //if village food is below a threshold relative to village population bad things happen
   if(window.gameState.gameController.units['village'] !== undefined){
-    if(window.gameState.gameController.units['village'].food < (Math.round(window.gameState.gameController.units['village'].population/5))){
-      window.gameState.gameController.units['village'].population -= 10;
-      window.gameState.gameController.units['village'].happiness -= 1;
+    window.gameState.gameController.changeStat('village','Food', -1);
+    if(window.gameState.gameController.getStat('village','Food') < (Math.round(window.gameState.gameController.units['village'].population/5))){
+      window.gameState.gameController.message('The villagers are starving','red');
     }
     if(window.gameState.gameController.units['village'].population < (window.gameState.gameController.units['domain'].fields * 3)){
-      window.gameState.gameController.controllers['disaster'].doDisaster('wilderness');
+      // something about low population    
     }
   }
 }
@@ -122,8 +123,11 @@ Controller.prototype.getStat = function(unit, property){
 }
 
 Controller.prototype.changeStat = function(unit, stat, val){
-  if(this.units[unit]){
-    this.units[unit].stats[stat] += val;
+  if(this.units[unit] && this.units[unit].stats[stat] !== undefined){
+    (typeof val === 'number') ? this.units[unit].stats[stat] += val : this.units[unit].stats[stat] = val;
+  } 
+  else if(this.units[unit][stat] !== undefined){
+    (typeof val === 'number') ? this.units[unit][stat] += val : this.units[unit][stat] = val;  
   }
 }
 
@@ -178,6 +182,7 @@ Controller.prototype.checkSeasonalChange = function(stage){
   // 1-4 is spring 5-8 is summer 9-12 is fall 13-16 is winter
   if(stage === 1){
     this.message('Spring has arrived', 'green');
+    this.addAction('plant');
     this.season = 'spring';
   }
   else if(stage === 5){
@@ -186,10 +191,14 @@ Controller.prototype.checkSeasonalChange = function(stage){
   }
   else if(stage === 9){
     this.message('Fall has arrived', 'red');
+    this.removeAction('Plant the Fields');
+    this.addAction('harvest');
     this.season = 'fall';
   }
   else if(stage === 13){
     this.message('Winter has arrived', 'blue');
+    this.removeAction('Harvest the Crops');
+    window.gameState.gameController.changeStat('domain', 'fieldStatus', 'sleeping');
     this.season = 'winter';
   }
 }

@@ -3,7 +3,7 @@ var Village = function() {
   this.stats = {
     'Villagers': 1,
     'Huts': 1,
-    'Food': 0,
+    'Food': 4,
     // 'Happiness':0,
     // 'Vitality':0
   }
@@ -60,9 +60,7 @@ Village.prototype.render = function(){
 
 Village.prototype.step = function(){
 
-  //increment population every cycle of three
-  if(window.gameState.stage % 3 === 0){
-    this.stats.population += Math.round(this.population * this.growth);
+  if(window.gameState.season === 'spring'){
   }
 
   if(window.gameState.stage % 6 === 0){

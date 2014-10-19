@@ -7,6 +7,7 @@ var Domain = function(){
     'Vineyards': 0,
     'Mines': 0
   }
+  this.fieldStatus = null;
 }
 
 Domain.prototype = Object.create(System.prototype);
@@ -26,6 +27,10 @@ Domain.prototype.step = function(){
         window.gameState.gameController.message('The villagers can\'t go fishing because there is a giant bear by the lake.')
       }, 2000)  
     }
+  }
+  if(this.fieldStatus === 'harvesting'){
+    var fields = window.gameState.gameController.getStat('domain', 'Fields');
+    window.gameState.gameController.changeStat('village', 'Food', fields);
   }
 }
 
