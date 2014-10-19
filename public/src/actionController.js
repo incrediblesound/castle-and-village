@@ -4,8 +4,11 @@ var ActionController = function(){
   var self = this;
 
   this.actionMap = {
+    'Explore the Mountain': function(){
+      window.gameState.gameController.initMap('mountain');
+    },
     'Build a Tavern': function(){
-
+      window.gameState.gameController.exectuteMilestone('tavern');
     },
     'Plant the Fields': function(){
       window.gameState.gameController.changeStat('domain', 'fieldStatus', 'planted');
@@ -28,13 +31,9 @@ var ActionController = function(){
     },
     'Explore the Forest': function(){
       window.gameState.gameController.initMap('forest');
-      window.gameState.gameController.controllers['combat'] = new CombatController();
-      window.gameState.gameController.controllers['combat'].init();
     },
     'Go to the Lake': function(){
       window.gameState.gameController.initMap('lake');
-      window.gameState.gameController.controllers['combat'] = new CombatController();
-      window.gameState.gameController.controllers['combat'].init();
     },
     'Build a Wall': function(){
       //message
@@ -51,11 +50,8 @@ var ActionController = function(){
     },
     'Go Questing': function(){
       window.gameState.gameController.initMap('domain');
-      window.gameState.gameController.controllers['combat'] = new CombatController();
-      window.gameState.gameController.controllers['combat'].init();
     },
     'Explore the Catacombs': function(){
-      window.gameState.gameController.controllers['combat'] = new CombatController();
       window.gameState.gameController.initMap('catacombs');
     },
     'Build Stables': function(){
@@ -129,7 +125,8 @@ ActionController.prototype.doAction = function(value){
 
 ActionController.prototype.addAction = function(value){
   var actionStore = {
-    taver: {actins: 'Build a Tavern', type: 'actions', cost: 0},
+    mountain: {action:'Explore the Mountain', type: 'actions', cost: 0},
+    tavern: {actions: 'Build a Tavern', type: 'actions', cost: 0},
     harvest: {action: 'Harvest the Crops', type: 'actions', cost: 0},
     plant: {action: 'Plant the Fields', type: 'actions', cost: 0},
     forest: {action:'Explore the Forest', type: 'actions', cost: 0},

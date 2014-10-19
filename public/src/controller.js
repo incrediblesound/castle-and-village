@@ -113,9 +113,9 @@ Controller.prototype.entropy = function(){
 }
 
 Controller.prototype.checkLoseConditions = function(){
-  return (window.gameState.gameController.stats.level > 0) &&
-  ((window.gameState.gameController.getStat('village','Happiness') <= 0) ||
-   (window.gameState.gameController.getStat('village', 'Population') < 10))
+  return (window.gameState.gameController.milestoneIsComplete('TwoHuts')) &&
+  ((window.gameState.gameController.getStat('domain','Peasants') < 2) ||
+   (window.gameState.gameController.getStat('village', 'Food') < 1))
 }
 
 Controller.prototype.getStat = function(unit, property){
@@ -166,8 +166,17 @@ Controller.prototype.message = function(text, color){
   }
 }
 
+Controller.prototype.delayedMessage = function(text, color, delay){
+  var self = this;
+  setTimeout(function(){
+    self.message(text, color);
+  }, delay)
+}
+
 Controller.prototype.initMap = function(map){
   this.controllers.map.init(map);
+  this.controllers['combat'] = new CombatController();
+  this.controllers['combat'].init();
 }
            
 Controller.prototype.milestoneIsComplete = function(milestone){
@@ -181,22 +190,22 @@ Controller.prototype.combatBounty = function(value){
 Controller.prototype.checkSeasonalChange = function(stage){
   // 1-4 is spring 5-8 is summer 9-12 is fall 13-16 is winter
   if(stage === 1){
-    this.message('Spring has arrived', 'green');
+    this.delayedMessage('Spring has arrived', 'green', 1500);
     this.addAction('plant');
     this.season = 'spring';
   }
   else if(stage === 5){
-    this.message('Summer has arrived', '#E6E600');
+    this.delayedMessage('Summer has arrived', '#E6E600', 1500);
     this.season = 'summer';
   }
   else if(stage === 9){
-    this.message('Fall has arrived', 'red');
+    this.delayedMessage('Fall has arrived', 'red', 1500);
     this.removeAction('Plant the Fields');
     this.addAction('harvest');
     this.season = 'fall';
   }
   else if(stage === 13){
-    this.message('Winter has arrived', 'blue');
+    this.delayedMessage('Winter has arrived', 'blue', 1500);
     this.removeAction('Harvest the Crops');
     window.gameState.gameController.changeStat('domain', 'fieldStatus', 'sleeping');
     this.season = 'winter';

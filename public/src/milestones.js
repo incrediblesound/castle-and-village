@@ -2,6 +2,10 @@ var MilestoneController = function(){
   System.call(this);
   this.completed = [];
   this.milestones = {
+    Tavern: function(){
+      window.gameState.gameController.message('Travellers stopping by your village spread news of its brave inhabitants.')
+      window.gameState.gameController.addAction('mountain');
+    },
     FirstHut: function(){
       window.gameState.gameController.units['village'] = new Village();
       window.gameState.gameController.changeStat('domain','peasants', -1);
@@ -16,13 +20,15 @@ var MilestoneController = function(){
     },
     GatherWood: function(){
       window.gameState.gameController.addAction('wall');
-      window.gameState.gameController.addAction('lake');
       window.gameState.gameController.removeAction('Explore the Forest');
+      window.gameState.gameController.changeStat('village','Food', 2);
       window.gameState.gameController.message('The wolves no longer bother the peasants when they go out to gather wood.')
     },
     WalledIn: function(){
       window.gameState.gameController.message('Your villagers are much safe now in their walled village.');
+      window.gameState.gameController.removeAction('wall');
       window.gameState.gameController.addAction('tavern');
+      window.gameState.gameController.addAction('lake');
     },
     Grizzly: function(){
       window.gameState.gameController.message('The villagers can go fishing now!');

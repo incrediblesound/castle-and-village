@@ -3,7 +3,7 @@ var Village = function() {
   this.stats = {
     'Villagers': 1,
     'Huts': 1,
-    'Food': 4,
+    'Food': 5,
     // 'Happiness':0,
     // 'Vitality':0
   }
@@ -60,7 +60,8 @@ Village.prototype.render = function(){
 
 Village.prototype.step = function(){
 
-  if(window.gameState.season === 'spring'){
+  if(window.gameState.season === 'spring' && window.gameState.milestoneIsComplete('Grizzly')){
+    this.stats.Food += 1;
   }
 
   if(window.gameState.stage % 6 === 0){

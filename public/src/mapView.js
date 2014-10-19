@@ -4,7 +4,8 @@ var MapView = function(){
     'domain': DomainMap,
     'catacombs': CatacombsMap,
     'forest': ForestMap,
-    'lake': LakeMap
+    'lake': LakeMap,
+    'mountain': MountainMap
   }
 }
 

@@ -17,15 +17,11 @@ Domain.prototype.step = function(){
   if(window.gameState.gameController.stats.level === 0){
     if(window.gameState.gameController.milestoneIsComplete('FirstHut')
       && !window.gameState.gameController.milestoneIsComplete('GatherWood')){
-      setTimeout(function(){
-        window.gameState.gameController.message('The peasants can\'t gather wood because there are wolves in the forest.')
-      }, 2000)
+        window.gameState.gameController.delayedMessage('The peasants can\'t gather wood because there are wolves in the forest.', null, 1500)
     }
     if((window.gameState.gameController.milestoneIsComplete('GatherWood')
       && !window.gameState.gameController.milestoneIsComplete('Grizzly'))){
-      setTimeout(function(){
-        window.gameState.gameController.message('The villagers can\'t go fishing because there is a giant bear by the lake.')
-      }, 2000)  
+        window.gameState.gameController.delayedMessage('The villagers can\'t go fishing because there is a giant bear by the lake.', null, 1500)
     }
   }
   if(this.fieldStatus === 'harvesting'){

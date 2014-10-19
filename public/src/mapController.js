@@ -30,17 +30,31 @@ MapController.prototype.drawUnits = function(){
       var tree = new Image();
       tree.src = "img/tree.png";
       tree.onload = function(){
-        for(var i = 0; i < window.gameState.gameController.views.map.objects[obj].length; i++){
-          var co = window.gameState.gameController.views.map.objects[obj][i];
+        for(var i = 0; i < window.gameState.gameController.views.map.objects['tree'].length; i++){
+          var co = window.gameState.gameController.views.map.objects['tree'][i];
           self.context.drawImage(tree, (co[1]*20)+3, (co[0]*20)+1, 17, 19);
         }
       }
     }
-    else if(obj === 'mount'){
-      for(var i = 0; i < window.gameState.gameController.views.map.objects[obj].length; i++){
-        var co = window.gameState.gameController.views.map.objects[obj][i];
-        this.context.fillText("M", co[0], co[1]);
-      }  
+    else if(obj === 'stone1'){
+      var stone1 = new Image();
+      stone1.src = "img/stone1.png";
+      stone1.onload = function(){
+        for(var k = 0; k < window.gameState.gameController.views.map.objects['stone1'].length; k++){
+          var co = window.gameState.gameController.views.map.objects['stone1'][k];
+          self.context.drawImage(stone1, co[0]*20, co[1]*20, 19, 19);
+        }  
+      }
+    }
+    else if(obj === 'stone2'){
+      var stone2 = new Image();
+      stone2.src = "img/stone2.png";
+      stone2.onload = function(){
+        for(var i = 0; i < window.gameState.gameController.views.map.objects['stone2'].length; i++){
+          var co = window.gameState.gameController.views.map.objects['stone2'][i];
+          self.context.drawImage(stone2, co[0]*20, co[1]*20, 23, 23);
+        }  
+      }
     }
     else if(obj === 'fill'){
       for(var i = 0; i < window.gameState.gameController.views.map.objects[obj].length; i++){
