@@ -15,12 +15,13 @@ var CombatController = function(){
   this.combatHistory = [];
   this.playerArray = [];
   this.opponentArray = [];
+  this.playerLoaded = false;
 }
 
 CombatController.prototype.init = function(){
 
-  this.playerArmy = window.gameState.gameController.getPlayerArmy();
   this.bounty = window.gameState.gameController.getBountyForMap();
+  this.playerArmy = window.gameState.gameController.getPlayerArmy();
 
   window.gameState.gameController.views['explore'].state = 'An encounter!';
 }
@@ -98,8 +99,11 @@ CombatController.prototype.fight = function(){
         window.gameState.gameController.message('Your '+playerUnit.name+' recieved '+enemyUnit.attack+' damage from a '+enemyUnit.name+'.', 'red');
       }
       self.opponentArray = [];
-      //custom loss for each map?
-      //self.bounty.gold = 0;
+      if(self.playerArray.length === 0){
+      window.gameState.gameController.message('You return home defeated.');
+      window.gameState.gameController.controllers.map.changeState("exploring");
+      window.gameState.gameController.controllers.map.goHome();
+      }
       window.gameState.gameController.message("Just barely escaped!")
       $('.units').empty()
       window.gameState.gameController.controllers['map'].state = "exploring";
@@ -109,16 +113,17 @@ CombatController.prototype.fight = function(){
 }
 
 CombatController.prototype.makeCombatArray = function(){
-  var unit;
+  var unit, number;
   var types = this.unitTypes;
   var opponents = this.opponentArray
   forEach(this.opponentArmy, function(unitData){
-    unit = types[unitData[0]]();
     for(var i = 0; i < unitData[1]; i++){
+      unit = types[unitData[0]]();
       opponents.push(unit);
     }
   })
-  if(!this.playerArray.length){
+  if(!this.playerLoaded){
+    this.playerLoaded = true;
     for(var type in this.playerArmy){
       number = this.playerArmy[type];
       for(var i = 0; i < number; i++){
@@ -135,8 +140,9 @@ CombatController.prototype.getEnemies = function(){
 }
 
 CombatController.prototype.checkHistory = function(value){
+  debugger;
   if(this.combatHistory.length > 3){
-    var recent3 = this.combatHistory.splice(this.combatHistory.length-4, this.combatHistory.length);
+    var recent3 = this.combatHistory.splice(this.combatHistory.length-3, this.combatHistory.length);
     if(recent3.indexOf('player') === -1){
       this.combatHistory = [];
       return true;

@@ -65,7 +65,7 @@ Village.prototype.render = function(){
 
 Village.prototype.step = function(){
 
-  if(window.gameState.gameController.season === 'spring' && window.gameState.milestoneIsComplete('Grizzly')){
+  if(window.gameState.gameController.season === 'spring' && window.gameState.gameController.milestoneIsComplete('Grizzly')){
     window.gameState.gameController.addAction('fishing');
   }
 

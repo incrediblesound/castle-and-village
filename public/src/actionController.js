@@ -5,18 +5,24 @@ var ActionController = function(){
 
   this.actionMap = {
     'Send Fishermen to the Lake': function(){
-      window.gameState.gameController.changeStat('village', 'Food', 2);
+      window.gameState.gameController.changeStat('village', 'Food', 4);
       window.gameState.gameController.message('The spring catch is bountiful.');
       window.gameState.gameController.removeAction('Send Fishermen to the Lake');
     },
     'Explore the Mountain': function(){
-      window.gameState.gameController.initMap('mountain');
+      if(window.gameState.gameController.getStat('domain','Peasants') < 3 &&
+         window.gameState.gameController.getStat('village','Villagers') < 4){
+        window.gameState.gameController.message('Your population is too small to go on an adventure.')
+      } else {
+        window.gameState.gameController.initMap('mountain');
+      }
     },
     'Build a Tavern': function(){
       window.gameState.gameController.executeMilestone('Tavern');
       window.gameState.gameController.removeAction('Build a Tavern');
     },
     'Plant the Fields': function(){
+      debugger;
       window.gameState.gameController.changeStat('domain', 'fieldStatus', 'planted');
       window.gameState.gameController.removeAction('Plant the Fields');
       window.gameState.gameController.message('The peasants work together to plant the fields')
@@ -36,10 +42,18 @@ var ActionController = function(){
       }
     },
     'Explore the Forest': function(){
-      window.gameState.gameController.initMap('forest');
+      if(window.gameState.gameController.getStat('domain','Peasants') < 3){
+        window.gameState.gameController.message('Your peasants are too few to go on an adventure.')
+      } else {
+        window.gameState.gameController.initMap('forest');
+      }
     },
     'Go to the Lake': function(){
-      window.gameState.gameController.initMap('lake');
+      if(window.gameState.gameController.getStat('village','Villagers') < 4){
+        window.gameState.gameController.message('Your villagers are too few to go on an adventure.')
+      } else {
+        window.gameState.gameController.initMap('lake');
+      }
     },
     'Build a Wall': function(){
       //message
@@ -151,7 +165,15 @@ ActionController.prototype.addAction = function(value){
     cleric: {action:'Hire a Cleric', type: 'purchase', cost: 20},
     catacombs: {action:'Explore the Catacombs', type: 'actions', cost: 0}
   }
-  this.actions.push(actionStore[value]);
+  var inArray = false;
+  forEach(this.actions, function(action){
+    if(action.action === actionStore[value].action){
+      inArray = true;
+    }
+  })
+  if(!inArray){
+    this.actions.push(actionStore[value]);
+  }
 }
 
 ActionController.prototype.getAction = function(value){

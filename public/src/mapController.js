@@ -220,7 +220,7 @@ MapController.prototype.goHome = function(){
   var bounty = window.gameState.gameController.controllers.combat.bounty;
   for(prize in bounty){
     if(bounty.hasOwnProperty(prize)){
-      if(prize === 'wolves' || prize === 'bear'){
+      if(['wolves','bear','vineyards'].indexOf(prize) !== -1){
         window.gameState.gameController.stats[prize] += bounty[prize];
       }
       //if prize === gold add gold to castle

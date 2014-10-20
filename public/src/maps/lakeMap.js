@@ -44,4 +44,9 @@ var LakeMap = function(){
 }
 
 LakeMap.prototype.render = function(){
+  var hut = new Image();
+  hut.src = 'img/hut.png';
+  hut.onload = function() {
+    window.gameState.gameController.controllers.map.context.drawImage(hut, 320, 160);
+  };
 }

@@ -2,9 +2,12 @@ var MilestoneController = function(){
   System.call(this);
   this.completed = [];
   this.milestones = {
+    Vineyards: function(){
+      window.gameState.gameController.message('Soon there will be wine to make the people merry.')
+      window.gameState.gameController.removeAction('Explore the Mountain');
+    },
     Tavern: function(){
       window.gameState.gameController.message('Travellers stopping by your village spread news of its brave inhabitants.')
-      window.gameState.gameController.addAction('mountain');
     },
     FirstHut: function(){
       window.gameState.gameController.units['village'] = new Village();
@@ -25,7 +28,7 @@ var MilestoneController = function(){
       window.gameState.gameController.message('The wolves no longer bother the peasants when they go out to gather wood.')
     },
     WalledIn: function(){
-      window.gameState.gameController.message('Your villagers are much safe now in their walled village.');
+      window.gameState.gameController.message('Your villagers are much safer now in their walled village.');
       window.gameState.gameController.removeAction('wall');
       window.gameState.gameController.addAction('tavern');
       window.gameState.gameController.addAction('lake');
@@ -33,6 +36,7 @@ var MilestoneController = function(){
     Grizzly: function(){
       window.gameState.gameController.message('The villagers can go fishing now!');
       window.gameState.gameController.removeAction('Go to the Lake');
+      window.gameState.gameController.addAction('mountain');
     },
     GrandMaster: function(){
       window.gameState.gameController.addAction('grandmaster');
@@ -86,6 +90,9 @@ MilestoneController.prototype.step = function(){
     }
     if(window.gameState.gameController.stats.bear > 0){
       this.executeMilestone('Grizzly');
+    }
+    if(window.gameState.gameController.stats.vineyards > 1){
+      this.executeMilestone('Vineyards');
     }
   }
   // end level 0 milestones

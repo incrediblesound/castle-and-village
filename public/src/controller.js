@@ -5,7 +5,8 @@ var Controller = function(){
   this.stats = {
     level: 0,
     wolves: 0,
-    bear: 0
+    bear: 0,
+    vineyards: 0
   }
   this.units = {};
   this.controllers = {};
@@ -31,7 +32,7 @@ Controller.prototype.init = function(){
       (window.gameState.stage < 16) ? window.gameState.stage += 1 : window.gameState.stage = 0;
 
       self.checkSeasonalChange(window.gameState.stage);
-      
+
       // every game unit must step
       for(var unit in self.units){
         if(self.units.hasOwnProperty(unit)){
@@ -129,7 +130,7 @@ Controller.prototype.changeStat = function(unit, stat, val){
   if(this.units[unit] && this.units[unit].stats[stat] !== undefined){
     (typeof val === 'number') ? this.units[unit].stats[stat] += val : this.units[unit].stats[stat] = val;
   } 
-  else if(this.units[unit][stat] !== undefined){
+  else if(this.units[unit] && this.units[unit].hasOwnProperty(stat)){
     (typeof val === 'number') ? this.units[unit][stat] += val : this.units[unit][stat] = val;  
   }
 }
@@ -177,6 +178,7 @@ Controller.prototype.delayedMessage = function(text, color, delay){
 }
 
 Controller.prototype.initMap = function(map){
+  debugger;
   this.controllers.map.init(map);
   this.controllers['combat'] = new CombatController();
   this.controllers['combat'].init();
@@ -194,7 +196,6 @@ Controller.prototype.checkSeasonalChange = function(stage){
   // 1-4 is spring 5-8 is summer 9-12 is fall 13-16 is winter
   if(stage === 1){
     this.delayedMessage('Spring has arrived', 'green', 1500);
-    this.addAction('plant');
     this.season = 'spring';
   }
   else if(stage === 5){
@@ -225,5 +226,6 @@ Controller.prototype.getBountyForMap = function(){
 }
 
 Controller.prototype.changeBounty = function(item, value){
-  this.controllers.combat.bounty[item] += value
+  debugger;
+  this.controllers.combat.bounty[item] += value;
 }

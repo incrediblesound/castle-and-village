@@ -18,6 +18,13 @@ Domain.prototype.step = function(){
     var fields = window.gameState.gameController.getStat('domain', 'Fields');
     window.gameState.gameController.changeStat('village', 'Food', fields);
   }
+  if(window.gameState.gameController.season === 'spring' && 
+     this.fieldStatus !== 'planted' && this.stats.Fields){
+    window.gameState.gameController.addAction('plant');
+  }
+  if(window.gameState.gameController.milestoneIsComplete('Vineyards')){
+    this.stats.Peasants += 1;
+  }
 }
 
 Domain.prototype.makeField = function(){
@@ -27,13 +34,6 @@ Domain.prototype.makeField = function(){
     return true;
   } else {
     return false;
-  }
-}
-
-Domain.prototype.makeVineyard = function(){
-  if(this.stats['Fields'] > 2){
-    this.stats['Fields'] -= 1;
-    this.stats['Vineyards'] += 1;
   }
 }
 
