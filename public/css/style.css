@@ -71,3 +71,7 @@ button.action {
 	display: table;
 	margin: 0 auto;
 }
+
+.warning {
+	color: red;
+}

@@ -27,3 +27,11 @@ MapView.prototype.getEnemies = function(){
   // }
   // return this.enemies[index()];
 }
+
+MapView.prototype.getPlayerArmy = function(){
+  return this.playerArmy();
+}
+
+MapView.prototype.getBountyForMap = function(){
+  return this.getBounty();
+}

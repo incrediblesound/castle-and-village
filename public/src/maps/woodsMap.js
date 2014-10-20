@@ -16,6 +16,16 @@ var ForestMap = function(){
     return rnd > 3;
   }
 
+  this.getPlayerArmy = function(){
+    var num = window.gameState.gameController.getStat('domain', 'Peasants') - 2;
+    window.gameState.gameController.changeStat('domain', 'Peasants', -num);
+    return { peasants: num };
+  }
+
+  this.getBounty = function(){
+    return { wolves: 0 };
+  }
+
   this.playerLocation = new Location(305, 175)
   this.homeLocation = new Location(325, 175)
   

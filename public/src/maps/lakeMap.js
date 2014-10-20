@@ -26,6 +26,16 @@ var LakeMap = function(){
     // }
   }
 
+  this.getPlayerArmy = function(){
+    var num = window.gameState.gameController.getStat('village', 'Villagers') - 2;
+    window.gameState.gameController.changeStat('village', 'Villagers', -num);
+    return { villagers: num };
+  }
+
+  this.getBounty = function(){
+    return { bear: 0 };
+  }
+
   this.playerLocation = new Location(325, 95)
   this.homeLocation = new Location(325,175)
     

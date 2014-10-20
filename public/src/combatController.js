@@ -1,5 +1,7 @@
 var CombatController = function(){
   this.unitTypes = {
+    villagers: function(){ return {name: 'villager', health: 1, attack: 2}},
+    ravens: function(){ return {name: 'raven', health: 2, attack: 1}},
     bandits: function(){ return {name: 'bandit', health: 4, attack: 1, bounty:['gold',5]} },
     knights: function(){ return {name: 'knight', health: 4, attack: 2} },
     cavalry: function(){ return {name: 'cavalry', health: 5, attack: 3} },
@@ -13,33 +15,12 @@ var CombatController = function(){
   this.combatHistory = [];
   this.playerArray = [];
   this.opponentArray = [];
-  this.bounty = {}
 }
 
 CombatController.prototype.init = function(){
-  // hard-coded player army - this should be improved in later iterations
-  if(!this.playerArmy && window.gameState.gameController.stats.level === 0){
-    //at level 0, make a peasant army and set bounty to wolves
-    this.playerArmy = {
-      peasants: window.gameState.gameController.getStat('domain', 'Peasants') - 2
-    }
-    this.bounty.wolves = 0;
-    this.bounty.bear = 0;
-    window.gameState.gameController.units['domain'].stats.Peasants = 2;
-  }
-  else if(!this.playerArmy && window.gameState.gameController.stats.level > 1){
-    // at level 1, make army of knights and cavalry and set bounty to gold
-    this.playerArmy = {
-      knights: window.gameState.gameController.units['barracks'].knights - 2,
-      cavalry: window.gameState.gameController.units['barracks'].horses,
-      // wizards: window.gameState.gameController.units['castle'].wizards
-    };
-    this.bounty.gold = 0;
-    window.gameState.gameController.units['barracks'].knights = 2;
-    window.gameState.gameController.units['barracks'].horses = 0;
-    // window.gameState.gameController.units['castle'].wizards = 0;
-  }
-  //this.playerTotal = this.playerArmy.knights + this.playerArmy.cavalry + this.playerArmy.wizards;
+
+  this.playerArmy = window.gameState.gameController.getPlayerArmy();
+  this.bounty = window.gameState.gameController.getBountyForMap();
 
   window.gameState.gameController.views['explore'].state = 'An encounter!';
 }

@@ -51,8 +51,13 @@ Village.prototype.render = function(){
   template.addClass('box village');
   $(template.children()[0]).text('VILLAGE');
   for(var stat in this.stats){
-    if(this.stats.hasOwnProperty(stat) && this.stats[stat]){
-      template.append('<p> '+stat+': '+this.stats[stat]+'</p>');
+    var num = this.stats[stat];
+    if(this.stats.hasOwnProperty(stat) && num){
+      if(num < 3 && (stat === 'Villagers' || stat === 'Food')){
+        template.append('<p class="warning"> '+stat+': '+this.stats[stat]+'</p>');
+      } else {
+        template.append('<p> '+stat+': '+this.stats[stat]+'</p>');
+      }
     }
   }
   return template;
@@ -60,12 +65,12 @@ Village.prototype.render = function(){
 
 Village.prototype.step = function(){
 
-  if(window.gameState.season === 'spring' && window.gameState.milestoneIsComplete('Grizzly')){
-    this.stats.Food += 1;
+  if(window.gameState.gameController.season === 'spring' && window.gameState.milestoneIsComplete('Grizzly')){
+    window.gameState.gameController.addAction('fishing');
   }
 
-  if(window.gameState.stage % 6 === 0){
-    
+  if(window.gameState.gameController.milestoneIsComplete('Tavern')){
+    this.stats.Villagers += 1;
   }
 
 }

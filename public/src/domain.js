@@ -14,16 +14,6 @@ Domain.prototype = Object.create(System.prototype);
 Domain.prototype.constructor = Domain;
 
 Domain.prototype.step = function(){
-  if(window.gameState.gameController.stats.level === 0){
-    if(window.gameState.gameController.milestoneIsComplete('FirstHut')
-      && !window.gameState.gameController.milestoneIsComplete('GatherWood')){
-        window.gameState.gameController.delayedMessage('The peasants can\'t gather wood because there are wolves in the forest.', null, 1500)
-    }
-    if((window.gameState.gameController.milestoneIsComplete('GatherWood')
-      && !window.gameState.gameController.milestoneIsComplete('Grizzly'))){
-        window.gameState.gameController.delayedMessage('The villagers can\'t go fishing because there is a giant bear by the lake.', null, 1500)
-    }
-  }
   if(this.fieldStatus === 'harvesting'){
     var fields = window.gameState.gameController.getStat('domain', 'Fields');
     window.gameState.gameController.changeStat('village', 'Food', fields);
@@ -61,8 +51,13 @@ Domain.prototype.render = function(){
   template.addClass('box domain');
   $(template.children()[0]).text('DOMAIN');
   for(var stat in this.stats){
-    if(this.stats.hasOwnProperty(stat) && this.stats[stat]){
-      template.append('<p> '+stat+': '+this.stats[stat]+'</p>');
+    var num = this.stats[stat];
+    if(this.stats.hasOwnProperty(stat) && num){
+      if(num < 3 && (stat === 'Forests' || stat === 'Peasants')){
+        template.append('<p class="warning"> '+stat+': '+this.stats[stat]+'</p>');
+      } else {
+        template.append('<p> '+stat+': '+this.stats[stat]+'</p>');
+      }
     }
   }
   return template;

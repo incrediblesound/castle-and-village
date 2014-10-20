@@ -4,11 +4,17 @@ var ActionController = function(){
   var self = this;
 
   this.actionMap = {
+    'Send Fishermen to the Lake': function(){
+      window.gameState.gameController.changeStat('village', 'Food', 2);
+      window.gameState.gameController.message('The spring catch is bountiful.');
+      window.gameState.gameController.removeAction('Send Fishermen to the Lake');
+    },
     'Explore the Mountain': function(){
       window.gameState.gameController.initMap('mountain');
     },
     'Build a Tavern': function(){
-      window.gameState.gameController.exectuteMilestone('tavern');
+      window.gameState.gameController.executeMilestone('Tavern');
+      window.gameState.gameController.removeAction('Build a Tavern');
     },
     'Plant the Fields': function(){
       window.gameState.gameController.changeStat('domain', 'fieldStatus', 'planted');
@@ -103,6 +109,7 @@ var ActionController = function(){
   this.actions = [
     // {action:'Go Questing', type: 'actions', cost: 0},
     // {action:'Hold a Festival', type: 'actions', cost: 25},
+    // {action:'Explore the Mountain', type: 'actions', cost: 0},
     {action:'Clear a Field', type: 'actions', cost: 0},
     // {action:'Go to the Lake', type: 'actions', cost: 0}
     // {action:'Explore the Forest', type: 'actions', cost: 0}
@@ -125,8 +132,9 @@ ActionController.prototype.doAction = function(value){
 
 ActionController.prototype.addAction = function(value){
   var actionStore = {
+    fishing: {action:'Send Fishermen to the Lake', type: 'actions', cost: 0},
     mountain: {action:'Explore the Mountain', type: 'actions', cost: 0},
-    tavern: {actions: 'Build a Tavern', type: 'actions', cost: 0},
+    tavern: {action: 'Build a Tavern', type: 'actions', cost: 0},
     harvest: {action: 'Harvest the Crops', type: 'actions', cost: 0},
     plant: {action: 'Plant the Fields', type: 'actions', cost: 0},
     forest: {action:'Explore the Forest', type: 'actions', cost: 0},

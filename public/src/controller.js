@@ -26,6 +26,12 @@ Controller.prototype.init = function(){
       $('.purchase button').prop('disabled', false);
       window.gameState.gameController.controllers['milestones'].step();
       window.gameState.gameController.controllers['disasters'].step();
+
+      //check and advance game stage
+      (window.gameState.stage < 16) ? window.gameState.stage += 1 : window.gameState.stage = 0;
+
+      self.checkSeasonalChange(window.gameState.stage);
+      
       // every game unit must step
       for(var unit in self.units){
         if(self.units.hasOwnProperty(unit)){
@@ -34,9 +40,10 @@ Controller.prototype.init = function(){
       }
 
       self.entropy();
+      storylineMessages();
+
       //this is last in case any of the above methods change available actions
       window.gameState.gameController.controllers['actions'].step();
-
       // if you lose...
       if(self.checkLoseConditions()){
         $('.game').empty();
@@ -44,10 +51,6 @@ Controller.prototype.init = function(){
         return;
       }
 
-        //check and advance game stage
-        (window.gameState.stage < 16) ? window.gameState.stage += 1 : window.gameState.stage = 0;
-
-        self.checkSeasonalChange(window.gameState.stage);
 
       if(self.state !== 'outside'){
         $('.units').empty();
@@ -196,6 +199,7 @@ Controller.prototype.checkSeasonalChange = function(stage){
   }
   else if(stage === 5){
     this.delayedMessage('Summer has arrived', '#E6E600', 1500);
+    this.removeAction('Send Fishermen to the Lake');
     this.season = 'summer';
   }
   else if(stage === 9){
@@ -210,4 +214,16 @@ Controller.prototype.checkSeasonalChange = function(stage){
     window.gameState.gameController.changeStat('domain', 'fieldStatus', 'sleeping');
     this.season = 'winter';
   }
+}
+
+Controller.prototype.getPlayerArmy = function(){
+  return this.views.map.getPlayerArmy();
+}
+
+Controller.prototype.getBountyForMap = function(){
+  return this.views.map.getBountyForMap();
+}
+
+Controller.prototype.changeBounty = function(item, value){
+  this.controllers.combat.bounty[item] += value
 }

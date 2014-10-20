@@ -42,7 +42,17 @@ MapController.prototype.drawUnits = function(){
       stone1.onload = function(){
         for(var k = 0; k < window.gameState.gameController.views.map.objects['stone1'].length; k++){
           var co = window.gameState.gameController.views.map.objects['stone1'][k];
-          self.context.drawImage(stone1, co[0]*20, co[1]*20, 19, 19);
+          self.context.drawImage(stone1, co[1]*20, co[0]*20, 19, 19);
+        }  
+      }
+    }
+    else if(obj === 'deadTree'){
+      var deadTree = new Image();
+      deadTree.src = "img/dead-tree.png";
+      deadTree.onload = function(){
+        for(var k = 0; k < window.gameState.gameController.views.map.objects['deadTree'].length; k++){
+          var co = window.gameState.gameController.views.map.objects['deadTree'][k];
+          self.context.drawImage(deadTree, co[1]*20-1, co[0]*20-1, 23, 23);
         }  
       }
     }
@@ -52,7 +62,7 @@ MapController.prototype.drawUnits = function(){
       stone2.onload = function(){
         for(var i = 0; i < window.gameState.gameController.views.map.objects['stone2'].length; i++){
           var co = window.gameState.gameController.views.map.objects['stone2'][i];
-          self.context.drawImage(stone2, co[0]*20, co[1]*20, 23, 23);
+          self.context.drawImage(stone2, co[1]*20, co[0]*20, 23, 23);
         }  
       }
     }
