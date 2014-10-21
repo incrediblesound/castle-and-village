@@ -46,9 +46,13 @@ Controller.prototype.init = function(){
       //this is last in case any of the above methods change available actions
       window.gameState.gameController.controllers['actions'].step();
       // if you lose...
-      if(self.checkLoseConditions()){
+      var lose = self.checkLoseConditions()
+      if(lose){
+        var message;
+        if(lose == 'food'){ message = 'You ran out of food! Maybe you should harvest those crops next time...'}
+        else if(lose === 'peasants'){ message = 'Your single remaining peasant got lonely and wandered off...'}  
         $('.game').empty();
-        $('.game').append('<h1 class="text-center">Your Kingdom Has Crumbled</h1><p class="text-center">Refresh to Play Again</p>');
+        $('.game').append('<h1 class="text-center">Your Kingdom Has Crumbled</h1><p class="text-center">'+message+'</p><p class="text-center">Refresh to Play Again</p>');
         return;
       }
 
@@ -117,9 +121,16 @@ Controller.prototype.entropy = function(){
 }
 
 Controller.prototype.checkLoseConditions = function(){
-  return (window.gameState.gameController.milestoneIsComplete('TwoHuts')) &&
-  ((window.gameState.gameController.getStat('domain','Peasants') < 2) ||
-   (window.gameState.gameController.getStat('village', 'Food') < 1))
+  if(window.gameState.gameController.milestoneIsComplete('TwoHuts')){
+    if(window.gameState.gameController.getStat('domain','Peasants') < 2){
+      return 'peasants';
+    }
+    else if(window.gameState.gameController.getStat('village', 'Food') < 1){
+      return 'food';
+    }
+  } else {
+    return false;
+  }
 }
 
 Controller.prototype.getStat = function(unit, property){

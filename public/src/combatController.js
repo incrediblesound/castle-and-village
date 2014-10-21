@@ -103,11 +103,12 @@ CombatController.prototype.fight = function(){
       window.gameState.gameController.message('You return home defeated.');
       window.gameState.gameController.controllers.map.changeState("exploring");
       window.gameState.gameController.controllers.map.goHome();
+      } else {
+        window.gameState.gameController.message("Just barely escaped!")
+        $('.units').empty()
+        window.gameState.gameController.controllers['map'].state = "exploring";
+        $('.units').append(window.gameState.gameController.views['explore'].render());
       }
-      window.gameState.gameController.message("Just barely escaped!")
-      $('.units').empty()
-      window.gameState.gameController.controllers['map'].state = "exploring";
-      $('.units').append(window.gameState.gameController.views['explore'].render());
   })
 
 }
