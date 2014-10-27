@@ -1,4 +1,11 @@
 var storylineMessages = function(){
+  if(window.gameState.gameController.getStat('domain', 'Fields') === 1 &&
+     window.gameState.gameController.units.domain.fieldStatus !== 'planted'){
+    window.gameState.gameController.delayedMessage('Remember to plant your fields in the spring, and harvest them in the fall.', 'red', 1500);
+  }
+  if(window.gameState.stage === 12){
+    window.gameState.gameController.delayedMessage('"Sir, a frost is coming, we must harvest the crops immediately!"', null, 1500);
+  }
   if(window.gameState.gameController.milestoneIsComplete('FirstHut')
     && !window.gameState.gameController.milestoneIsComplete('GatherWood')){
       window.gameState.gameController.delayedMessage('The peasants can\'t gather wood because there are wolves in the forest.', null, 1500)

@@ -130,7 +130,7 @@ MapController.prototype.playerMove = function(direction){
   if(collision === 'battle'){
     return;
   }
-  else if(!collision) {
+  else if(!collision || window.gameState.gameController.objectIsPassable(collision)) {
     this.context.clearRect(this.playerLocation.x-3, this.playerLocation.y-13, 17, 17);
     this.playerLocation[direction[0]] += direction[1];
     if(this.playerLocation.isEqual(this.homeLocation)){

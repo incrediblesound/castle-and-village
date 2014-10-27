@@ -240,3 +240,7 @@ Controller.prototype.changeBounty = function(item, value){
   debugger;
   this.controllers.combat.bounty[item] += value;
 }
+
+Controller.prototype.objectIsPassable = function(collision){
+  return (this.views.map.passable.indexOf(collision.object) !== -1)
+}

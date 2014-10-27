@@ -4,7 +4,24 @@ var app = express();
 app.use(express.static(path.join(__dirname, '/../public')));
 
 app.get('/lose', function(req, res){
-	res.render('index.html');
+  res.render('index.html');
+})
+
+app.post('/save', function(req, res){
+  var email = req.body.email;
+  var game = req.body.game;
+  new Game({
+    milestones: 'z',
+    village: 'y',
+    domain: 'x'
+  })
+})
+
+app.get('/load/:email', function(req, res){
+  var email = req.params.email;
+  Game.findOne({email: email}).exec(function(err, game){
+    res.end();
+  })
 })
 
 module.exports = app;

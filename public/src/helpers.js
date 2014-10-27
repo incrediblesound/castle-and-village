@@ -47,3 +47,18 @@ var getCursorPosition = function(e) {
   var cell = new Cell(x, y);
   return cell;
 }
+
+// NO JQUERY helper functions
+var makeP = function(text){
+  var p = document.createElement('p');
+  p.innerText = text;
+  return p;
+}
+
+var makeButton = function(id, className, text){
+  var b = document.createElement('button');
+  b.id = id;
+  b.classList.add(className);
+  b.innerText = text;
+  return b;
+}
