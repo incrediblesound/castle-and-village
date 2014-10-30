@@ -10,12 +10,12 @@ var ActionController = function(){
       window.gameState.gameController.removeAction('Send Fishermen to the Lake');
     },
     'Explore the Mountain': function(){
-      if(window.gameState.gameController.getStat('domain','Peasants') < 3 &&
-         window.gameState.gameController.getStat('village','Villagers') < 4){
-        window.gameState.gameController.message('Your population is too small to go on an adventure.')
-      } else {
+      // if(window.gameState.gameController.getStat('domain','Peasants') < 3 &&
+      //    window.gameState.gameController.getStat('village','Villagers') < 4){
+      //   window.gameState.gameController.message('Your population is too small to go on an adventure.')
+      // } else {
         window.gameState.gameController.initMap('mountain');
-      }
+      // }
     },
     'Build a Tavern': function(){
       window.gameState.gameController.executeMilestone('Tavern');
@@ -123,7 +123,7 @@ var ActionController = function(){
   this.actions = [
     // {action:'Go Questing', type: 'actions', cost: 0},
     // {action:'Hold a Festival', type: 'actions', cost: 25},
-    // {action:'Explore the Mountain', type: 'actions', cost: 0},
+    {action:'Explore the Mountain', type: 'actions', cost: 0},
     {action:'Clear a Field', type: 'actions', cost: 0},
     // {action:'Go to the Lake', type: 'actions', cost: 0}
     // {action:'Explore the Forest', type: 'actions', cost: 0}

@@ -17,16 +17,8 @@ var ForestMap = function(){
   this.passable = ['wolf1','wolf2','wolf3'];
 
   this.checkEncounter = function(collision){
-    if(collision.object === 'wolf1' && this.found.indexOf('wolf1') === -1){
-      this.found.push('wolf1');
-      return true;
-    }
-    if(collision.object === 'wolf2' && this.found.indexOf('wolf2') === -1){
-      this.found.push('wolf2');
-      return true;
-    }
-    if(collision.object === 'wolf3' && this.found.indexOf('wolf3') === -1){
-      this.found.push('wolf3');
+    if(this.passable.indexOf(collision.object) !== -1 && this.found.indexOf(collision.object) === -1){
+      this.found.push(collision.object);
       return true;
     } else {
       return false;
