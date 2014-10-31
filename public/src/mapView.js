@@ -1,7 +1,7 @@
 var MapView = function(){
   System.call(this);
   this.maps = {
-    'domain': DomainMap,
+    // 'domain': DomainMap,
     'catacombs': CatacombsMap,
     'forest': ForestMap,
     'lake': LakeMap,
