@@ -12,7 +12,7 @@ var MountainMap = function(){
     ravens3: [[7,6]]
   }
 
-  this.enemies = [['ravens', 3]]
+  this.enemies = [['ravens', 3]];
   this.found = [];
   this.passable = ['ravens1','ravens2','ravens3']
 
