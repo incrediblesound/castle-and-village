@@ -11,9 +11,15 @@ app.post('/save', function(req, res){
   var email = req.body.email;
   var game = req.body.game;
   new Game({
-    milestones: 'z',
-    village: 'y',
-    domain: 'x'
+    stage: data.stage,
+    user: data.user,
+    milestones: data.milestones,
+    village: new Village({
+      // TODO
+    }),
+    domain: new Domain({
+      // TODO
+    })
   })
 })
 

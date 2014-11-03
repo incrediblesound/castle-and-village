@@ -244,3 +244,13 @@ Controller.prototype.changeBounty = function(item, value){
 Controller.prototype.objectIsPassable = function(collision){
   return (this.views.map.passable.indexOf(collision.object) !== -1)
 }
+
+Controller.prototype.saveGame = function(email){
+  var data = mergeObjects(
+    this.units.village.stats,
+    this.units.domain.stats, 
+    this.stats);
+  data.stage = window.gameController.stage;
+  data.milestones = this.controllers.milestones.completed;
+  $.post('/save', data);
+}
