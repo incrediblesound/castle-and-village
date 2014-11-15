@@ -5,8 +5,8 @@ var MountainMap = function(){
     stone2: [[10,6],[3,0],[2,0],[8,10]],
     tree: [[0,2],[0,6],[0,8],[10,7],[0,12],[16,0],[10,6],[1,5],[3,9],[5,8],[8,11],[1,16]],
     deadTree: [[5,13],[3,15],[6,4],[8,0],[2,7]],
-    vineyard1: [[1,9],[1,10],[1,11],[0,9],[0,10],[0,11]],
-    vineyard2: [[3,6],[4,6],[5,6],[3,5],[4,5],[5,5]],
+    quarry1: [[1,9],[1,10],[1,11],[0,9],[0,10],[0,11]],
+    quarry2: [[3,6],[4,6],[5,6],[3,5],[4,5],[5,5]],
     ravens1: [[4,8]],
     ravens2: [[2,11]],
     ravens3: [[7,6]]
@@ -21,16 +21,16 @@ var MountainMap = function(){
       this.found.push(collision.object);
       return true;
     }
-    else if(collision.object === 'vineyard1' && this.found.indexOf('vineyard1') === -1){
-      this.found.push('vineyard1');
-      window.gameState.gameController.message('The people think this spot would be good for a vineyard.')
-      window.gameState.gameController.changeBounty('vineyards', 1);
+    else if(collision.object === 'quarry1' && this.found.indexOf('quarry1') === -1){
+      this.found.push('quarry1');
+      window.gameState.gameController.message('The stone in this spot is good for building.')
+      window.gameState.gameController.changeBounty('quarries', 1);
       return false
     }
-    else if(collision.object === 'vineyard2' && this.found.indexOf('vineyard2') === -1){
-      this.found.push('vineyard2');
-      window.gameState.gameController.message('The people think this spot would be good for a vineyard.')
-      window.gameState.gameController.changeBounty('vineyards', 1);
+    else if(collision.object === 'quarry2' && this.found.indexOf('quarry2') === -1){
+      this.found.push('quarry2');
+      window.gameState.gameController.message('The stone in this spot is good for building.')
+      window.gameState.gameController.changeBounty('quarries', 1);
       return false
     }
     else {

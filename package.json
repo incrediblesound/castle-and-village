@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/incrediblesound/castle-and-village",
   "dependencies": {
-    "express": "~4.9.7"
+    "express": "~4.9.7",
+    "rethinkdb": "~1.15.0-0"
   }
 }

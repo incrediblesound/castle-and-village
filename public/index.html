@@ -11,7 +11,15 @@
 	<div class="container">
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
-				<h2>Castle and Village</h2>    
+				<ul class="nav navbar-nav">
+					<li><h2>Castle and Village</h2></li>
+					<form class="navbar-form navbar-right">
+						<div class="form-group">
+						<input id="email" class="form-control" placeholder="enter your email address">
+						</div>
+						<button class="btn btn-default" id="save">Save</button>
+					</form>
+				</ul>
 			</div>
 		</div>
 		<div class="row game">
@@ -20,21 +28,10 @@
 					<h2 class="text-center">Actions</h2>
 					<div class="actions"></div>
 				</div>
-				<!-- <div class="row">
-					<h2 class="text-center">Purchases</h2>
-					<div class="purchase"></div>
-				</div> -->
 			</div>
 			<div class="col-md-4">
 				<div class="timer"></div>
 				<p id="message"></p>
-				<!-- <h1 class="text-center">Castle</h1>
-				<h2 class="text-center">and</h2>
-				<h1 class="text-center">Village</h1>
-				<p class='text-center'> - - </p>
-				<button class='btn btn-default btn-block step'>Go</button>
-				<ul class="todo">
-				</ul> -->
 				<div class="center-block row middle">
 					<canvas width="340" height="180" id="map"></canvas>
 				</div>
@@ -51,9 +48,9 @@
 	</div>
 </body>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<script type="text/javascript" src="./src/helpers.js"></script>
-	<script type="text/javascript" src="./src/system.js"></script>
-	<script type="text/javascript" src="./src/controller.js"></script>
+	<script type="text/javascript" src="./src/gameSystem/helpers.js"></script>
+	<script type="text/javascript" src="./src/gameSystem/system.js"></script>
+	<script type="text/javascript" src="./src/controllers/controller.js"></script>
 	<script type="text/javascript">
 		window.gameState = {};
 		window.gameState.actions = [];
@@ -62,26 +59,26 @@
 		window.gameState.controllers = {};
 		window.gameState.gameController = new Controller();
 	</script>
-	<script type="text/javascript" src="./src/storyMessages.js"></script>
-	<script type="text/javascript" src="./src/mapController.js"></script>
-	<script type="text/javascript" src="./src/combatController.js"></script>
-	<script type="text/javascript" src="./src/combatView.js"></script>
-	<script type="text/javascript" src="./src/exploreView.js"></script>
-	<script type="text/javascript" src="./src/mapView.js"></script>
-	<script type="text/javascript" src="./src/listeners.js"></script>
+	<script type="text/javascript" src="./src/gameSystem/storyMessages.js"></script>
+	<script type="text/javascript" src="./src/controllers/mapController.js"></script>
+	<script type="text/javascript" src="./src/controllers/combatController.js"></script>
+	<script type="text/javascript" src="./src/views/combatView.js"></script>
+	<script type="text/javascript" src="./src/views/exploreView.js"></script>
+	<script type="text/javascript" src="./src/views/mapView.js"></script>
+	<script type="text/javascript" src="./src/gameSystem/listeners.js"></script>
 	<script type="text/javascript" src="./src/maps/domainMap.js"></script>
 	<script type="text/javascript" src="./src/maps/catacombsMap.js"></script>
 	<script type="text/javascript" src="./src/maps/woodsMap.js"></script>
 	<script type="text/javascript" src="./src/maps/lakeMap.js"></script>
 	<script type="text/javascript" src="./src/maps/mountainMap.js"></script>
-	<script type="text/javascript" src="./src/actionController.js"></script>
-	<script type="text/javascript" src="./src/castle.js"></script>
-	<script type="text/javascript" src="./src/village.js"></script>
-	<script type="text/javascript" src="./src/domain.js"></script>
-	<script type="text/javascript" src="./src/barracks.js"></script>
+	<script type="text/javascript" src="./src/controllers/actionController.js"></script>
+	<script type="text/javascript" src="./src/units/keep.js"></script>
+	<script type="text/javascript" src="./src/units/village.js"></script>
+	<script type="text/javascript" src="./src/units/domain.js"></script>
+	<!-- // <script type="text/javascript" src="./src/barracks.js"></script> -->
 	<!--<script type="text/javascript" src="./src/onstep.js"></script>-->
-	<script type="text/javascript" src="./src/milestones.js"></script>
-	<script type="text/javascript" src="./src/disasters.js"></script>
+	<script type="text/javascript" src="./src/controllers/milestones.js"></script>
+	<script type="text/javascript" src="./src/controllers/disasters.js"></script>
 <script type="text/javascript">
 // window.gameState.units.castle = new Castle();
 // window.gameState.units.domain = new Domain();

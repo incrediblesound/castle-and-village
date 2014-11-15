@@ -4,6 +4,9 @@ var ActionController = function(){
   var self = this;
 
   this.actionMap = {
+    'Build a Keep': function(){
+      window.gameState.gameController.units['keep'] = new Keep();
+    },
     'Send Fishermen to the Lake': function(){
       window.gameState.gameController.changeStat('village', 'Food', 4);
       window.gameState.gameController.message('The spring catch is bountiful.');
@@ -145,6 +148,7 @@ ActionController.prototype.doAction = function(value){
 
 ActionController.prototype.addAction = function(value){
   var actionStore = {
+    keep: {action:'Build a Keep', cost: ['stone',100]},
     fishing: {action:'Send Fishermen to the Lake', type: 'actions', cost: 0},
     mountain: {action:'Explore the Mountain', type: 'actions', cost: 0},
     tavern: {action: 'Build a Tavern', type: 'actions', cost: 0},
@@ -199,7 +203,7 @@ ActionController.prototype.step = function(){
     if(!action.cost){
       $('.'+action.type).append('<button class="btn btn-default btn-block action">'+action.action+'</button><br>')
     } else {
-      if(window.gameState.gameController.units['castle'].money > action.cost){
+      if(window.gameState.gameController.units['domain'][action.cost[0]] > action.cost[1]){
         $('.'+action.type).append('<button class="btn btn-default btn-block action">'+action.action+'</button><span> '+action.cost+' Gold</span><br>')
       } 
       else {

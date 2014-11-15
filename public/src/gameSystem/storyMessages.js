@@ -15,10 +15,10 @@ var storylineMessages = function(){
       window.gameState.gameController.delayedMessage('The villagers can\'t go fishing because there is a giant bear by the lake.', null, 1500)
   }
   if((window.gameState.gameController.milestoneIsComplete('Grizzly')
-    && !window.gameState.gameController.milestoneIsComplete('Vineyards'))){
-      window.gameState.gameController.delayedMessage('Villagers want to plant a vineyard on the mountain, but it\'s too dangerous there.', null, 1500)
+    && !window.gameState.gameController.milestoneIsComplete('Quarries'))){
+      window.gameState.gameController.delayedMessage('Villagers want to find stones to make stronger buildings.', null, 1500)
   }
-  if(window.gameState.gameController.milestoneIsComplete('Vineyards') &&
+  if(window.gameState.gameController.milestoneIsComplete('Quarries') &&
     window.gameState.stage === 2){
     $('.game').empty();
     $('.game').append('<h1 class="text-center">That\'s All For Now</h1>')

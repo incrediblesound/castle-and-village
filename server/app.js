@@ -1,4 +1,5 @@
 var express = require('express');
+var r = require('rethinkdb');
 var path = require('path')
 var app = express();
 app.use(express.static(path.join(__dirname, '/../public')));
@@ -8,20 +9,11 @@ app.get('/lose', function(req, res){
 })
 
 app.post('/save', function(req, res){
-  var email = req.body.email;
   var game = req.body.game;
-  new Game({
-    stage: data.stage,
-    user: data.user,
-    milestones: data.milestones,
-    village: new Village({
-      // TODO
-    }),
-    domain: new Domain({
-      // TODO
-    })
-  })
-})
+  connect().then(function(conn){
+    r.table('games').insert(game).run(conn);
+  });
+});
 
 app.get('/load/:email', function(req, res){
   var email = req.params.email;
@@ -29,5 +21,12 @@ app.get('/load/:email', function(req, res){
     res.end();
   })
 })
+
+function connect(){
+  return r.connect({ host: 'localhost',
+    port: 28015,
+    db: 'castle'
+  })
+};
 
 module.exports = app;

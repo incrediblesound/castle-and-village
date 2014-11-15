@@ -4,6 +4,7 @@ var Domain = function(){
     'Fields': 0,
     'Forests': 10,
     'Peasants': 0,
+    'Stone': 0,
     'Vineyards': 0,
     'Mines': 0
   }
@@ -24,6 +25,9 @@ Domain.prototype.step = function(){
   }
   if(window.gameState.gameController.milestoneIsComplete('Vineyards')){
     this.stats.Peasants += 1;
+  }
+  if(window.gameState.gameController.milestoneIsComplete('Quarries')){
+    this.stats.Stone += 20;
   }
 }
 

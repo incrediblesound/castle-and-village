@@ -2,9 +2,11 @@ var MilestoneController = function(){
   System.call(this);
   this.completed = [];
   this.milestones = {
-    Vineyards: function(){
-      window.gameState.gameController.message('Soon there will be wine to make the people merry.')
+    Quarries: function(){
+      window.gameState.gameController.message('The villagers can use stone to build stronger buildings now.')
       window.gameState.gameController.removeAction('Explore the Mountain');
+      window.gameState.gameController.addAction('keep');
+      window.gameState.changeStat('domain', 'Stone', 30);
     },
     Tavern: function(){
       window.gameState.gameController.message('Travellers stopping by your village spread news of its brave inhabitants.')
@@ -91,8 +93,8 @@ MilestoneController.prototype.step = function(){
     if(window.gameState.gameController.stats.bear > 0){
       this.executeMilestone('Grizzly');
     }
-    if(window.gameState.gameController.stats.vineyards > 1){
-      this.executeMilestone('Vineyards');
+    if(window.gameState.gameController.stats.quarries > 1){
+      this.executeMilestone('Quarries');
     }
   }
   // end level 0 milestones
