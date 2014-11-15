@@ -189,7 +189,6 @@ Controller.prototype.delayedMessage = function(text, color, delay){
 }
 
 Controller.prototype.initMap = function(map){
-  debugger;
   this.controllers.map.init(map);
   this.controllers['combat'] = new CombatController();
   this.controllers['combat'].init();

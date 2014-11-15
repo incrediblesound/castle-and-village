@@ -28,7 +28,7 @@ MapController.prototype.drawUnits = function(){
     var self = this;
     if(obj === 'tree'){
       var tree = new Image();
-      tree.src = "img/tree.png";
+      tree.src = "../img/tree.png";
       tree.onload = function(){
         for(var i = 0; i < window.gameState.gameController.views.map.objects['tree'].length; i++){
           var co = window.gameState.gameController.views.map.objects['tree'][i];
@@ -38,7 +38,7 @@ MapController.prototype.drawUnits = function(){
     }
     else if(obj === 'stone1'){
       var stone1 = new Image();
-      stone1.src = "img/stone1.png";
+      stone1.src = "../img/stone1.png";
       stone1.onload = function(){
         for(var k = 0; k < window.gameState.gameController.views.map.objects['stone1'].length; k++){
           var co = window.gameState.gameController.views.map.objects['stone1'][k];
@@ -220,7 +220,7 @@ MapController.prototype.goHome = function(){
   var bounty = window.gameState.gameController.controllers.combat.bounty;
   for(prize in bounty){
     if(bounty.hasOwnProperty(prize)){
-      if(['wolves','bear','vineyards'].indexOf(prize) !== -1){
+      if(['wolves','bear','vineyards','quarries'].indexOf(prize) !== -1){
         window.gameState.gameController.stats[prize] += bounty[prize];
       }
       //if prize === gold add gold to castle
