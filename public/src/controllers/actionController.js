@@ -123,16 +123,7 @@ var ActionController = function(){
 }
 
   this.actions = [
-    // {action:'Go Questing', type: 'actions', cost: 0},
-    // {action:'Hold a Festival', type: 'actions', cost: 25},
-    // {action:'Explore the Mountain', type: 'actions', cost: 0},
     {action:'Clear a Field', type: 'actions', cost: 0},
-    // {action:'Go to the Lake', type: 'actions', cost: 0}
-    // {action:'Explore the Forest', type: 'actions', cost: 0}
-    // {action:'Hire a Master Baker', type: 'purchase', cost: 10},
-    // {action:'Collect Taxes', type: 'actions', cost: 0},
-    // {action:'Build a Church', type: 'purchase', cost: 30},
-    // {action:'Explore the Catacombs', type: 'actions', cost: 0}
   ];
 }
 
@@ -148,25 +139,25 @@ ActionController.prototype.doAction = function(value){
 
 ActionController.prototype.addAction = function(value){
   var actionStore = {
-    keep: {action:'Build a Keep', cost: ['stone',100]},
-    fishing: {action:'Send Fishermen to the Lake', type: 'actions', cost: 0},
-    mountain: {action:'Explore the Mountain', type: 'actions', cost: 0},
-    tavern: {action: 'Build a Tavern', type: 'actions', cost: 0},
-    harvest: {action: 'Harvest the Crops', type: 'actions', cost: 0},
-    plant: {action: 'Plant the Fields', type: 'actions', cost: 0},
-    forest: {action:'Explore the Forest', type: 'actions', cost: 0},
-    lake: {action:'Go to the Lake', type: 'actions', cost: 0},
-    granary: {action:'Build a Granary', type: 'actions', cost: 0},
+    keep:       {action:'Build a Keep', cost: ['stone',100]},
+    fishing:    {action:'Send Fishermen to the Lake', type: 'actions', cost: 0},
+    mountain:   {action:'Explore the Mountain', type: 'actions', cost: 0},
+    tavern:     {action:'Build a Tavern', type: 'actions', cost: 0},
+    harvest:    {action:'Harvest the Crops', type: 'actions', cost: 0},
+    plant:      {action:'Plant the Fields', type: 'actions', cost: 0},
+    forest:     {action:'Explore the Forest', type: 'actions', cost: 0},
+    lake:       {action:'Go to the Lake', type: 'actions', cost: 0},
+    granary:    {action:'Build a Granary', type: 'actions', cost: 0},
     blacksmith: {action:'Hire a Blacksmith', type: 'actions', cost: 0},
-    vineyard: {action:'Plant a Vineyard', type: 'actions', cost: 30},
-    wall: {action: 'Build a Wall', type: 'actions', cost: 0},
-    hut: {action: 'Build a Hut', type: 'actions', cost: 0},
-    warhorse: {action:'Train a War Horse', type: 'purchase', cost: 20},
-    grandmaster: {action:'Train a Grand Master', type: 'actions', cost: 30},
-    swordsman: {action:'Hire a Swordsman', type: 'actions', cost: 30},
-    stables: {action:'Build Stables', type: 'purchase', cost: 15},
-    cleric: {action:'Hire a Cleric', type: 'purchase', cost: 20},
-    catacombs: {action:'Explore the Catacombs', type: 'actions', cost: 0}
+    vineyard:   {action:'Plant a Vineyard', type: 'actions', cost: 30},
+    wall:       {action:'Build a Wall', type: 'actions', cost: 0},
+    hut:        {action:'Build a Hut', type: 'actions', cost: 0},
+    warhorse:   {action:'Train a War Horse', type: 'purchase', cost: 20},
+    grandmaster:{action:'Train a Grand Master', type: 'actions', cost: 30},
+    swordsman:  {action:'Hire a Swordsman', type: 'actions', cost: 30},
+    stables:    {action:'Build Stables', type: 'purchase', cost: 15},
+    cleric:     {action:'Hire a Cleric', type: 'purchase', cost: 20},
+    catacombs:  {action:'Explore the Catacombs', type: 'actions', cost: 0}
   }
   var inArray = false;
   forEach(this.actions, function(action){
@@ -175,12 +166,13 @@ ActionController.prototype.addAction = function(value){
     }
   })
   if(!inArray){
-    this.actions.push(actionStore[value]);
+    var newAction = actionStore[value];
+    newAction.tag = value;
+    this.actions.push(newAction);
   }
 }
 
 ActionController.prototype.getAction = function(value){
-  this.actions.push(value);
   for(var i = 0; i < this.actions.length; i++){
     if(this.actions[i].action === value){
       return this.actions[i];

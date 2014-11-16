@@ -1,6 +1,14 @@
 var forEach = function(array, fn){
-  for(var i = 0, l = array.length; i < l; i++){
-    fn(array[i]);
+  if(Array.isArray(array)){
+    for(var i = 0, l = array.length; i < l; i++){
+      fn(array[i], i);
+    }
+  } else {
+    var keys = Object.keys(array), key;
+    for(var i = 0, l = keys.length; i < l; i++){
+      key = keys[i]
+      fn(array[key], key);
+    }
   }
 }
 

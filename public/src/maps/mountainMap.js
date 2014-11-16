@@ -34,9 +34,7 @@ var MountainMap = function(){
       return false
     }
     else {
-      var rnd = Math.round(Math.random() * 6);
-      return rnd > 4;
-      // return false;
+      return false;
     }
   }
 

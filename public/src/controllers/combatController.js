@@ -141,7 +141,6 @@ CombatController.prototype.getEnemies = function(){
 }
 
 CombatController.prototype.checkHistory = function(value){
-  debugger;
   if(this.combatHistory.length > 3){
     var recent3 = this.combatHistory.splice(this.combatHistory.length-3, this.combatHistory.length);
     if(recent3.indexOf('player') === -1){

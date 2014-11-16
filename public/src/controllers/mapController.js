@@ -228,18 +228,13 @@ MapController.prototype.goHome = function(){
   }
   var army = window.gameState.gameController.controllers['combat'].playerArray;
   if(army){
+    debugger;
     for(var i = 0; i < army.length; i++){
       if(army[i].name === 'peasant'){
-        window.gameState.gameController.changeStat('domain','Peasants',1);
+        window.gameState.gameController.changeStat('domain','Peasants', 1);
       }
-      if(army[i].name === 'knight'){
-        window.gameState.gameController.units['barracks'].knights += 1;
-      }
-      if(army[i].name === 'cavalry'){
-        window.gameState.gameController.units['barracks'].horses += 1;
-      }
-      if(army[i].name === 'wizard'){
-        window.gameState.gameController.units['castle'].wizards += 1;
+      if(army[i].name === 'villager'){
+        window.gameState.gameController.changeStat('village','Villagers', 1);
       }
     }
   }
