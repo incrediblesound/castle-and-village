@@ -3,6 +3,12 @@ var ActionController = function(){
 
   var self = this;
 
+  this.resourceMap = {
+    'Wood': 'village',
+    'Stone': 'domain',
+    'Gold': 'keep'
+  };
+
   this.actionMap = {
     'Build a Keep': function(){
       window.gameState.gameController.units['keep'] = new Keep();
@@ -132,17 +138,18 @@ ActionController.prototype = Object.create(System.prototype);
 ActionController.prototype.doAction = function(value){
   var action = this.getAction(value);
   if(action.cost){
-    window.gameState.gameController.units['castle'].gold -= action.cost;
+    var unitName = this.resourceMap[actions.cost[0]];
+    window.gameState.gameController.units[unitName].stats[action.cost[0]] -= action.cost[1];
   }
   return this.actionMap[value]();
 }
 
 ActionController.prototype.addAction = function(value){
   var actionStore = {
-    keep:       {action:'Build a Keep', cost: ['stone',100]},
+    keep:       {action:'Build a Keep', type: 'actions', cost: ['Stone',100]},
     fishing:    {action:'Send Fishermen to the Lake', type: 'actions', cost: 0},
     mountain:   {action:'Explore the Mountain', type: 'actions', cost: 0},
-    tavern:     {action:'Build a Tavern', type: 'actions', cost: 0},
+    tavern:     {action:'Build a Tavern', type: 'actions', cost: ['Wood',30]},
     harvest:    {action:'Harvest the Crops', type: 'actions', cost: 0},
     plant:      {action:'Plant the Fields', type: 'actions', cost: 0},
     forest:     {action:'Explore the Forest', type: 'actions', cost: 0},
@@ -150,7 +157,7 @@ ActionController.prototype.addAction = function(value){
     granary:    {action:'Build a Granary', type: 'actions', cost: 0},
     blacksmith: {action:'Hire a Blacksmith', type: 'actions', cost: 0},
     vineyard:   {action:'Plant a Vineyard', type: 'actions', cost: 30},
-    wall:       {action:'Build a Wall', type: 'actions', cost: 0},
+    wall:       {action:'Build a Wall', type: 'actions', cost: ['wood',50]},
     hut:        {action:'Build a Hut', type: 'actions', cost: 0},
     warhorse:   {action:'Train a War Horse', type: 'purchase', cost: 20},
     grandmaster:{action:'Train a Grand Master', type: 'actions', cost: 30},
@@ -195,11 +202,13 @@ ActionController.prototype.step = function(){
     if(!action.cost){
       $('.'+action.type).append('<button class="btn btn-default btn-block action">'+action.action+'</button><br>')
     } else {
-      if(window.gameState.gameController.units['domain'][action.cost[0]] > action.cost[1]){
-        $('.'+action.type).append('<button class="btn btn-default btn-block action">'+action.action+'</button><span> '+action.cost+' Gold</span><br>')
+      var unitName = resourceMap[action.cost[0]];
+
+      if(window.gameState.gameController.units[unitName].stats[action.cost[0]] >= action.cost[1]){
+        $('.'+action.type).append('<button class="btn btn-default btn-block action">'+action.action+' - '+action.cost[1]+' '+action.cost[0]+'</button><br>')
       } 
       else {
-        $('.'+action.type).append('<button class="btn btn-default btn-block" disabled="true">'+action.action+'</button><span>Not enough Gold</span><br>')
+        $('.'+action.type).append('<button class="btn btn-default btn-block" disabled="true">'+action.action+' - Not enough '+action.cost[0]+'</button><br>')
       }
     }
   })

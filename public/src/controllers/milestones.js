@@ -6,7 +6,7 @@ var MilestoneController = function(){
       window.gameState.gameController.message('The villagers can use stone to build stronger buildings now.')
       window.gameState.gameController.removeAction('Explore the Mountain');
       window.gameState.gameController.addAction('keep');
-      window.gameState.changeStat('domain', 'Stone', 30);
+      window.gameState.gameController.changeStat('domain', 'Stone', 30);
     },
     Tavern: function(){
       window.gameState.gameController.message('Travellers stopping by your village spread news of its brave inhabitants.')
@@ -27,6 +27,7 @@ var MilestoneController = function(){
       window.gameState.gameController.addAction('wall');
       window.gameState.gameController.removeAction('Explore the Forest');
       window.gameState.gameController.changeStat('village','Food', 2);
+      window.gameState.gameController.changeStat('village','Wood', 20);
       window.gameState.gameController.message('The wolves no longer bother the peasants when they go out to gather wood.')
     },
     WalledIn: function(){

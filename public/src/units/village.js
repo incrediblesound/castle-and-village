@@ -4,6 +4,7 @@ var Village = function() {
     'Villagers': 1,
     'Huts': 1,
     'Food': 5,
+    'Wood': 0
     // 'Happiness':0,
     // 'Vitality':0
   }
@@ -71,6 +72,10 @@ Village.prototype.step = function(){
 
   if(window.gameState.gameController.milestoneIsComplete('Tavern')){
     this.stats.Villagers += 1;
+  }
+
+  if(window.gameState.gameController.milestoneIsComplete('GatherWood')){
+    this.stats.wood += 10;
   }
 
 }

@@ -23,15 +23,17 @@ var MountainMap = function(){
     }
     else if(collision.object === 'quarry1' && this.found.indexOf('quarry1') === -1){
       this.found.push('quarry1');
-      window.gameState.gameController.message('The stone in this spot is good for building.')
+      window.gameState.gameController.message('The stone in this spot is good for building.');
+      window.gameState.gameController.views.explore.render();
       window.gameState.gameController.changeBounty('quarries', 1);
-      return false
+      return false;
     }
     else if(collision.object === 'quarry2' && this.found.indexOf('quarry2') === -1){
       this.found.push('quarry2');
-      window.gameState.gameController.message('The stone in this spot is good for building.')
+      window.gameState.gameController.message('The stone in this spot is good for building.');
+      window.gameState.gameController.views.explore.render();
       window.gameState.gameController.changeBounty('quarries', 1);
-      return false
+      return false;
     }
     else {
       return false;
@@ -47,7 +49,7 @@ var MountainMap = function(){
   }
 
   this.getBounty = function(){
-    return { vineyards: 0 };
+    return { quarries: 0 };
   }
 
   this.playerLocation = new Location(305, 175)

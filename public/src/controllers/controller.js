@@ -6,7 +6,8 @@ var Controller = function(){
     level: 0,
     wolves: 0,
     bear: 0,
-    vineyards: 0
+    vineyards: 0,
+    quarries: 0
   }
   this.units = {};
   this.controllers = {};
